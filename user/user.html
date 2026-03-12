@@ -1,110 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- nav bar -->
     <nav>
-        Navigation Bar
-        <hr>
+      Navigation Bar
+      <a href="user.html">Home</a>
+      <nav>
+        <strong>User Panel</strong>
+        <a href="user_dashboard.html">My Dashboard</a> |
+        <a href="book_search_results.html">Search Books</a> |
+        <a href="user_wishlist.html">Wishlist</a> |
+        <a href="user_wants_to_read.html">Want to Read</a> |
+        <a href="user_currently_reading.html">Currently Reading</a>|
+        <a href="user_already_read.html">Already Read</a> |
+        <a href="../index.html">Logout</a>
+        <hr />
+      </nav>
+      <hr />
     </nav>
 
     <header>
-        <div>
-            <h1>hello user</h1>
-        <a href="index.html" target="_self">Go to Home Page</a>
-        </div>
+      <div>
+        <h1>hello user</h1>
+        <a href="../index.html" target="_self">Go to Home Page</a>
+      </div>
+      <div>
+        <input type="text" placeholder="Search for games..." />
+        <button class="btn">Search</button>
+        <button class="btn">Searching filters</button>
+      </div>
     </header>
 
     <!-- content -->
     <main>
-        <section style=" height: 100vh;">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <div><h1 style="color: blue;">Welcome to the Library Management System</h1>
-            <p>Search and borrow books easily.</p>
-            
+      <section style="height: 100vh">
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div>
+          <h1 style="color: blue">Welcome to the Library Management System</h1>
+          <p>Search and borrow books easily.</p>
         </div>
         <div>
-            <img src="images/hero-img.jpeg" style="margin-left:850px ; width: 600px;" alt="">
+          <img
+            src="images/hero-img.jpeg"
+            style="margin-left: 850px; width: 600px"
+            alt=""
+          />
         </div>
+      </section>
+
+      <section>
+        <!-- first section -->
+        <section>
+          <h2>Featured Books</h2>
+          <ul>
+            <li>"The Great Gatsby" by F. Scott Fitzgerald</li>
+            <li>"To Kill a Mockingbird" by Harper Lee</li>
+            <li>"1984" by George Orwell</li>
+          </ul>
+          <img src="images/book-1.jpeg" alt="" />
         </section>
+
+        <!-- second section -->
+        <section>
+          <h2>Available Books</h2>
+          <ul>
+            <li>Book 1: "The Great Gatsby" by F. Scott Fitzgerald</li>
+            <li>Book 2: "To Kill a Mockingbird" by Harper Lee</li>
+            <li>Book 3: "1984" by George Orwell</li>
+            <li>Book 4: "Pride and Prejudice" by Jane Austen</li>
+          </ul>
+        </section>
+
+        <!-- third section table book -->
 
         <section>
-            <!-- first section -->
-            <section >
-                <h2>Featured Books</h2>
-                <ul>
-                    <li>"The Great Gatsby" by F. Scott Fitzgerald</li>
-                    <li>"To Kill a Mockingbird" by Harper Lee</li>
-                    <li>"1984" by George Orwell</li>
+          <table width="100%">
+            <tr>
+              <th>
+                <img src="images/book-1.jpeg" alt="" />
+              </th>
+              <th>
+                <img src="images/book-2.jpeg" alt="" />
+              </th>
+              <th>
+                <img src="images/book-3.jpeg" alt="" />
+              </th>
+              <th>
+                <img src="images/book-5.jpeg" alt="" />
+              </th>
+            </tr>
 
-                </ul>
-                <img src="images/book-1.jpeg"  alt="">
-            </section>
+            <tr>
+              <td>"The Great Gatsby" by F. Scott Fitzgerald</td>
+              <td>"To Kill a Mockingbird" by Harper Lee</td>
+              <td>"1984" by George Orwell</td>
+              <td>"Pride and Prejudice" by Jane Austen</td>
+            </tr>
 
-            <!-- second section -->
-            <section>
-                <h2>Available Books</h2>
-                <ul>
-                    <li>Book 1: "The Great Gatsby" by F. Scott Fitzgerald</li>
-                    <li>Book 2: "To Kill a Mockingbird" by Harper Lee</li>
-                    <li>Book 3: "1984" by George Orwell</li>
-                    <li>Book 4: "Pride and Prejudice" by Jane Austen</li>
-                </ul>
-            </section>
-
-            <!-- third section table book -->
-            
-            <section>
-                <table width="100%" >
-                    <tr>
-                        <th>
-                            <img src="images/book-1.jpeg" alt="">
-                        </th>
-                        <th>
-                            <img src="images/book-2.jpeg" alt="">
-                        </th>
-                        <th>
-                            <img src="images/book-3.jpeg" alt="">
-                        </th>
-                        <th>
-                            <img src="images/book-5.jpeg" alt="">
-                        </th>
-                    </tr>
-                    
-                    <tr>
-                        <td>"The Great Gatsby" by F. Scott Fitzgerald</td>
-                        <td>"To Kill a Mockingbird" by Harper Lee</td>
-                        <td>"1984" by George Orwell</td>
-                        <td>"Pride and Prejudice" by Jane Austen</td>
-                    </tr>
-                    
-                    <tr>
-                        <td>Available</td>
-                        <td>Checked Out</td>
-                        <td>Available</td>
-                        <td>Available</td>
-                    </tr>
-                </table>
-            </section>
-        
+            <tr>
+              <td>Available</td>
+              <td>Checked Out</td>
+              <td>Available</td>
+              <td>Available</td>
+            </tr>
+          </table>
         </section>
-
+      </section>
     </main>
 
     <!-- footer -->
     <footer>
-        <hr>
-        <p>&copy; 2024 Library Management System. All rights reserved.</p>
+      <hr />
+      <p>&copy; 2024 Library Management System. All rights reserved.</p>
     </footer>
-</body>
+  </body>
 </html>

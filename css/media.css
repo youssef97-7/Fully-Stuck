@@ -1,0 +1,40 @@
+
+:root{
+    --main-color: #0F49BD;
+    --second-color: #F5F5F5;
+    --bg-body-color: #F5F5F5;
+    --bg-main-color: white;
+
+    /*************colors*************/
+    --red-color: #FF0000;
+    --green-color: #00FF00;
+    --yellow-color: #FFFF00;
+    --black-color: #000000;
+    --orange-color: #FFA500;
+}
+
+:root .dark-mode{
+  --main-color: #14B8A6;
+  --second-color: #0F172A;
+  --bg-body-color: #0F172A;
+  --bg-main-color: #1E293B;
+
+}
+
+
+body {
+  background-color: var(--bg-body-color);
+  color: var(--main-color);
+  margin: 0;
+  padding: 0;
+}
+
+
+.main-color {
+    color: var(--main-color);
+}
+
+.bg-main-color {
+    background-color: var(--bg-main-color);
+}
+

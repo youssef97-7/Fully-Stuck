@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/media.css">
+    <link rel="stylesheet" href="css/style.css">
+    
 </head>
 <body>
 
@@ -15,16 +20,19 @@
 
     <!-- content -->
     <header style=" height: 100vh;">
+        <button id="theme-toggle">(Light/Dark)</button>
         <br>
         <br>
         <br>
         <br>
         <br>
         <br>
-        <div><h1 style="color: blue;">Welcome to the Library Management System</h1>
+        <div><h1 class="main-color" >Welcome to the Library Management System</h1>
             <p>Search and borrow books easily.</p>
             <a href="login.html" target="_self">Login</a>
             <a href="signup.html" target="_self">Sign Up</a>
+
+            <i class="main-color fa-solid fa-magnifying-glass"></i>
         </div>
         <div>
             <img src="images/hero-img.jpeg" style="margin-left:850px ; width: 600px;" alt="">
@@ -55,9 +63,9 @@
         </section>
 `        <!-- third section table book -->
         <section>
-            <table width="100%" >
+            <table class="sa" width="100%" >
                 <tr>
-                    <th>
+                    <th >
                         <img src="images/book-1.jpeg" alt="">
                     </th>
                     <th>
@@ -95,5 +103,6 @@
         <hr>
         <p>&copy; 2024 Library Management System. All rights reserved.</p>
     </footer>
+    <script src="js/index.js"></script>
 </body>
 </html>

@@ -11,26 +11,27 @@
   </head>
   <body>
     <!-- nav bar -->
+     <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
     <nav>
-      Navigation Bar
-      <a href="user.html">Home</a>
-      <nav>
-        <strong>User Panel</strong>
-        <a href="user_dashboard.html">My Dashboard</a> |
-        <a href="book_search_results.html">Search Books</a> |
-        <a href="user_wishlist.html">Wishlist</a> |
-        <a href="user_wants_to_read.html">Want to Read</a> |
-        <a href="user_currently_reading.html">Currently Reading</a>|
-        <a href="user_already_read.html">Already Read</a> |
-        <a href="../index.html">Logout</a>
-        <hr />
-      </nav>
-      <hr />
+        <ul>
+            <li><a href="user.html" class="active">Home</a></li> 
+            <li><a href="user_dashboard.html">My Dashboard</a></li> 
+            <li><a href="book_search_results.html">Search Books</a></li> 
+            <li><a href="user_wishlist.html">Wishlist</a></li> 
+            <li><a href="user_wants_to_read.html">Want to Read</a></li> 
+            <li><a href="user_currently_reading.html">Currently Reading</a></li>
+            <li><a href="user_already_read.html">Already Read</a></li> 
+            <li><a href="user_favourites.html" > Favourites</a></li>
+            <li><a href="../index.html">Logout</a></li>
+            <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+        </ul>
     </nav>
 
     <header>
-      <button id="theme-toggle">(Light/Dark)</button>
-
       <div>
         <h1>hello user</h1>
         <a href="../index.html" target="_self">Go to Home Page</a>

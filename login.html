@@ -13,7 +13,7 @@
 
 
 </head>
-<body>
+<body id="login-page">
 
     <!-- nav bar -->
     <nav>
@@ -26,10 +26,12 @@
         <button id="theme-toggle">(Light/Dark)</button>
         <section>
             <form method="post">
-                <fieldset style="background-color: #f0f0f0; width: 800px;">
+                <fieldset id="login-form">
                     <legend style="color: blue;" >Login</legend>
                     <table  width="100%" >
-                        
+                        <button id="home-button" onclick="window.location.href='index.html'">
+                        <i class="fa-solid fa-house"></i>
+                        </button>
                         <tr>
                             <td><label for="email">Email Address: *</label></td>
                             <td><input id="email" type="email" name="email" required placeholder="ex@gmail.com"> </td>
@@ -41,10 +43,6 @@
                     </table>
                     <button  type="submit" style="color: white; background-color: dodgerblue;">Submit</button>
                     <button type="reset" style="color: white; background-color: red;">Clear</button>
-                    <button type="button" onclick="window.location.href='index.html'" 
-                        style="color: white; background-color: rgb(9, 41, 181);">
-                            Go to Home Page
-                        </button>
                     <button type="button" onclick="window.location.href='signup.html'" 
                         style="color: white; background-color: rgb(9, 41, 181);">
                         register

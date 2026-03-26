@@ -1,211 +1,39 @@
-
 @media (min-width: 576px) {
-    
+
+    .category-container {
+    gap: 10px;
+  }
+  
+  .category-card {
+    padding: 15px;
+  }
+
+  .icon {
+    font-size: 24px; 
+  }
+
+  .book-card{
+    width: calc(50% - 1.5rem); /* 1.5rem = 0.75rem left + 0.75rem right margin */
+  }
+
 }
 
 @media (min-width: 768px) {
-    
+
+  .book-card{
+    width: calc(33.33% - 1.5rem);
+  }
 }
 
 @media (min-width: 992px) {
-    
+
+    .book-card{
+    width: calc(20% - 1.5rem);
+  }
 }
 
 @media (min-width: 1200px) {
-    
-}
-
-:root{
-    --main-color: #0F49BD;
-    --second-color: #F5F5F5;
-    --bg-body-color: #F5F5F5;
-    --bg-main-color: white;
-    --bg-third-color:#7cebff;
-    --bg-navy-color:#06145e;
-    /*************colors*************/
-
-    --red-color: #FF0000;
-    --green-color: #00FF00;
-    --yellow-color: #FFFF00;
-    --black-color: #000000;
-    --orange-color: #FFA500;
-    
-    --text-color: #111827;
-    --text-hover: #0F49BD;
-    --nav-active-text: white;
-}
-
-body.dark-mode{
-  --main-color: #14B8A6;
-  --second-color: #0F172A;
-  --bg-body-color: #0F172A;
-  --bg-main-color: #1E293B;
-  --bg-navy-color: #14b8a6;
-
-  --text-color: #F8FAFC;
-  --text-hover: #5eead4;
-  --nav-active-text: #0f172a;
-
-}
-
-/* nav*/
-.landing-nav{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    background-color: var(--bg-main-color);
-    box-shadow: 0 4px 6px -1px rgba(0,0,0, 0.1);
-}
-
-.nav-logo a{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 26px;
-    font-weight: 800;
-    text-decoration: none;
-    color: var(--main-color);
-}
-
-.auth-buttons{
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-.auth-buttons a{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 10px 24px;
-    border-radius: 6px;
-}
-
-.auth-buttons a:hover{
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
-    filter: brightness(1.5);
-}
-
-
-
-body{
-    margin:0;
-    padding:0;
-
-    background-color: var(--bg-body-color);
-    color: var(--text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-
-ul{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    list-style-type:none;
-    margin: 0;
-    padding: 10px 20px;
-    display: flex;
-    background-color: var(--bg-body-color);
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-}
-
-
-ul li a{
-    display:block;
-    color: var(--text-color);
-    text-align:center;
-    padding:20px 15px;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-}
-
-ul li a:hover{
-    color: var(--text-color);
-    background-color: rgba(128,128,128, 0.1);
-    font-weight: bold;
-     transform: translateY(-2px);
-}
-
-ul li a.active{
-    background-color: var(--bg-navy-color);
-    color: var(--nav-active-text);   
-     transform: translateY(-2px); 
-}
-
-#theme-toggle{
-    background:transparent;
-    border: none;
-    color: var(--main-color);
-    font-size: 20px;
-    cursor: pointer;
-    padding: 10px;
-    margin-top:4px;
-}
-
-#theme-toggle:hover{
-    transform: rotate(15deg);
-}
-
-
-#login-page {
-    transition: 0.5s;
-    background-size: cover;   
-    background-position: center;   
-    background-repeat: no-repeat; 
-    min-height: 100vh;
-    margin: 0;
-
-    display: flex;
-    flex-direction: column;
-}
-
-#login-page nav, 
-#login-page footer {
-    width: 100%;
-}
-
-#login-page main {
-    flex: 1; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center;     
-}
-
-#login-form {
-    width: 300px;
-    height: 200px;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.2); 
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
-#login-page #login-form td {
-    display: block; 
-    width: 100%;
-    margin-bottom: 10px; 
-}
-
-#login-page #login-form label {
-    display: block;
-    margin-bottom: 5px; 
-    font-weight: bold;
-}
-
-#login-page #login-form input {
-    display: block;
-    width: 100%; 
-    padding: 8px;
-    box-sizing: border-box; 
-}
-
-#home-button{
-    color: white;
-    background-color: rgb(255, 255, 255,0);
-    box-shadow: rgb(red, green, blue,0);
+    .book-card{
+    /* width: 20%; */
+  }
 }

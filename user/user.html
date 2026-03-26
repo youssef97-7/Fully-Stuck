@@ -31,98 +31,195 @@
         </ul>
     </nav>
 
-    <header>
-      <div>
-        <h1>hello user</h1>
-        <a href="../index.html" target="_self">Go to Home Page</a>
-      </div>
-      <div>
-        <input type="text" placeholder="Search for games..." />
-        <button class="btn">Search</button>
-        <button class="btn">Searching filters</button>
+    <header >
+      <div class="image-hero">
+        <div class="bg-hero ">
+          <div class="hero">
+            <div class="Content-hero">
+              <span>Curated Collection</span>
+              <h1>Your Digital Sanctuary <br />for <span> Knowledge</span></h1>
+              <p>
+                Access over 2 million ebooks, audiobooks, and journals. Dive
+                into a seamless reading experience designed for the modern
+                scholar.
+              </p>
+            </div>
+            <div>
+              <button>Start Reading Free</button>
+              <button>Membership Plans</button>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
 
-    <!-- content -->
-    <main>
-      <section style="height: 100vh">
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <div>
-          <h1 style="color: blue">Welcome to the Library Management System</h1>
-          <p>Search and borrow books easily.</p>
-        </div>
-        <div>
-          <img
-            src="../images/hero-img.jpeg"
-            style="margin-left: 850px; width: 600px"
-            alt=""
-          />
-        </div>
-      </section>
-
+    <main class="conteiner">
       <section>
-        <!-- first section -->
-        <section>
-          <h2>Featured Books</h2>
-          <ul>
-            <li>"The Great Gatsby" by F. Scott Fitzgerald</li>
-            <li>"To Kill a Mockingbird" by Harper Lee</li>
-            <li>"1984" by George Orwell</li>
-          </ul>
-          <img src="../images/book-1.jpeg" alt="" />
-        </section>
-
-        <!-- second section -->
-        <section>
-          <h2>Available Books</h2>
-          <ul>
-            <li>Book 1: "The Great Gatsby" by F. Scott Fitzgerald</li>
-            <li>Book 2: "To Kill a Mockingbird" by Harper Lee</li>
-            <li>Book 3: "1984" by George Orwell</li>
-            <li>Book 4: "Pride and Prejudice" by Jane Austen</li>
-          </ul>
-        </section>
-
-        <!-- third section table book -->
-
-        <section>
-          <table width="100%">
-            <tr>
-              <th>
-                <img src="../images/book-1.jpeg" alt="" />
-              </th>
-              <th>
-                <img src="../images/book-2.jpeg" alt="" />
-              </th>
-              <th>
-                <img src="../images/book-3.jpeg" alt="" />
-              </th>
-              <th>
-                <img src="../images/book-5.jpeg" alt="" />
-              </th>
-            </tr>
-
-            <tr>
-              <td>"The Great Gatsby" by F. Scott Fitzgerald</td>
-              <td>"To Kill a Mockingbird" by Harper Lee</td>
-              <td>"1984" by George Orwell</td>
-              <td>"Pride and Prejudice" by Jane Austen</td>
-            </tr>
-
-            <tr>
-              <td>Available</td>
-              <td>Checked Out</td>
-              <td>Available</td>
-              <td>Available</td>
-            </tr>
-          </table>
-        </section>
+        <div class="category-container" id="category-container"></div>
       </section>
+
+
+
+      <section class="featured-books">
+        <div class="search-home">
+          <h2>Featured Books</h2>
+          <div class="controls">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by title..."
+            />
+          </div>
+        </div>
+
+
+        
+          <div class="content-book">
+            
+            <div class="book-card">
+              
+              <div class="main-card-hedden">
+                <ul  class="card-hedden">
+                  <!-- <li></li>
+                  <li></li> -->
+                  <li><button><i class="fa-solid fa-bookmark"></i></button></li>
+                  <li><button><i class="fa-regular fa-heart"></i></button></li>
+                </ul>
+              </div>
+              
+              
+                <img src="../images/book-1.jpeg" alt="">
+              
+              <h3>Design System</h3>
+              <p>Alla Kholmatova</p>
+              <div class="buttom-card">
+                <span>Free</span>
+                <span class="star"><i class="fa-solid fa-star"></i>4.5</span>
+                <!-- <span><i class="fa-solid fa-bookmark"></i></span> -->
+              </div>
+            </div>
+            
+            <div class="book-card">
+              
+              <div class="main-card-hedden">
+                <ul  class="card-hedden">
+                  <!-- <li></li>
+                  <li></li> -->
+                  <li><button><i class="fa-solid fa-bookmark"></i></button></li>
+                  <li><button><i class="fa-regular fa-heart"></i></button></li>
+                </ul>
+              </div>
+              
+              
+                <img src="../images/book-5.jpeg" alt="">
+              
+              <h3>Design System</h3>
+              <p>Alla Kholmatova</p>
+              <div class="buttom-card">
+                <span>Free</span>
+                <span class="star"><i class="fa-solid fa-star"></i>4.5</span>
+                <!-- <span><i class="fa-solid fa-bookmark"></i></span> -->
+              </div>
+            </div>
+            
+            <div class="book-card">
+              
+              <div class="main-card-hedden">
+                <ul  class="card-hedden">
+                  <!-- <li></li>
+                  <li></li> -->
+                  <li><button><i class="fa-solid fa-bookmark"></i></button></li>
+                  <li><button><i class="fa-regular fa-heart"></i></button></li>
+                </ul>
+              </div>
+              
+              
+                <img src="../images/book-4.jpeg" alt="">
+              
+              <h3>Design System</h3>
+              <p>Alla Kholmatova</p>
+              <div class="buttom-card">
+                <span>Free</span>
+                <span class="star"><i class="fa-solid fa-star"></i>4.5</span>
+                <!-- <span><i class="fa-solid fa-bookmark"></i></span> -->
+              </div>
+            </div>
+            
+            <div class="book-card">
+              
+              <div class="main-card-hedden">
+                <ul  class="card-hedden">
+                  <!-- <li></li>
+                  <li></li> -->
+                  <li><button><i class="fa-solid fa-bookmark"></i></button></li>
+                  <li><button><i class="fa-regular fa-heart"></i></button></li>
+                </ul>
+              </div>
+              
+              
+                <img src="../images/book-3.jpeg" alt="">
+              
+              <h3>Design System</h3>
+              <p>Alla Kholmatova</p>
+              <div class="buttom-card">
+                <span>Free</span>
+                <span class="star"><i class="fa-solid fa-star"></i>4.5</span>
+                <!-- <span><i class="fa-solid fa-bookmark"></i></span> -->
+              </div>
+            </div>
+            
+            <div class="book-card">
+              
+              <div class="main-card-hedden">
+                <ul  class="card-hedden">
+                  <!-- <li></li>
+                  <li></li> -->
+                  <li><button><i class="fa-solid fa-bookmark"></i></button></li>
+                  <li><button><i class="fa-regular fa-heart"></i></button></li>
+                </ul>
+              </div>
+              
+              
+                <img src="../images/book-2.jpeg" alt="">
+              
+              <h3>Design System</h3>
+              <p>Alla Kholmatova</p>
+              <div class="buttom-card">
+                <span>Free</span>
+                <span class="star"><i class="fa-solid fa-star"></i>4.5</span>
+                <!-- <span><i class="fa-solid fa-bookmark"></i></span> -->
+              </div>
+            </div>
+            
+            <div class="book-card">
+              
+              <div class="main-card-hedden">
+                <ul  class="card-hedden">
+                  <!-- <li></li>
+                  <li></li> -->
+                  <li><button><i class="fa-solid fa-bookmark"></i></button></li>
+                  <li><button><i class="fa-regular fa-heart"></i></button></li>
+                </ul>
+              </div>
+              
+              
+                <img src="../images/book-1.jpeg" alt="">
+              
+              <h3>Design System</h3>
+              <p>Alla Kholmatova</p>
+              <div class="buttom-card">
+                <span>Free</span>
+                <span class="star"><i class="fa-solid fa-star"></i>4.5</span>
+                <!-- <span><i class="fa-solid fa-bookmark"></i></span> -->
+              </div>
+            </div>
+
+            
+          </div>
+        
+
+      </section>
+      
     </main>
 
     <!-- footer -->

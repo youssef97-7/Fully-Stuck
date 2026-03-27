@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Books | Admin</title>
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="../css/media.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+
+    <nav class="landing-nav conteiner">
+        <div class="nav-logo">
+            <a href="../index.html">Booooooook</a>
+        </div>
+
+        <div class="nav-right">
+            <div class="auth-buttons">
+                <a href="../index.html" id="logoutBtn">Logout</a>
+            </div>
+
+            <button id="theme-toggle">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="admin-page">
+        <header class="admin-header">
+            <div>
+                <h1 class="admin-title">Manage Books</h1>
+                <p class="admin-subtitle">View and edit your complete library catalog</p>
+            </div>
+
+            <button id="addBookBtn" class="btn btn-primary" type="button">
+                <i class="fa-solid fa-plus"></i>
+                Add New Book
+            </button>
+        </header>
+
+        <section class="admin-panel">
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>BOOK ID</th>
+                            <th>BOOK DETAILS</th>
+                            <th>AUTHOR</th>
+                            <th>CATEGORY</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="booksTbody"></tbody>
+                </table>
+            </div>
+
+            <footer class="panel-footer">
+                <span id="resultsText">Showing 0 books</span>
+            </footer>
+        </section>
+    </main>
+
+    <!-- Modal -->
+    <div id="bookModal" class="modal">
+        <div class="modal-backdrop" data-close-modal="true"></div>
+
+        <div class="modal-content">
+            <header class="modal-header">
+                <h3 id="modalTitle" class="modal-title">Add Book</h3>
+                <button id="closeModalBtn" class="icon-btn" type="button">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </header>
+
+            <form id="bookForm" class="modal-body">
+                <input id="bookId" name="id" type="hidden" />
+
+                <label class="field">
+                    <span class="field-label">Title</span>
+                    <input class="field-input" name="title" type="text" required />
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Author</span>
+                    <input class="field-input" name="author" type="text" required />
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Cover page (URL or path)</span>
+                    <input class="field-input" name="coverpage" type="text" required />
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Category</span>
+                    <input class="field-input" name="category" type="text" required />
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Description</span>
+                    <textarea class="field-input" name="description" rows="4" required></textarea>
+                </label>
+
+                <footer class="modal-footer">
+                    <button class="btn" type="button" id="cancelBtn">Cancel</button>
+                    <button class="btn btn-primary" type="submit" id="submitBtn">Add</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+    <script src="../js/books.lib.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/index.js"></script>
+</body>
+
+</html>

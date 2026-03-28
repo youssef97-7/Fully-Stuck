@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/media.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body data-user-page="want-to-read">
     <script>
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
@@ -19,31 +19,55 @@
     <!-- nav bar -->
     <nav>
         <ul>
-            <li><a href="user.html">Home</a></li> 
-            <li><a href="user_dashboard.html">My Dashboard</a></li> 
-            <li><a href="book_search_results.html">Search Books</a></li> 
-            <li><a href="user_wishlist.html">Wishlist</a></li> 
-            <li><a href="user_wants_to_read.html" class="active">Want to Read</a></li> 
+            <li><a href="user.html">Home</a></li>
+            <li><a href="user_dashboard.html">My Dashboard</a></li>
+            <li><a href="book_search_results.html">Search Books</a></li>
+            <li><a href="user_wishlist.html">Wishlist</a></li>
+            <li><a href="user_wants_to_read.html" class="active">Want to Read</a></li>
             <li><a href="user_currently_reading.html">Currently Reading</a></li>
-            <li><a href="user_already_read.html">Already Read</a></li> 
-            <li><a href="user_favourites.html" > Favourites</a></li>
+            <li><a href="user_already_read.html">Already Read</a></li>
+            <li><a href="user_favourites.html">Favourites</a></li>
             <li><a href="../index.html">Logout</a></li>
-            <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+            <button type="button" id="theme-toggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
         </ul>
     </nav>
-    <main>
-        <h1>Want to Read</h1>
-        <p>اللي لسه هيضاف للموسوعه</p>
-        <ul>
-            <li>
-                <h3>The Alchemist</h3>
-                <p>Author: Paulo Coelho</p>
-                <button>Move to Already Read</button>
-            </li>
-        </ul>
+
+    <main class="conteiner user-feature-page">
+        <header class="page-intro">
+            <span class="eyebrow">Your reading queue</span>
+            <h1>Want to Read</h1>
+            <p class="lede">Same library as Home—use the slide-out actions on the card (wishlist, favourites, want to read, already read).</p>
+        </header>
+
+        <section class="featured-books" aria-labelledby="want-read-heading">
+            <div class="search-home">
+                <h2 id="want-read-heading">From your catalog</h2>
+            </div>
+            <div class="content-book" id="wantToReadBooks"></div>
+        </section>
     </main>
-    
+
+    <footer class="site-footer">
+      <div class="site-footer-inner conteiner">
+        <div class="site-footer-top">
+          <span class="site-footer-brand">Booooooook</span>
+          <nav class="site-footer-nav" aria-label="Footer links">
+            <a href="user.html">Home</a>
+            <a href="../index.html">Library home</a>
+            <a href="../login.html">Switch account</a>
+          </nav>
+        </div>
+        <p class="site-footer-copy">
+          &copy; 2024 Library Management System. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/books.lib.js"></script>
+    <script src="../js/user-book-lists.js"></script>
+    <script src="../js/library-book-ui.js"></script>
     <script src="../js/index.js"></script>
+    <script src="../js/user-features.js"></script>
 </body>
 </html>

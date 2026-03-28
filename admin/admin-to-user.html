@@ -5,24 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
 
-    <link rel="stylesheet" href="css/all.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/media.css" />
+    <link rel="stylesheet" href="../css/all.min.css">
+    <link rel="stylesheet" href="../css/media.css">
+    <link rel="stylesheet" href="../css/style.css">
   </head>
   <body>
     <!-- nav bar -->
-    <nav class="landing-nav conteiner">
-      <div class="nav-logo">
-        <a href="index.html"> Booooooook</a>
-      </div>
-      <div class="auth-buttons">
-        <a href="login.html">Log in</a>
-        <a href="signup.html">Sign up</a>
-      </div>
-      <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+     <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+    <nav class="">
+        <ul>
+            <!-- <li><a href="user_dashboard.html">My Dashboard</a></li> 
+            <li><a href="book_search_results.html">Search Books</a></li> 
+            <li><a href="user_wishlist.html">Wishlist</a></li> 
+            <li><a href="user_wants_to_read.html">Want to Read</a></li> 
+            <li><a href="user_currently_reading.html">Currently Reading</a></li>
+            <li><a href="user_already_read.html">Already Read</a></li> 
+            <li><a href="user_favourites.html" > Favourites</a></li> -->
+            <li><a href="../index.html">Logout</a></li>
+            <li><a href="admin-dashboard.html">Admin</a></li>
+            <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+        </ul>
     </nav>
 
-    <!-- content -->
     <header >
       <div class="image-hero">
         <div class="bg-hero ">
@@ -78,9 +86,9 @@
         <div class="site-footer-top">
           <span class="site-footer-brand">Booooooook</span>
           <nav class="site-footer-nav" aria-label="Footer links">
-            <a href="index.html">Home</a>
-            <a href="login.html">Log in</a>
-            <a href="signup.html">Sign up</a>
+            <a href="user.html">Home</a>
+            <a href="../index.html">Library home</a>
+            <a href="../login.html">Switch account</a>
           </nav>
         </div>
         <p class="site-footer-copy">
@@ -88,10 +96,11 @@
         </p>
       </div>
     </footer>
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="js/books.lib.js"></script>
-    <script src="js/user-home.js"></script>
-    <script src="js/index.js"></script>
+    <script src="../js/books.lib.js"></script>
+    <script src="../js/user-home.js"></script>
+    <script src="../js/index.js"></script>
 
   </body>
 </html>

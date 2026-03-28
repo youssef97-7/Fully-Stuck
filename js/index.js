@@ -1,9 +1,10 @@
 const btn = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme');
-const login_bakground = document.getElementById('login-page')
-const light_login_back = "url('images/lib_img.jpg')"
-const dark_login_back = "url('images/dark_iib_img.jpg')"
-const home_button = document.getElementById("home-button")
+const login_bakground = document.getElementById('login-page') || document.getElementById('signup-page');
+const light_login_back = "url('images/lib_img.jpg')";
+const dark_login_back = "url('images/dark_iib_img.jpg')";
+const home_button = document.getElementById("home-button");
+const skipHomeButtonColor = home_button && home_button.closest(".auth-card");
 
 if (home_button) {
   home_button.style.transition = "0.5s";
@@ -15,13 +16,13 @@ if (currentTheme == 'dark') {
 
 
   if (login_bakground) login_bakground.style.backgroundImage = dark_login_back;
-  if (home_button) home_button.style.color = "white";
+  if (home_button && !skipHomeButtonColor) home_button.style.color = "white";
 } else {
   document.body.classList.remove('dark-mode');
   if (btn) btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
 
   if (login_bakground) login_bakground.style.backgroundImage = light_login_back;
-  if (home_button) home_button.style.color = "black";
+  if (home_button && !skipHomeButtonColor) home_button.style.color = "black";
 }
 
 if (btn) {
@@ -33,13 +34,13 @@ if (btn) {
       localStorage.setItem('theme', 'dark');
 
       if (login_bakground) login_bakground.style.backgroundImage = dark_login_back;
-      if (home_button) home_button.style.color = "white";
+      if (home_button && !skipHomeButtonColor) home_button.style.color = "white";
     }
     else {
       btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
       localStorage.setItem('theme', 'light');
       if (login_bakground) login_bakground.style.backgroundImage = light_login_back;
-      if (home_button) home_button.style.color = "black";
+      if (home_button && !skipHomeButtonColor) home_button.style.color = "black";
     }
   });
 }
@@ -59,30 +60,20 @@ const categories = [
 
 const container = document.getElementById('category-container');
 
-categories.forEach(item => {
-  const card = document.createElement('div');
-  card.className = 'category-card';
+if (container) {
+  categories.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'category-card';
 
-  card.innerHTML = `
-    <div class="icon">${item.icon}</div>
-    <h3>${item.title}</h3>
-    <p>${item.count} titles</p>
-  `;
+    card.innerHTML = `
+      <div class="icon">${item.icon}</div>
+      <h3>${item.title}</h3>
+      <p>${item.count} titles</p>
+    `;
 
-  container.appendChild(card);
-});
-
-
-
-
-
-// Feature search
-
-searchInput.addEventListener('input', (e) => {
-  const term = e.target.value.toLowerCase();
-  const filtered = books.filter(b => b.title.toLowerCase().includes(term));
-  displayBooks(filtered);
-});
+    container.appendChild(card);
+  });
+}
 
 
 

@@ -1,4 +1,8 @@
 (function () {
+  if (typeof Swal !== "undefined" && typeof Swal.mixin === "function") {
+    Swal.mixin({ scrollbarPadding: false });
+  }
+
   const tbody = document.getElementById("booksTbody");
   const resultsText = document.getElementById("resultsText");
   const addBookBtn = document.getElementById("addBookBtn");
@@ -41,6 +45,7 @@
       form.author.value = book.author || "";
       form.coverpage.value = book.coverpage || "";
       form.category.value = book.category || "";
+      form.rating.value = book.rating ?? 0;
       form.description.value = book.description || "";
     }
 
@@ -94,6 +99,10 @@
 
           <td>
             <span class="category-tag">${escapeHtml(b.category)}</span>
+            
+          </td>
+          <td>
+            <span class="category-tag">${escapeHtml(String(b.rating ?? 0))} <i class="fa-solid fa-star star-rating"></i></span>
           </td>
 
           <td>
@@ -140,11 +149,33 @@
       const book = window.Library.findBookById(bookId);
       if (!book) return;
 
-      const ok = confirm(`Delete "${book.title}"?`);
-      if (!ok) return;
+      if (typeof Swal === "undefined") {
+        const ok = confirm(`Delete "${book.title}"?`);
+        if (!ok) return;
+        window.Library.deleteBook(bookId);
+        renderTable();
+        return;
+      }
 
-      window.Library.deleteBook(bookId);
-      renderTable();
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.Library.deleteBook(bookId);
+          renderTable();
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success",
+          });
+        }
+      });
     }
   });
 
@@ -156,6 +187,7 @@
       author: form.author.value,
       coverpage: form.coverpage.value,
       category: form.category.value,
+      rating: form.rating.value,
       description: form.description.value,
     };
 

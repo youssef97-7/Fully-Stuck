@@ -73,8 +73,20 @@
       .filter(Boolean);
   }
 
+  /**
+   * Remove a book id from one list only (does not touch Library or other lists).
+   * @param {'wishlist'|'favourites'|'want-to-read'|'already-read'} action
+   */
+  function removeFromList(action, bookId) {
+    const key = KEYS[action];
+    if (!key || bookId == null || String(bookId).trim() === "") return { ok: false };
+    removeIdFromList(action, bookId);
+    return { ok: true };
+  }
+
   global.UserBookLists = {
     addBook,
+    removeFromList,
     getIdsFor,
     resolveBooks,
   };

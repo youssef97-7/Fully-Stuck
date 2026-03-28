@@ -873,9 +873,68 @@ body.dark-mode .site-footer--auth {
   
 }
 
-.main-card-hedden ul li button:hover{
+/* Book is already on this list — highlight that rail icon (all pages, any book card) */
+.main-card-hedden ul li button.rail-btn--active[data-card-action="wishlist"] {
+  background-color: rgba(15, 73, 189, 0.22);
+  border-color: rgba(15, 73, 189, 0.48);
+  color: var(--main-color);
+}
+
+.main-card-hedden ul li button.rail-btn--active[data-card-action="favourites"] {
+  background-color: rgba(220, 38, 38, 0.16);
+  border-color: rgba(220, 38, 38, 0.4);
+  color: #b91c1c;
+}
+
+.main-card-hedden ul li button.rail-btn--active[data-card-action="want-to-read"] {
+  background-color: rgba(5, 150, 105, 0.18);
+  border-color: rgba(5, 150, 105, 0.45);
+  color: #047857;
+}
+
+.main-card-hedden ul li button.rail-btn--active[data-card-action="already-read"] {
+  background-color: rgba(124, 58, 237, 0.18);
+  border-color: rgba(124, 58, 237, 0.42);
+  color: #6d28d9;
+}
+
+body.dark-mode .main-card-hedden ul li button.rail-btn--active[data-card-action="wishlist"] {
+  background-color: rgba(20, 184, 166, 0.24);
+  border-color: rgba(20, 184, 166, 0.5);
+  color: var(--main-color);
+}
+
+body.dark-mode .main-card-hedden ul li button.rail-btn--active[data-card-action="favourites"] {
+  background-color: rgba(248, 113, 113, 0.2);
+  border-color: rgba(248, 113, 113, 0.45);
+  color: #fecaca;
+}
+
+body.dark-mode .main-card-hedden ul li button.rail-btn--active[data-card-action="want-to-read"] {
+  background-color: rgba(52, 211, 153, 0.2);
+  border-color: rgba(52, 211, 153, 0.45);
+  color: #6ee7b7;
+}
+
+body.dark-mode .main-card-hedden ul li button.rail-btn--active[data-card-action="already-read"] {
+  background-color: rgba(167, 139, 250, 0.22);
+  border-color: rgba(167, 139, 250, 0.48);
+  color: #c4b5fd;
+}
+
+/* List pages only: trash removes from Want to Read / Already Read, not Library */
+.main-card-hedden ul li button.card-rail-remove {
+  color: var(--red-color);
+}
+
+.main-card-hedden ul li button:hover:not(.rail-btn--active) {
   background-color: var(--bg-body-color);
   transform: translateY(-2px);
+}
+
+.main-card-hedden ul li button.rail-btn--active:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
 }
 
 .main-card-hedden ul li button:focus {

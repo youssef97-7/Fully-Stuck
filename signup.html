@@ -3,85 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+    <title>Sign up | Booooooook</title>
     <link rel="stylesheet" href="css/all.min.css">
-    <link rel="stylesheet" href="css/media.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/media.css">
 </head>
-<body>
+<body id="signup-page" class="auth-body">
+    <script>
+        if (localStorage.getItem("theme") === "dark") {
+            document.body.classList.add("dark-mode");
+        }
+    </script>
 
-    <!-- nav bar -->
-    <nav>
-        Navigation Bar
-        <hr>
+    <nav class="auth-nav conteiner">
+        <div class="nav-logo">
+            <a href="index.html">Booooooook</a>
+        </div>
+        <div class="auth-nav-actions">
+            <a href="login.html" class="auth-nav-link">Log in</a>
+            <button type="button" id="theme-toggle" aria-label="Toggle theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
     </nav>
 
-    <!-- content -->
-    <main>
-        <button id="theme-toggle">(Light/Dark)</button>
-        <h2 style="color: tomato;">Create Account</h2>
+    <main class="auth-main auth-main--signup">
+        <div class="auth-card auth-card--wide">
+            <div class="auth-card-header">
+                <h1 class="auth-title">Create account</h1>
+                <p class="auth-subtitle">Join Booooooook in a few steps</p>
+            </div>
 
-        <form method="post">
-        <fieldset style="background-color: #f0f0f0; width: 800px;">
-            <legend style="color: blue;" >Sign Up Personal Information</legend>
-            <table  width="100%" >
-                <tr>
-                    
-                    <td width="12%"><label for="FristName">Frist Name: *</label></td>
-                    <td ><input id="FristName" type="text" name="Frist Name" placeholder="First name" required></td>
-                    <td width="12%">
-                        <label for="lastName">last Name: *</label>
-                    </td>
-                    <td>
-                        <input id="lastName" type="text" placeholder="Last name" name="last Name">
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="email">Email Address: *</label></td>
-                    <td><input id="email" type="email" name="email" required placeholder="ex@gmail.com"> </td>
-                    <td><label for="PhoneNember">Phone Nember: * </label></td>
-                    <td><input id="PhoneNember" type="tel" placeholder="01123456789" name="Phone Nember"> </td>
-                    
-                </tr>
-                <tr>
-                    <td><label for="password">Password: *</label></td>
-                    <td><input id="password" type="password" name="password" id="password" required minlength="8"> </td>
-                    <td><label for="Birth-day">Birth day: * </label></td>
-                    <td><input id="Birth-day" type="date" name="Birth-day" > </td>
-                </tr>
-                <tr>
-                    <td><label for="Confirm-Password">Confirm Password: *</label></td>
-                    <td><input id="Confirm-Password" type="password"  name="Confirm Password" required> </td>
-                    <td><label for="role">Account Type: * </label></td>
-                    <td><input type="radio" name="role" value="admin" required> Admin 
-                        <input type="radio" name="role" value="user" required checked> User
-                    </td>
-                    
-                </tr>
-            </table>
-        </fieldset>
-        
-        
-        <br>
-        
-        <button  type="submit" style="color: white; background-color: dodgerblue;">Sent Message</button>
-        <button type="reset" style="color: white; background-color: red;">Clear Form</button>
-        <button type="button" onclick="window.location.href='index.html'" 
-style="color: white; background-color: rgb(9, 41, 181);">
-    Go to Home Page
-</button>
-    </form>
+            <form id="signupForm" class="auth-form" novalidate>
+                <div class="auth-grid">
+                    <div class="auth-field">
+                        <label class="auth-label" for="firstName">First name</label>
+                        <input class="auth-input" id="firstName" name="firstName" type="text"
+                            autocomplete="given-name" placeholder="First name" required>
+                    </div>
+                    <div class="auth-field">
+                        <label class="auth-label" for="lastName">Last name</label>
+                        <input class="auth-input" id="lastName" name="lastName" type="text"
+                            autocomplete="family-name" placeholder="Last name" required>
+                    </div>
+                </div>
 
-        
+                <div class="auth-grid">
+                    <div class="auth-field">
+                        <label class="auth-label" for="email">Email</label>
+                        <input class="auth-input" id="email" name="email" type="email"
+                            autocomplete="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="auth-field">
+                        <label class="auth-label" for="phone">Phone</label>
+                        <input class="auth-input" id="phone" name="phone" type="tel"
+                            autocomplete="tel" placeholder="01xxxxxxxxx" required>
+                    </div>
+                </div>
+
+                <div class="auth-grid">
+                    <div class="auth-field">
+                        <label class="auth-label" for="signupPassword">Password</label>
+                        <input class="auth-input" id="signupPassword" name="password" type="password"
+                            autocomplete="new-password" placeholder="8+ chars, letter and number" minlength="8" required>
+                    </div>
+                    <div class="auth-field">
+                        <label class="auth-label" for="signupConfirmPassword">Confirm password</label>
+                        <input class="auth-input" id="signupConfirmPassword" name="confirmPassword" type="password"
+                            autocomplete="new-password" placeholder="Repeat password" required>
+                    </div>
+                </div>
+
+                <div class="auth-field">
+                    <label class="auth-label" for="birthDate">Birth date</label>
+                    <input class="auth-input" id="birthDate" name="birthDate" type="date" required>
+                </div>
+
+                <fieldset class="auth-fieldset">
+                    <legend class="auth-label">Account type</legend>
+                    <div class="auth-radio-row">
+                        <label class="auth-radio">
+                            <input type="radio" name="role" value="user" checked>
+                            <span>User</span>
+                        </label>
+                        <label class="auth-radio">
+                            <input type="radio" name="role" value="admin">
+                            <span>Admin</span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <div class="auth-actions auth-actions--signup">
+                    <button type="submit" class="auth-btn auth-btn-primary">Create account</button>
+                    <button type="reset" class="auth-btn auth-btn-secondary">Clear</button>
+                    <a href="index.html" class="auth-btn auth-btn-secondary" id="home-button">
+                        <i class="fa-solid fa-house" aria-hidden="true"></i>
+                        <span>Home</span>
+                    </a>
+                </div>
+            </form>
+
+            <p class="auth-footer-text">
+                Already have an account? <a href="login.html">Log in</a>
+            </p>
+        </div>
     </main>
 
-    <!-- footer -->
-    <footer>
-        <hr>
-        <p>&copy; 2024 Library Management System. All rights reserved.</p>
-    </footer>
     
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/index.js"></script>
+    <script src="js/auth-forms.js"></script>
 </body>
 </html>

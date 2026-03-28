@@ -24,15 +24,26 @@
     return "BK-" + Math.floor(1000 + Math.random() * 9000);
   }
 
-  function addBook(input) {
-    const book = {
-      id: generateId(),
-      title: input.title.trim(),
-      author: input.author.trim(),
-      coverpage: input.coverpage.trim(),
-      category: input.category.trim(),
-      description: input.description.trim(),
+  function normalizeRating(value) {
+    const num = Number(value);
+    if (!Number.isFinite(num)) return 0;
+    return Math.max(0, Math.min(5, num));
+  }
+
+  function normalizeBook(input, id) {
+    return {
+      id,
+      title: String(input.title || "").trim(),
+      author: String(input.author || "").trim(),
+      coverpage: String(input.coverpage || "").trim(),
+      category: String(input.category || "").trim(),
+      rating: normalizeRating(input.rating),
+      description: String(input.description || "").trim(),
     };
+  }
+
+  function addBook(input) {
+    const book = normalizeBook(input, generateId());
     books.unshift(book);
     saveBooks();
     return book;
@@ -46,7 +57,7 @@
     const i = books.findIndex(b => b.id === id);
     if (i === -1) return null;
 
-    books[i] = { ...books[i], ...updates, id };
+    books[i] = normalizeBook({ ...books[i], ...updates }, id);
     saveBooks();
     return books[i];
   }
@@ -67,4 +78,8 @@
   };
 
   loadBooks();
+  books = books.map((b, index) => normalizeBook(b, b.id || `BK-MIGRATED-${index + 1}`));
+  saveBooks();
 })();
+
+// console.log(book);

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../css/media.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body data-user-page="already-read">
     <script>
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
@@ -19,39 +19,32 @@
     <!-- nav bar -->
     <nav>
         <ul>
-            <li><a href="user.html">Home</a></li> 
-            <li><a href="user_dashboard.html">My Dashboard</a></li> 
-            <li><a href="book_search_results.html">Search Books</a></li> 
-            <li><a href="user_wishlist.html">Wishlist</a></li> 
-            <li><a href="user_wants_to_read.html">Want to Read</a></li> 
+            <li><a href="user.html">Home</a></li>
+            <li><a href="user_dashboard.html">My Dashboard</a></li>
+            <li><a href="book_search_results.html">Search Books</a></li>
+            <li><a href="user_wishlist.html">Wishlist</a></li>
+            <li><a href="user_wants_to_read.html">Want to Read</a></li>
             <li><a href="user_currently_reading.html">Currently Reading</a></li>
-            <li><a href="user_already_read.html" class="active">Already Read</a></li> 
-            <li><a href="user_favourites.html" > Favourites</a></li>
+            <li><a href="user_already_read.html" class="active">Already Read</a></li>
+            <li><a href="user_favourites.html">Favourites</a></li>
             <li><a href="../index.html">Logout</a></li>
-            <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+            <button type="button" id="theme-toggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
         </ul>
     </nav>
 
-    <main>
-        
-        <h1>Already Read</h1>
-        <p>اللي اضيف للموسوعه</p>
+    <main class="conteiner user-feature-page">
+        <header class="page-intro">
+            <span class="eyebrow">Your bookshelf</span>
+            <h1>Already Read</h1>
+            <p class="lede"> Books you have read and enjoyed.</p>
+        </header>
 
-        <ul>
-            <li>
-                <h3>1984</h3>
-                <p>Author: George Orwell</p>
-                <p>Rating: 5/5</p>
-                <button onclick="location.href='pdf_reader.html'">Read Again</button>
-            </li>
-            <br>
-            <li>
-                <h3>Pride and Prejudice</h3>
-                <p>Author: Jane Austen</p>
-                <p>Rating: 4/5</p>
-                <button onclick="location.href='pdf_reader.html'">Read Again</button>
-            </li>
-        </ul>
+        <section class="featured-books" aria-labelledby="already-read-heading">
+            <div class="search-home">
+                <h2 id="already-read-heading">From your catalog</h2>
+            </div>
+            <div class="content-book" id="alreadyReadBooks"></div>
+        </section>
     </main>
 
     <footer class="site-footer">
@@ -69,8 +62,12 @@
         </p>
       </div>
     </footer>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/books.lib.js"></script>
+    <script src="../js/user-book-lists.js"></script>
+    <script src="../js/library-book-ui.js"></script>
     <script src="../js/index.js"></script>
+    <script src="../js/user-features.js"></script>
 </body>
 </html>

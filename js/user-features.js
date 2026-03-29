@@ -11,7 +11,7 @@
     container = document.getElementById("wantToReadBooks");
   } else if (page === "already-read") {
     container = document.getElementById("alreadyReadBooks");
-  } else if (page === "favourites ") {
+  } else if (page === "favourites") {
     container = document.getElementById("favouritesBooks");
   }   
 

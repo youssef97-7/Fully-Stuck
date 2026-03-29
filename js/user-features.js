@@ -6,12 +6,14 @@
 
   const { createLibraryBookCard, bindLibraryCardActions } = window.LibraryBookUI;
 
-  const container =
-    page === "want-to-read"
-      ? document.getElementById("wantToReadBooks")
-      : page === "already-read"
-        ? document.getElementById("alreadyReadBooks")
-        : document.getElementById("favouriteBooks");
+  let container;
+  if (page === "want-to-read") {
+    container = document.getElementById("wantToReadBooks");
+  } else if (page === "already-read") {
+    container = document.getElementById("alreadyReadBooks");
+  } else if (page === "favourites ") {
+    container = document.getElementById("favouritesBooks");
+  }   
 
   if (!container) return;
 

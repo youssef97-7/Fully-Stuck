@@ -33,6 +33,7 @@
   };
 
   const LIST_REMOVE_LABELS = {
+    "favourites": "Remove from Favourites (list only)",
     "want-to-read": "Remove from Want to Read (list only)",
     "already-read": "Remove from Already Read (list only)",
   };
@@ -61,7 +62,9 @@
 
   function createLibraryBookCard(book, options = {}) {
     const listRemoveContext =
-      options.listRemoveContext === "want-to-read" || options.listRemoveContext === "already-read"
+      options.listRemoveContext === "want-to-read" || 
+      options.listRemoveContext === "already-read" ||
+      options.listRemoveContext === "favourites"
         ? options.listRemoveContext
         : null;
 
@@ -117,7 +120,9 @@
     container.dataset.libraryCardActionsBound = "1";
 
     const listRemoveContext =
-      bindOptions.listRemoveContext === "want-to-read" || bindOptions.listRemoveContext === "already-read"
+      bindOptions.listRemoveContext === "want-to-read" ||
+      bindOptions.listRemoveContext === "already-read" ||
+      bindOptions.listRemoveContext === "favourites"
         ? bindOptions.listRemoveContext
         : null;
     const onListChanged = typeof bindOptions.onListChanged === "function" ? bindOptions.onListChanged : null;

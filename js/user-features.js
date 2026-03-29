@@ -1,6 +1,6 @@
 (function () {
   const page = document.body.dataset.userPage;
-  if (!page || (page !== "want-to-read" && page !== "already-read")) return;
+  if (!page || (page !== "want-to-read" && page !== "already-read" && page !== "favourites")) return;
 
   if (!window.Library || !window.LibraryBookUI || !window.UserBookLists) return;
 
@@ -9,16 +9,20 @@
   const container =
     page === "want-to-read"
       ? document.getElementById("wantToReadBooks")
-      : document.getElementById("alreadyReadBooks");
+      : page === "already-read"
+        ? document.getElementById("alreadyReadBooks")
+        : document.getElementById("favouriteBooks");
 
   if (!container) return;
 
-  const action = page === "want-to-read" ? "want-to-read" : "already-read";
+  const action = page === "want-to-read" ? "want-to-read" : page === "already-read" ? "already-read" : "favourites";
 
   const emptyListHtml =
     page === "want-to-read"
       ? '<p class="user-list-empty" role="status">Your Want to Read list is empty. On <a href="user.html">Home</a>, hover a book and tap the <strong>+</strong> button to add it—including new titles added by an admin.</p>'
-      : '<p class="user-list-empty" role="status">No finished books yet. Mark titles as read from the card actions on <a href="user.html">Home</a> (check icon), or open Want to Read and move a book there first.</p>';
+      : page === "already-read"
+        ? '<p class="user-list-empty" role="status">No finished books yet. Mark titles as read from the card actions on <a href="user.html">Home</a> (check icon), or open Want to Read and move a book there first.</p>'
+        : '<p class="user-list-empty" role="status">Your favourites list is empty. On <a href="user.html">Home</a>, hover a book and tap the <strong>heart</strong> button to save it here.</p>';
 
   function render() {
     const listBooks = window.UserBookLists.resolveBooks(action);

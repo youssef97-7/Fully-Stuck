@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="../css/media.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body data-user-page="favourites">
     <script>
         if (localStorage.getItem('theme') === 'dark') {
@@ -34,16 +36,16 @@
 
     <main class="conteiner user-feature-page">
         <header class="page-intro">
-            <span class="eyebrow">Your highlighted picks</span>
+            <span class="eyebrow">Your bookshelf</span>
             <h1>Favourites</h1>
-            <p class="lede">Books you want to keep close and come back to again.</p>
+            <p class="lede">Books you have marked as your favourites.</p>
         </header>
 
         <section class="featured-books" aria-labelledby="favourites-heading">
             <div class="search-home">
                 <h2 id="favourites-heading">From your catalog</h2>
             </div>
-            <div class="content-book" id="favouriteBooks"></div>
+            <div class="content-book" id="favouritesBooks"></div>
         </section>
     </main>
 
@@ -70,4 +72,4 @@
     <script src="../js/index.js"></script>
     <script src="../js/user-features.js"></script>
 </body>
-</html>
+</html> 

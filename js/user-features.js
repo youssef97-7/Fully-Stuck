@@ -1,24 +1,30 @@
 (function () {
   const page = document.body.dataset.userPage;
-  if (!page || (page !== "want-to-read" && page !== "already-read")) return;
+  if (!page || (page !== "want-to-read" && page !== "already-read" && page !== "favourites")) return;
 
   if (!window.Library || !window.LibraryBookUI || !window.UserBookLists) return;
 
   const { createLibraryBookCard, bindLibraryCardActions } = window.LibraryBookUI;
 
-  const container =
-    page === "want-to-read"
-      ? document.getElementById("wantToReadBooks")
-      : document.getElementById("alreadyReadBooks");
+  let container;
+  if (page === "want-to-read") {
+    container = document.getElementById("wantToReadBooks");
+  } else if (page === "already-read") {
+    container = document.getElementById("alreadyReadBooks");
+  } else {
+    container = document.getElementById("favouritesBooks");
+  }
 
   if (!container) return;
 
-  const action = page === "want-to-read" ? "want-to-read" : "already-read";
+  const action = page === "want-to-read" ? "want-to-read" : page === "already-read" ? "already-read" : "favourites";
 
   const emptyListHtml =
     page === "want-to-read"
       ? '<p class="user-list-empty" role="status">Your Want to Read list is empty. On <a href="user.html">Home</a>, hover a book and tap the <strong>+</strong> button to add it—including new titles added by an admin.</p>'
-      : '<p class="user-list-empty" role="status">No finished books yet. Mark titles as read from the card actions on <a href="user.html">Home</a> (check icon), or open Want to Read and move a book there first.</p>';
+      : page === "already-read"
+      ? '<p class="user-list-empty" role="status">No finished books yet. Mark titles as read from the card actions on <a href="user.html">Home</a> (check icon), or open Want to Read and move a book there first.</p>'
+      : '<p class="user-list-empty" role="status">No favourite books yet. On <a href="user.html">Home</a>, hover a book and tap the <strong>&#9829;</strong> heart button to add it to your Favourites.</p>';
 
   function render() {
     const listBooks = window.UserBookLists.resolveBooks(action);

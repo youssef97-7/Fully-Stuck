@@ -75,13 +75,68 @@ if (container) {
   });
 }
 
+const bookDetailsButton = document.getElementsByClassName('book-img');
+if (bookDetailsButton) {
+  Array.from(bookDetailsButton).forEach(button => {
+    button.addEventListener('click', () => {
+      window.location.href = 'books_details.html';
+    });
+  });
+}
 
+// ===== BOOK DETAILS PAGE SCRIPTS =====
 
+// Theme toggle for book details
+const btn1 = document.getElementById('theme-toggle');
+if (btn) {
+  const icon = btn.querySelector('i');
+  if (icon) {
+    function applyTheme() {
+      const dark = document.body.classList.contains('dark-mode');
+      icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    }
+    applyTheme();
+    btn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      applyTheme();
+    });
+  }
+}
 
+// Borrow button feedback
+const borrowBtn = document.querySelector('.borrow-btn');
+if (borrowBtn) {
+  borrowBtn.addEventListener('click', function () {
+    this.innerHTML = '<i class="fa-solid fa-check"></i> Borrowed!';
+    this.style.background = '#16a34a';
+    this.disabled = true;
+  });
+}
 
+// Make all images clickable to go to book details
+const allImages = document.querySelectorAll('img');
+allImages.forEach(img => {
+  img.style.cursor = 'pointer';
+  img.addEventListener('click', () => {
+    window.location.href = 'books_details.html';
+  });
+});
 
+const container1 = document.getElementById('category-container');
 
+if (container) {
+  categories.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'category-card';
 
+    card.innerHTML = `
+      <div class="icon">${item.icon}</div>
+      <h3>${item.title}</h3>
+      <p>${item.count} titles</p>
+    `;
 
-
-
+    container.appendChild(card);
+  });
+}

@@ -1642,3 +1642,182 @@ body.dark-mode .borrow-btn:hover {
   .info-col h1 { font-size: 1.6rem; }
   .borrow-btn { margin-left: 0; width: 100%; justify-content: center; }
 }
+
+/* ===== user profile modal ===== */
+.user-profile-nav-item {
+  margin-left: 0;
+}
+
+.user-profile-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  background: var(--bg-main-color);
+  color: var(--text-color);
+  border-radius: 999px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.user-profile-nav-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--main-color);
+}
+
+.user-profile-nav-avatar {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: rgba(15, 73, 189, 0.14);
+  color: var(--main-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.user-profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.user-profile-nav-name {
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.user-profile-modal .modal-content {
+  width: min(720px, calc(100% - 24px));
+}
+
+.user-profile-modal-body {
+  gap: 1rem;
+}
+
+.user-profile-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.9rem;
+  border-radius: 12px;
+  background: var(--bg-body-color);
+  border: 1px solid rgba(128, 128, 128, 0.14);
+}
+
+.user-profile-summary-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  background: rgba(15, 73, 189, 0.14);
+  color: var(--main-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  overflow: hidden;
+}
+
+.user-profile-avatar-img--large {
+  width: 100%;
+  height: 100%;
+}
+
+.user-profile-summary h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.user-profile-summary p {
+  margin: 0.2rem 0;
+  color: gray;
+}
+
+.user-profile-summary small {
+  color: gray;
+}
+
+.user-profile-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.user-profile-preferences {
+  border: 1px solid rgba(128, 128, 128, 0.16);
+  border-radius: 12px;
+  padding: 0.85rem;
+}
+
+.user-profile-preferences h4 {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+.user-profile-checkbox label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.user-profile-meta {
+  margin: 0;
+  color: gray;
+  font-size: 0.9rem;
+}
+
+.user-profile-photo-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.user-profile-file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.user-profile-upload-btn {
+  min-width: 120px;
+}
+
+.user-profile-file-name {
+  font-size: 0.88rem;
+  color: gray;
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-profile-photo-hint {
+  color: gray;
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+  display: block;
+}
+
+body.user-profile-modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .user-profile-nav-name {
+    display: none;
+  }
+}

@@ -8,6 +8,7 @@
     favourites: "user.favourites.v1",
     "want-to-read": "user.wantToRead.v1",
     "already-read": "user.alreadyRead.v1",
+    "currently-reading": "user.currentlyReading.v1",
   };
 
   function readIds(key) {
@@ -33,7 +34,7 @@
   }
 
   /**
-   * @param {'wishlist'|'favourites'|'want-to-read'|'already-read'} action
+   * @param {'wishlist'|'favourites'|'want-to-read'|'already-read'|'currently-reading'} action
    * @param {string} bookId
    * @returns {{ ok: boolean, duplicate?: boolean, reason?: string }}
    */
@@ -75,7 +76,7 @@
 
   /**
    * Remove a book id from one list only (does not touch Library or other lists).
-   * @param {'wishlist'|'favourites'|'want-to-read'|'already-read'} action
+   * @param {'wishlist'|'favourites'|'want-to-read'|'already-read'|'currently-reading'} action
    */
   function removeFromList(action, bookId) {
     const key = KEYS[action];

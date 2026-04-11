@@ -1,53 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Currently reading</title>
 
-    <link rel="stylesheet" href="../css/all.min.css">
-    <link rel="stylesheet" href="../css/media.css">
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="../css/media.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body data-user-page="currently-reading">
     <script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+      }
     </script>
- <!-- nav bar -->
+    <!-- nav bar -->
     <nav>
-        <ul>
-            <li><a href="user.html">Home</a></li> 
-            <li><a href="user_dashboard.html">My Dashboard</a></li> 
-            <li><a href="book_search_results.html">Search Books</a></li> 
-            <li><a href="user_wishlist.html">Wishlist</a></li> 
-            <li><a href="user_wants_to_read.html">Want to Read</a></li> 
-            <li><a href="user_currently_reading.html" class="active">Currently Reading</a></li>
-            <li><a href="user_already_read.html">Already Read</a></li> 
-            <li><a href="user_favourites.html" > Favourites</a></li>
-            <li><a href="../index.html">Logout</a></li>
-            <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
-        </ul>
+      <ul>
+        <li><a href="user.html">Home</a></li>
+        <li><a href="user_dashboard.html">My Dashboard</a></li>
+        <li><a href="book_search_results.html">Search Books</a></li>
+        <li><a href="user_wishlist.html">Wishlist</a></li>
+        <li><a href="user_wants_to_read.html">Want to Read</a></li>
+        <li>
+          <a href="user_currently_reading.html" class="active"
+            >Currently Reading</a
+          >
+        </li>
+        <li><a href="user_already_read.html">Already Read</a></li>
+        <li><a href="user_favourites.html"> Favourites</a></li>
+        <li><a href="../index.html">Logout</a></li>
+        <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+      </ul>
     </nav>
-    <main>
+    <main class="conteiner user-feature-page">
+      <header class="page-intro">
+        <span class="eyebrow">Your reading queue</span>
         <h1>Currently Reading</h1>
-        <ul>
-            <li>
-                <h3>ًWhy we sleep</h3>
-                <p>Author: Mathew Walker</p>
-                <p>Page: 120/389</p>
-                <button onclick="location.href='pdf_reader.html'">Continue Reading</button>
-            </li>
-             <li>
-                <h3>ًThe dopamine nation</h3>
-                <p>Author: Anna Lembke</p>
-                <p>Page: 56/345</p>
-                <button onclick="location.href='pdf_reader.html'">Continue Reading</button>
-            </li>
-        </ul>
+        <p class="lede">Books you are currently reading.</p>
+      </header>
+
+      <section class="featured-books" aria-labelledby="currently-reading-heading">
+         <div class="search-home">
+          <h2 id="currently-reading-heading">From your catalog</h2>
+        </div>
+        <div class="content-book" id="currentlyReadingBooks"></div>
+      </section>
+      <!--
+      <ul>
+        <li>
+          <h3>ًWhy we sleep</h3>
+          <p>Author: Mathew Walker</p>
+          <p>Page: 120/389</p>
+          <button onclick="location.href = 'pdf_reader.html'">
+            Continue Reading
+          </button>
+        </li>
+        <li>
+          <h3>ًThe dopamine nation</h3>
+          <p>Author: Anna Lembke</p>
+          <p>Page: 56/345</p>
+          <button onclick="location.href = 'pdf_reader.html'">
+            Continue Reading
+          </button>
+        </li>
+      </ul>
+       -->
     </main>
-    
+
+    <footer class="site-footer">
+      <div class="site-footer-inner conteiner">
+        <div class="site-footer-top">
+          <span class="site-footer-brand">Booooooook</span>
+          <nav class="site-footer-nav" aria-label="Footer links">
+            <a href="user.html">Home</a>
+            <a href="../index.html">Library home</a>
+            <a href="../login.html">Switch account</a>
+          </nav>
+        </div>
+        <p class="site-footer-copy">
+          &copy; 2024 Library Management System. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/books.lib.js"></script>
+    <script src="../js/user-book-lists.js"></script>
+    <script src="../js/library-book-ui.js"></script>
     <script src="../js/index.js"></script>
-</body>
+    <script src="../js/user-features.js"></script>
+
+  </body>
+</html>

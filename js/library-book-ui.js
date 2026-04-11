@@ -30,15 +30,17 @@
     favourites: "Favourites",
     "want-to-read": "Want to Read",
     "already-read": "Already Read",
+    "currently-reading": "Currently Reading"
   };
 
   const LIST_REMOVE_LABELS = {
     "favourites": "Remove from Favourites (list only)",
     "want-to-read": "Remove from Want to Read (list only)",
     "already-read": "Remove from Already Read (list only)",
+    "currently-reading": "Remove from Currently Reading (list only)"
   };
 
-  const RAIL_ACTIONS = ["wishlist", "favourites", "want-to-read", "already-read"];
+  const RAIL_ACTIONS = ["wishlist", "favourites", "want-to-read", "already-read", "currently-reading"];
 
   function railActiveClass(bookIdRaw, action) {
     const id = String(bookIdRaw ?? "").trim();
@@ -64,6 +66,7 @@
     const listRemoveContext =
       options.listRemoveContext === "want-to-read" || 
       options.listRemoveContext === "already-read" ||
+      options.listRemoveContext === "currently-reading" || 
       options.listRemoveContext === "favourites"
         ? options.listRemoveContext
         : null;
@@ -90,6 +93,7 @@
     const cFav = railActiveClass(rawId, "favourites");
     const cWtr = railActiveClass(rawId, "want-to-read");
     const cAr = railActiveClass(rawId, "already-read");
+    const cCr = railActiveClass(rawId, "currently-reading");
 
     return `
       <div class="book-card" data-book-id="${safeId}">
@@ -101,6 +105,7 @@
               <li><button type="button" data-card-action="favourites" class="${cFav}" title="Add to Favourites" aria-label="Add to Favourites"><i class="fa-regular fa-heart"></i></button></li>
               <li><button type="button" data-card-action="want-to-read" class="${cWtr}" title="Add to Want to Read" aria-label="Add to Want to Read"><i class="fa-solid fa-plus"></i></button></li>
               <li><button type="button" data-card-action="already-read" class="${cAr}" title="Mark as Already Read" aria-label="Mark as Already Read"><i class="fa-solid fa-check"></i></button></li>
+              <li><button type="button" data-card-action="currently-reading" class="${cCr}" title="Add to Currently Reading" aria-label="Add to Currently Reading"><i class="fa-solid fa-book-open"></i></button></li>
               ${removeRow}
             </ul>
           </div>
@@ -122,6 +127,7 @@
     const listRemoveContext =
       bindOptions.listRemoveContext === "want-to-read" ||
       bindOptions.listRemoveContext === "already-read" ||
+      bindOptions.listRemoveContext === "currently-reading" ||
       bindOptions.listRemoveContext === "favourites"
         ? bindOptions.listRemoveContext
         : null;

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Details – Library</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="../css/media.css" />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav>
+      <ul>
+        <li><a href="user.html">Home</a></li>
+
+        <li><a href="user_wishlist.html">Wishlist</a></li>
+        <li><a href="user_wants_to_read.html">Want to Read</a></li>
+        <li><a href="user_currently_reading.html">Currently Reading</a></li>
+        <li><a href="user_already_read.html">Already Read</a></li>
+        <li><a href="user_favourites.html">Favourites</a></li>
+        <li><a href="../index.html">Logout</a></li>
+        <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+      </ul>
+    </nav>
+
+    <!-- MAIN -->
+    <main>
+      <div class="container">
+        <!-- Breadcrumb -->
+        <nav
+          class="breadcrumb"
+          aria-label="breadcrumb"
+          style="
+            position: static;
+            box-shadow: none;
+            background: none;
+            padding: 0;
+            margin-bottom: 1.75rem;
+          "
+        >
+          <a href="user.html">Library</a>
+          <span
+            ><i class="fa-solid fa-chevron-right" style="font-size: 0.65rem"></i
+          ></span>
+          <a href="#">Classics</a>
+          <span
+            ><i class="fa-solid fa-chevron-right" style="font-size: 0.65rem"></i
+          ></span>
+          <span class="current">Book Details</span>
+        </nav>
+
+        <!-- Book details are rendered dynamically from the clicked book card -->
+        <div id="bookDetailsContent" class="detail-grid"></div>
+
+        <!-- More from author -->
+        <div class="more-section">
+          <h2>More from F. Scott Fitzgerald</h2>
+          <div class="more-grid">
+            <div class="more-card">
+              <img
+                src="https://picsum.photos/200/300"
+                alt="This Side of Paradise"
+              />
+              <div class="mc-title">This Side of Paradise</div>
+              <div class="mc-year">1920</div>
+            </div>
+            <div class="more-card">
+              <img
+                src="https://picsum.photos/200/299"
+                alt="Tender is the Night"
+              />
+              <div class="mc-title">Tender is the Night</div>
+              <div class="mc-year">1934</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="site-footer-inner container">
+        <div class="site-footer-top">
+          <span class="site-footer-brand">Booooooook</span>
+        </div>
+        <p class="site-footer-copy">
+          &copy; 2024 Library Management System. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/books.lib.js"></script>
+    <script src="../js/user-book-lists.js"></script>
+    <script src="../js/book-details.js"></script>
+    <script src="../js/index.js"></script>
+  </body>
+</html>

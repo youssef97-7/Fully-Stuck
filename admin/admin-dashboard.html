@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Books | Admin</title>
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="../css/media.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+
+    <nav class="landing-nav conteiner">
+        <div class="nav-logo">
+            <a href="../index.html">Booooooook</a>
+        </div>
+
+
+        <div class="nav-right">
+
+            <div class="auth-buttons">
+                <a href="admin-to-user.html">Veiw User</a>
+                <a href="../index.html" id="logoutBtn">Logout</a>
+            </div>
+
+            <button id="theme-toggle">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="admin-page">
+        <header class="admin-header">
+            <div>
+                <h1 class="admin-title">Manage Books</h1>
+                <p class="admin-subtitle">View and edit your complete library catalog</p>
+            </div>
+
+            <button id="addBookBtn" class="btn btn-primary" type="button">
+                <i class="fa-solid fa-plus"></i>
+                Add New Book
+            </button>
+        </header>
+
+        <section class="admin-panel">
+            <div class="table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>BOOK ID</th>
+                            <th>BOOK DETAILS</th>
+                            <th>AUTHOR</th>
+                            <th>CATEGORY</th>
+                            <th>Rating</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="booksTbody"></tbody>
+                </table>
+            </div>
+
+            <footer class="panel-footer">
+                <span id="resultsText">Showing 0 books</span>
+            </footer>
+        </section>
+    </main>
+
+    
+
+    <!-- Modal -->
+    <div id="bookModal" class="modal">
+        <div class="modal-backdrop" data-close-modal="true"></div>
+
+        <div class="modal-content">
+            <header class="modal-header">
+                <h3 id="modalTitle" class="modal-title">Add Book</h3>
+                <button id="closeModalBtn" class="icon-btn" type="button">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </header>
+
+            <form id="bookForm" class="modal-body">
+                <input id="bookId" name="id" type="hidden" />
+
+                <label class="field">
+                    <span class="field-label">Title</span>
+                    <input class="field-input" name="title" type="text" required />
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Author</span>
+                    <input class="field-input" name="author" type="text" required />
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Cover page (URL or path)</span>
+                    <input class="field-input" name="coverpage" type="text" required />
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Category</span>
+                    <input class="field-input" name="category" type="text" required />
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Rating (0 to 5)</span>
+                    <input class="field-input" name="rating" type="number" min="0" max="5" step="0.1" required />
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Description</span>
+                    <textarea class="field-input" name="description" rows="4" required></textarea>
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Total Copies</span>
+                    <textarea class="field-input" name="totalCopies" type="text" required></textarea>
+                </label>
+
+                <label class="field">
+                    <span class="field-label">Available Copies</span>
+                    <textarea class="field-input" name="availableCopies" type="text" required></textarea>
+                </label>
+
+                <footer class="modal-footer">
+                    <button class="btn" type="button" id="cancelBtn">Cancel</button>
+                    <button class="btn btn-primary" type="submit" id="submitBtn">Add</button>
+                </footer>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- <footer class="mega-footer">
+        <div class="mega-footer-main conteiner">
+          <div class="mega-footer-grid">
+            <div class="mega-footer-col mega-footer-about">
+              <a class="mega-footer-logo" href="../index.html">
+                <span class="mega-footer-logo-icon" aria-hidden="true"><i class="fa-solid fa-book-open"></i></span>
+                <span class="mega-footer-logo-text">Booooooook</span>
+              </a>
+              <p class="mega-footer-desc">Empowering minds through digital access to the world's most comprehensive library of human knowledge and imagination.</p>
+              <div class="mega-footer-social">
+                <a href="#" class="mega-footer-social-btn" aria-label="Share"><i class="fa-solid fa-share-nodes"></i></a>
+                <a href="#" class="mega-footer-social-btn" aria-label="Website"><i class="fa-solid fa-globe"></i></a>
+                <a href="#" class="mega-footer-social-btn" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+              </div>
+            </div>
+            <div class="mega-footer-col">
+              <h3 class="mega-footer-title">Resources</h3>
+              <ul class="mega-footer-list">
+                <li><a href="../index.html#featured-books">Public catalog</a></li>
+                <li><a href="../user/user.html">User home</a></li>
+                <li><a href="../user/book_search_results.html">Search books</a></li>
+                <li><a href="admin-dashboard.html">Admin dashboard</a></li>
+              </ul>
+            </div>
+            <div class="mega-footer-col">
+              <h3 class="mega-footer-title">Company</h3>
+              <ul class="mega-footer-list">
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+              </ul>
+            </div>
+            <div class="mega-footer-col">
+              <h3 class="mega-footer-title">Support</h3>
+              <ul class="mega-footer-list">
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Accessibility</a></li>
+                <li><a href="#">Gift Cards</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+  
+        
+        <div class="mega-footer-bar">
+          <div class="mega-footer-bar-inner conteiner">
+            <p class="mega-footer-copy">&copy; 2024 Booooooook Digital Systems. All rights reserved. Built with love for readers everywhere.</p>
+            <nav class="mega-footer-legal" aria-label="Legal">
+              <a href="#">Sitemap</a>
+              <a href="#">Cookie Settings</a>
+            </nav>
+          </div>
+        </div>
+      </footer> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/books.lib.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="../js/index.js"></script>
+
+</body>
+
+</html>

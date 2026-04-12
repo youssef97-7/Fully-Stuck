@@ -1,6 +1,8 @@
-const btn = document.getElementById('theme-toggle');
-const currentTheme = localStorage.getItem('theme');
-const login_bakground = document.getElementById('login-page') || document.getElementById('signup-page');
+const btn = document.getElementById("theme-toggle");
+const currentTheme = localStorage.getItem("theme");
+const login_bakground =
+  document.getElementById("login-page") ||
+  document.getElementById("signup-page");
 const light_login_back = "url('images/lib_img.jpg')";
 const dark_login_back = "url('images/dark_iib_img.jpg')";
 const home_button = document.getElementById("home-button");
@@ -10,15 +12,14 @@ if (home_button) {
   home_button.style.transition = "0.5s";
 }
 
-if (currentTheme == 'dark') {
-  document.body.classList.add('dark-mode');
+if (currentTheme == "dark") {
+  document.body.classList.add("dark-mode");
   if (btn) btn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-
 
   if (login_bakground) login_bakground.style.backgroundImage = dark_login_back;
   if (home_button && !skipHomeButtonColor) home_button.style.color = "white";
 } else {
-  document.body.classList.remove('dark-mode');
+  document.body.classList.remove("dark-mode");
   if (btn) btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
 
   if (login_bakground) login_bakground.style.backgroundImage = light_login_back;
@@ -26,26 +27,37 @@ if (currentTheme == 'dark') {
 }
 
 if (btn) {
-  btn.addEventListener('click', function () {
-    document.body.classList.toggle('dark-mode');
+  btn.addEventListener("click", function () {
+    document.body.classList.toggle("dark-mode");
 
-    if (document.body.classList.contains('dark-mode')) {
+    if (document.body.classList.contains("dark-mode")) {
       btn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-      localStorage.setItem('theme', 'dark');
+      localStorage.setItem("theme", "dark");
 
-      if (login_bakground) login_bakground.style.backgroundImage = dark_login_back;
-      if (home_button && !skipHomeButtonColor) home_button.style.color = "white";
-    }
-    else {
+      if (login_bakground)
+        login_bakground.style.backgroundImage = dark_login_back;
+      if (home_button && !skipHomeButtonColor)
+        home_button.style.color = "white";
+    } else {
       btn.innerHTML = '<i class="fa-solid fa-moon"></i>';
-      localStorage.setItem('theme', 'light');
-      if (login_bakground) login_bakground.style.backgroundImage = light_login_back;
-      if (home_button && !skipHomeButtonColor) home_button.style.color = "black";
+      localStorage.setItem("theme", "light");
+      if (login_bakground)
+        login_bakground.style.backgroundImage = light_login_back;
+      if (home_button && !skipHomeButtonColor)
+        home_button.style.color = "black";
     }
   });
 }
 
+window.addEventListener("scroll", function () {
+  let scroll = document.querySelector(".scroll-to-top");
 
+  if (window.scrollY >= 200) {
+    scroll.classList.remove("hidden");
+  } else {
+    scroll.classList.add("hidden");
+  }
+});
 
 ///////// home ////////
 
@@ -55,15 +67,15 @@ const categories = [
   { title: "History", count: "310k+", icon: "📜" },
   { title: "Tech", count: "250k+", icon: "💻" },
   { title: "Philosophy", count: "180k+", icon: "🧠" },
-  { title: "Arts", count: "150k+", icon: "🎨" }
+  { title: "Arts", count: "150k+", icon: "🎨" },
 ];
 
-const container = document.getElementById('category-container');
+const container = document.getElementById("category-container");
 
 if (container) {
-  categories.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'category-card';
+  categories.forEach((item) => {
+    const card = document.createElement("div");
+    card.className = "category-card";
 
     card.innerHTML = `
       <div class="icon">${item.icon}</div>
@@ -144,7 +156,9 @@ if (container) {
   function getProfilePhoto(email) {
     const byEmail = getProfilePhotos()[email.toLowerCase()];
     if (byEmail) return byEmail;
-    const account = getAccounts().find((item) => String(item.email || "").toLowerCase() === email.toLowerCase());
+    const account = getAccounts().find(
+      (item) => String(item.email || "").toLowerCase() === email.toLowerCase(),
+    );
     return account?.profilePhoto || "";
   }
 
@@ -184,7 +198,11 @@ if (container) {
     if (!dateStr) return "Not set";
     const date = new Date(dateStr + "T12:00:00");
     if (Number.isNaN(date.getTime())) return "Not set";
-    return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    return date.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
   }
 
   function escapeHtml(value) {
@@ -204,8 +222,11 @@ if (container) {
   const navList = document.querySelector("nav ul");
   if (!navList) return;
 
-  const fullName = `${currentUser.firstName || ""} ${currentUser.lastName || ""}`.trim() || "User";
-  let currentProfilePhoto = getProfilePhoto(currentUser.email) || currentUser.profilePhoto || "";
+  const fullName =
+    `${currentUser.firstName || ""} ${currentUser.lastName || ""}`.trim() ||
+    "User";
+  let currentProfilePhoto =
+    getProfilePhoto(currentUser.email) || currentUser.profilePhoto || "";
 
   const navProfileItem = document.createElement("li");
   navProfileItem.className = "user-profile-nav-item";
@@ -331,10 +352,13 @@ if (container) {
   const navName = navProfileItem.querySelector(".user-profile-nav-name");
   const navAvatar = navProfileItem.querySelector(".user-profile-nav-avatar");
   const summaryAvatar = document.getElementById("profileSummaryAvatar");
-  const removeProfilePhotoBtn = document.getElementById("removeProfilePhotoBtn");
+  const removeProfilePhotoBtn = document.getElementById(
+    "removeProfilePhotoBtn",
+  );
   const profilePhotoFileInput = document.getElementById("profilePhotoFile");
   const profilePhotoFileName = document.getElementById("profilePhotoFileName");
-  const focusableSelectors = 'a[href], button:not([disabled]), textarea, input, select';
+  const focusableSelectors =
+    "a[href], button:not([disabled]), textarea, input, select";
   let pendingProfilePhoto = currentProfilePhoto;
 
   function openModal() {
@@ -371,7 +395,8 @@ if (container) {
   }
 
   function resetPhotoFileName() {
-    if (profilePhotoFileName) profilePhotoFileName.textContent = "No file selected";
+    if (profilePhotoFileName)
+      profilePhotoFileName.textContent = "No file selected";
   }
 
   function fileToAvatarDataUrl(file) {
@@ -452,7 +477,8 @@ if (container) {
   if (profilePhotoFileInput) {
     profilePhotoFileInput.addEventListener("change", async () => {
       clearFieldErrors();
-      const file = profilePhotoFileInput.files && profilePhotoFileInput.files[0];
+      const file =
+        profilePhotoFileInput.files && profilePhotoFileInput.files[0];
       if (!file) {
         resetPhotoFileName();
         return;
@@ -479,7 +505,10 @@ if (container) {
         renderAvatar(navAvatar, pendingProfilePhoto, false);
         renderAvatar(summaryAvatar, pendingProfilePhoto, true);
       } catch {
-        setFieldError("profilePhotoFile", "Could not read this image. Please try another one.");
+        setFieldError(
+          "profilePhotoFile",
+          "Could not read this image. Please try another one.",
+        );
         profilePhotoFileInput.value = "";
         resetPhotoFileName();
       }
@@ -499,7 +528,9 @@ if (container) {
       return;
     }
     if (event.key === "Tab") {
-      const focusable = Array.from(modalWrapper.querySelectorAll(focusableSelectors));
+      const focusable = Array.from(
+        modalWrapper.querySelectorAll(focusableSelectors),
+      );
       if (!focusable.length) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
@@ -525,7 +556,9 @@ if (container) {
         email: String(formData.get("email") || "").trim(),
         phone: String(formData.get("phone") || "").trim(),
         birthDate: String(formData.get("birthDate") || "").trim(),
-        themePreference: String(formData.get("themePreference") || "follow-system"),
+        themePreference: String(
+          formData.get("themePreference") || "follow-system",
+        ),
         notificationsEnabled: formData.get("notificationsEnabled") === "on",
       };
 
@@ -560,8 +593,10 @@ if (container) {
       const accounts = getAccounts();
       const emailTaken = accounts.some(
         (account) =>
-          String(account.email || "").toLowerCase() === values.email.toLowerCase() &&
-          String(account.email || "").toLowerCase() !== String(currentUser.email || "").toLowerCase()
+          String(account.email || "").toLowerCase() ===
+            values.email.toLowerCase() &&
+          String(account.email || "").toLowerCase() !==
+            String(currentUser.email || "").toLowerCase(),
       );
       if (emailTaken) {
         setFieldError("email", "This email is already registered.");
@@ -571,7 +606,9 @@ if (container) {
       if (!valid) return;
 
       const currentEmail = String(currentUser.email || "").toLowerCase();
-      const accountIndex = accounts.findIndex((account) => String(account.email || "").toLowerCase() === currentEmail);
+      const accountIndex = accounts.findIndex(
+        (account) => String(account.email || "").toLowerCase() === currentEmail,
+      );
 
       if (accountIndex >= 0) {
         accounts[accountIndex] = {
@@ -612,11 +649,13 @@ if (container) {
       };
       currentProfilePhoto = pendingProfilePhoto;
 
-      const nextName = `${values.firstName} ${values.lastName}`.trim() || "User";
+      const nextName =
+        `${values.firstName} ${values.lastName}`.trim() || "User";
       if (displayName) displayName.textContent = nextName;
       if (displayEmail) displayEmail.textContent = values.email;
       if (navName) navName.textContent = nextName;
-      if (birthDateLabel) birthDateLabel.textContent = formatDate(values.birthDate);
+      if (birthDateLabel)
+        birthDateLabel.textContent = formatDate(values.birthDate);
       renderAvatar(navAvatar, currentProfilePhoto, false);
       renderAvatar(summaryAvatar, currentProfilePhoto, true);
 
@@ -637,11 +676,11 @@ if (container) {
   }
 })();
 
-const bookDetailsButton = document.getElementsByClassName('book-img');
+const bookDetailsButton = document.getElementsByClassName("book-img");
 if (bookDetailsButton) {
-  Array.from(bookDetailsButton).forEach(button => {
-    button.addEventListener('click', () => {
-      window.location.href = 'books_details.html';
+  Array.from(bookDetailsButton).forEach((button) => {
+    button.addEventListener("click", () => {
+      window.location.href = "books_details.html";
     });
   });
 }
@@ -650,45 +689,118 @@ if (bookDetailsButton) {
 
 // Keep icon in sync with current theme on book pages too.
 if (btn) {
-  const icon = btn.querySelector('i');
+  const icon = btn.querySelector("i");
   if (icon) {
-    const dark = document.body.classList.contains('dark-mode');
-    icon.className = dark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    const dark = document.body.classList.contains("dark-mode");
+    icon.className = dark ? "fa-solid fa-sun" : "fa-solid fa-moon";
   }
 }
 
 // Borrow button feedback
-const borrowBtn = document.querySelector('.borrow-btn');
+const borrowBtn = document.querySelector(".borrow-btn");
 if (borrowBtn) {
-  borrowBtn.addEventListener('click', function () {
+  borrowBtn.addEventListener("click", function () {
     this.innerHTML = '<i class="fa-solid fa-check"></i> Borrowed!';
-    this.style.background = '#16a34a';
+    this.style.background = "#16a34a";
     this.disabled = true;
   });
 }
 
 // Make all images clickable to go to book details
-const allImages = document.querySelectorAll('img');
-allImages.forEach(img => {
-  img.style.cursor = 'pointer';
-  img.addEventListener('click', () => {
-    window.location.href = 'books_details.html';
+const allImages = document.querySelectorAll("img");
+allImages.forEach((img) => {
+  img.style.cursor = "pointer";
+  img.addEventListener("click", () => {
+    window.location.href = "books_details.html";
   });
 });
 
-const container1 = document.getElementById('category-container');
+// ===== SETTINGS MODAL =====
+const settingsBtn = document.getElementById("settings-btn");
+const settingsModal = document.getElementById("settingsModal");
+const mainColorInput = document.getElementById("mainColor");
+const fontFamilySelect = document.getElementById("fontFamily");
+const fontSizeInput = document.getElementById("fontSize");
+const fontSizeValue = document.getElementById("fontSizeValue");
+const saveSettingsBtn = document.getElementById("saveSettings");
 
-if (container) {
-  categories.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'category-card';
+// Load saved settings
+function loadSettings() {
+  const settings = JSON.parse(localStorage.getItem("userSettings") || "{}");
+  if (settings.mainColor) {
+    document.documentElement.style.setProperty(
+      "--main-color",
+      settings.mainColor,
+    );
+    mainColorInput.value = settings.mainColor;
+  }
+  if (settings.fontFamily) {
+    document.documentElement.style.setProperty(
+      "--font-family",
+      settings.fontFamily,
+    );
+    fontFamilySelect.value = settings.fontFamily;
+  }
+  if (settings.fontSize) {
+    document.documentElement.style.setProperty(
+      "--font-size",
+      settings.fontSize + "px",
+    );
+    fontSizeInput.value = settings.fontSize;
+    fontSizeValue.textContent = settings.fontSize + "px";
+  }
+}
 
-    card.innerHTML = `
-      <div class="icon">${item.icon}</div>
-      <h3>${item.title}</h3>
-      <p>${item.count} titles</p>
-    `;
+// Save settings
+function saveSettings() {
+  const settings = {
+    mainColor: mainColorInput.value,
+    fontFamily: fontFamilySelect.value,
+    fontSize: parseInt(fontSizeInput.value),
+  };
+  localStorage.setItem("userSettings", JSON.stringify(settings));
+  loadSettings();
+  closeSettingsModal();
+}
 
-    container.appendChild(card);
+// Open modal
+function openSettingsModal() {
+  settingsModal.classList.add("is-open");
+  document.body.classList.add("settings-modal-open");
+}
+
+// Close modal
+function closeSettingsModal() {
+  settingsModal.classList.remove("is-open");
+  document.body.classList.remove("settings-modal-open");
+}
+
+// Event listeners
+if (settingsBtn) {
+  settingsBtn.addEventListener("click", openSettingsModal);
+}
+
+if (fontSizeInput) {
+  fontSizeInput.addEventListener("input", () => {
+    fontSizeValue.textContent = fontSizeInput.value + "px";
   });
 }
+
+if (saveSettingsBtn) {
+  saveSettingsBtn.addEventListener("click", saveSettings);
+}
+
+settingsModal.addEventListener("click", (e) => {
+  if (e.target.closest("[data-settings-close]")) {
+    closeSettingsModal();
+  }
+});
+
+document.addEventListener("keydown", (e) => {
+  if (settingsModal.classList.contains("is-open") && e.key === "Escape") {
+    closeSettingsModal();
+  }
+});
+
+// Load settings on page load
+loadSettings();

@@ -1,90 +1,239 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>User Wish List</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Wish List</title>
 
-        <link rel="stylesheet" href="../css/all.min.css">
-        <link rel="stylesheet" href="../css/media.css">
-        <link rel="stylesheet" href="../css/style.css">
-    </head>
-    <body>
-        <script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
+    <link rel="stylesheet" href="../css/all.min.css" />
+    <link rel="stylesheet" href="../css/media.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <script>
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+      }
     </script>
-         <!-- nav bar -->
+    <!-- nav bar -->
     <nav>
-        <ul>
-            <li><a href="user.html">Home</a></li> 
-            <li><a href="user_dashboard.html">My Dashboard</a></li> 
-            <li><a href="book_search_results.html">Search Books</a></li> 
-            <li><a href="user_wishlist.html" class="active">Wishlist</a></li> 
-            <li><a href="user_wants_to_read.html">Want to Read</a></li> 
-            <li><a href="user_currently_reading.html">Currently Reading</a></li>
-            <li><a href="user_already_read.html">Already Read</a></li> 
-            <li><a href="user_favourites.html" > Favourites</a></li>
-            <li><a href="../index.html">Logout</a></li>
-            <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
-        </ul>
+      <ul>
+        <li><a href="user.html">Home</a></li>
+
+        <li><a href="user_wishlist.html" class="active">Wishlist</a></li>
+        <li><a href="user_wants_to_read.html">Want to Read</a></li>
+        <li><a href="user_currently_reading.html">Currently Reading</a></li>
+        <li><a href="user_already_read.html">Already Read</a></li>
+        <li><a href="user_favourites.html"> Favourites</a></li>
+        <li><a href="../index.html">Logout</a></li>
+        <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+      </ul>
     </nav>
-        <header>
-            <h1>Website tbc</h1>
-            <nav>
-                <a href="user.html">Home</a>
-                <a href="#" a>عل اللوبي</a>
-            </nav>
-        </header>
-        <main>
-            <section>
-                <h2>MY Wishlist</h2>
-                <ul>
-                    <li >
-                        <article>
-                            <h3>book title1</h3>
-                            <img src="../images/img1.jfif" alt="alt" class="book-img">
-                            <p>author</p>
-                            <p>Overview</p>
-                            <p>price</p>
-                            <div class = "actions">
-                                <button>add to cart</button>
-                                <button>remove from list</button>
-                            </div>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <h3>book title2</h3>
-                            <img src="../images/img2.jfif" alt="" class="book-img">
-                            <p>author</p>
-                            <p>Overview</p>
-                            <p>price</p>
-                            <div class = "actions">
-                                <button>add to cart</button>
-                                <button>remove from list</button>
-                            </div>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <h3>book title3</h3>
-                            <img src="../images/img3.jfif" alt="" class="book-img">
-                            <p>author</p>
-                            <p>Overview</p>
-                            <p>price</p>
-                            <div class = "actions">
-                                <button>add to cart</button>
-                                <button>remove from list</button>
-                            </div>
-                        </article>
-                     </li>
-                </ul>
-            </section>
-        </main>
-        
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="../js/index.js"></script>
-    </body>     
-</html> 
+
+    <main class="conteiner">
+      <section class="featured-books">
+        <div class="search-home">
+          <h2>MY Wishlist</h2>
+          <div class="controls">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by title..."
+            />
+          </div>
+        </div>
+        <div class="content-book" id="wishlistContainer"></div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="conteiner">
+        <div class="footer-grid">
+          <div class="footer-col brand-col">
+            <div class="footer-logo">
+              <i class="fa-solid fa-book-open"></i>
+              <span>Fully Stack</span>
+            </div>
+            <p class="footer-description">
+              Empowering minds through digital access to the world's most
+              comprehensive library of human knowledge and imagination.
+            </p>
+            <div class="footer-socials">
+              <a href="#" aria-label="Share"
+                ><i class="fa-solid fa-share-nodes"></i
+              ></a>
+              <a href="#" aria-label="Global"
+                ><i class="fa-solid fa-globe"></i
+              ></a>
+              <a href="#" aria-label="Email"
+                ><i class="fa-solid fa-envelope"></i
+              ></a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h3>Resources</h3>
+            <ul>
+              <li><a href="#">E-Books</a></li>
+              <li><a href="#">Audiobooks</a></li>
+              <li><a href="#">Journals</a></li>
+              <li><a href="#">New Arrivals</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Company</h3>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms of Service</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h3>Support</h3>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">Accessibility</a></li>
+              <li><a href="#">Gift Cards</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="footer-divider" />
+
+        <div class="footer-bottom">
+          <p>
+            &copy; 2024 NexLib Digital Systems. All rights reserved. Built with
+            love for readers everywhere.
+          </p>
+          <div class="bottom-links">
+            <a href="#">Sitemap</a>
+            <a href="#">Cookie Settings</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+      <div class="modal-backdrop" data-settings-close></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Settings</h2>
+          <button
+            type="button"
+            class="icon-btn"
+            data-settings-close
+            aria-label="Close settings modal"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <label class="field-label" for="mainColor">Main Color</label>
+            <input
+              type="color"
+              id="mainColor"
+              class="field-input"
+              value="#0f49bd"
+            />
+          </div>
+          <div>
+            <label class="field-label" for="fontFamily">Font Family</label>
+            <select id="fontFamily" class="field-input">
+              <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>
+                Segoe UI
+              </option>
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="Helvetica, sans-serif">Helvetica</option>
+              <option value="Times New Roman, serif">Times New Roman</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="Courier New, monospace">Courier New</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="fontSize">Font Size</label>
+            <input
+              type="range"
+              id="fontSize"
+              class="field-input"
+              min="12"
+              max="24"
+              value="16"
+            />
+            <span id="fontSizeValue">16px</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" data-settings-close>
+            Cancel
+          </button>
+          <button type="button" class="btn-primary" id="saveSettings">
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+    <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/books.lib.js"></script>
+    <script src="../js/user-book-lists.js"></script>
+    <script src="../js/library-book-ui.js"></script>
+    <script src="../js/index.js"></script>
+    <script>
+      (function () {
+        const container = document.getElementById("wishlistContainer");
+        const searchInput = document.getElementById("searchInput");
+
+        if (!container || !window.Library || !window.LibraryBookUI) return;
+
+        const { createLibraryBookCard, bindLibraryCardActions } =
+          window.LibraryBookUI;
+        bindLibraryCardActions(container, {
+          listRemoveContext: "wishlist",
+          onListChanged: renderBooks,
+        });
+
+        function renderBooks(term = "") {
+          const allBooks = window.Library.getBooks();
+          const wishlistIds = window.UserBookLists
+            ? window.UserBookLists.getIdsFor("wishlist")
+            : [];
+          const wishlistBooks = allBooks.filter((book) =>
+            wishlistIds.includes(book.id),
+          );
+
+          const normalizedTerm = term.trim().toLowerCase();
+          const filteredBooks = normalizedTerm
+            ? wishlistBooks.filter((book) =>
+                (book.title || "").toLowerCase().includes(normalizedTerm),
+              )
+            : wishlistBooks;
+
+          if (filteredBooks.length === 0) {
+            container.innerHTML = "<p>No books in your wishlist yet.</p>";
+            return;
+          }
+
+          container.innerHTML = filteredBooks
+            .map((book) =>
+              createLibraryBookCard(book, { listRemoveContext: "wishlist" }),
+            )
+            .join("");
+        }
+
+        if (searchInput) {
+          searchInput.addEventListener("input", (e) => {
+            renderBooks(e.target.value);
+          });
+        }
+
+        renderBooks();
+      })();
+    </script>
+  </body>
+</html>

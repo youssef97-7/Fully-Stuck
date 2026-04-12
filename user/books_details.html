@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book Details – Library</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
 
     <link rel="stylesheet" href="../css/media.css" />
   </head>
 
   <body>
-
     <!-- NAVBAR -->
     <nav>
       <ul>
         <li><a href="user.html">Home</a></li>
-        <li><a href="user_dashboard.html">My Dashboard</a></li>
-        <li><a href="book_search_results.html">Search Books</a></li>
+
         <li><a href="user_wishlist.html">Wishlist</a></li>
         <li><a href="user_wants_to_read.html">Want to Read</a></li>
         <li><a href="user_currently_reading.html">Currently Reading</a></li>
@@ -31,101 +32,31 @@
     <!-- MAIN -->
     <main>
       <div class="container">
-
         <!-- Breadcrumb -->
-        <nav class="breadcrumb" aria-label="breadcrumb" style="position:static;box-shadow:none;background:none;padding:0;margin-bottom:1.75rem;">
+        <nav
+          class="breadcrumb"
+          aria-label="breadcrumb"
+          style="
+            position: static;
+            box-shadow: none;
+            background: none;
+            padding: 0;
+            margin-bottom: 1.75rem;
+          "
+        >
           <a href="user.html">Library</a>
-          <span><i class="fa-solid fa-chevron-right" style="font-size:0.65rem;"></i></span>
+          <span
+            ><i class="fa-solid fa-chevron-right" style="font-size: 0.65rem"></i
+          ></span>
           <a href="#">Classics</a>
-          <span><i class="fa-solid fa-chevron-right" style="font-size:0.65rem;"></i></span>
+          <span
+            ><i class="fa-solid fa-chevron-right" style="font-size: 0.65rem"></i
+          ></span>
           <span class="current">Book Details</span>
         </nav>
 
-        <!-- Detail grid -->
-        <div class="detail-grid">
-
-          <!-- LEFT: cover + meta -->
-          <div class="cover-col">
-            <div class="cover-wrap">
-              <img
-                src="https://picsum.photos/199/300"
-                alt="The Great Gatsby cover"
-              />
-            </div>
-            <div class="meta-box">
-              <div class="meta-row">
-                <span class="lbl">Format</span>
-                <span class="val">Hardcover</span>
-              </div>
-              <div class="meta-row">
-                <span class="lbl">Pages</span>
-                <span class="val">180 pages</span>
-              </div>
-              <div class="meta-row">
-                <span class="lbl">Language</span>
-                <span class="val">English</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- RIGHT: info -->
-          <div class="info-col">
-            <h1>The Great Gatsby</h1>
-            <p class="author-name">F. Scott Fitzgerald</p>
-
-            <div class="tags-row">
-              <span class="tag tag-cat">Classic Literature</span>
-              <span class="tag tag-era">American 1920s</span>
-              <span class="tag tag-rating">
-                <span class="stars"><i class="fa-solid fa-star"></i></span>
-                4.8 &nbsp;<span style="opacity:0.6;font-weight:400;">(2.4k reviews)</span>
-              </span>
-            </div>
-
-            <p class="desc-title">Description</p>
-            <p class="desc-text">
-              Set in the Jazz Age on Long Island, near New York City, the novel depicts first-person narrator Nick Carraway's interactions with mysterious millionaire Jay Gatsby and Gatsby's obsession to reunite with his former lover, Daisy Buchanan.
-            </p>
-            <p class="desc-text" style="margin-top:-0.75rem;">
-              A classic of American literature, "The Great Gatsby" explores themes of decadence, idealism, resistance to change, social upheaval, and excess, creating a cautionary tale regarding the American Dream.
-            </p>
-
-            <div class="borrow-bar">
-              <div class="avail-icon">
-                <i class="fa-solid fa-circle-check"></i>
-              </div>
-              <div class="avail-text">
-                <div class="avail-badge">
-                  <span class="avail-dot"></span>
-                  Ready to Borrow <br>
-                  no. of available books is <i>x</i>
-                </div>
-                <div class="sub">Availability</div>
-              </div>
-              <button class="borrow-btn">
-                <i class="fa-solid fa-book-open"></i>
-                Borrow This Book
-              </button>
-            </div>
-
-            <div class="loan-row">
-              <div class="loan-card">
-                <div class="lc-label">Your History</div>
-                <div class="lc-val">
-                  <i class="fa-solid fa-clock-rotate-left"></i>
-                  Never borrowed this book
-                </div>
-              </div>
-              <div class="loan-card">
-                <div class="lc-label">Loan Period</div>
-                <div class="lc-val">
-                  <i class="fa-solid fa-calendar-days"></i>
-                  21 Days Standard
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- Book details are rendered dynamically from the clicked book card -->
+        <div id="bookDetailsContent" class="detail-grid"></div>
 
         <!-- More from author -->
         <div class="more-section">
@@ -149,7 +80,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </main>
 
@@ -158,11 +88,6 @@
       <div class="site-footer-inner container">
         <div class="site-footer-top">
           <span class="site-footer-brand">Booooooook</span>
-          <nav class="site-footer-nav" aria-label="Footer links">
-            <a href="user.html">Home</a>
-            <a href="../index.html">Library home</a>
-            <a href="../login.html">Switch account</a>
-          </nav>
         </div>
         <p class="site-footer-copy">
           &copy; 2024 Library Management System. All rights reserved.
@@ -170,6 +95,10 @@
       </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/books.lib.js"></script>
+    <script src="../js/user-book-lists.js"></script>
+    <script src="../js/book-details.js"></script>
     <script src="../js/index.js"></script>
   </body>
 </html>

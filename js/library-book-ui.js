@@ -6,6 +6,10 @@
     return /\/user(\/|$)/i.test(global.location.pathname);
   }
 
+  function isAdminAreaPath() {
+    return /\/admin(\/|$)/i.test(global.location.pathname);
+  }
+
   function escapeHtml(str) {
     return String(str)
       .replaceAll("&", "&amp;")
@@ -30,22 +34,30 @@
     favourites: "Favourites",
     "want-to-read": "Want to Read",
     "already-read": "Already Read",
-    "currently-reading": "Currently Reading"
+    "currently-reading": "Currently Reading",
   };
 
   const LIST_REMOVE_LABELS = {
-    "favourites": "Remove from Favourites (list only)",
+    favourites: "Remove from Favourites (list only)",
     "want-to-read": "Remove from Want to Read (list only)",
     "already-read": "Remove from Already Read (list only)",
-    "currently-reading": "Remove from Currently Reading (list only)"
+    "currently-reading": "Remove from Currently Reading (list only)",
   };
 
-  const RAIL_ACTIONS = ["wishlist", "favourites", "want-to-read", "already-read", "currently-reading"];
+  const RAIL_ACTIONS = [
+    "wishlist",
+    "favourites",
+    "want-to-read",
+    "already-read",
+    "currently-reading",
+  ];
 
   function railActiveClass(bookIdRaw, action) {
     const id = String(bookIdRaw ?? "").trim();
     if (!id || !global.UserBookLists) return "";
-    return global.UserBookLists.getIdsFor(action).includes(id) ? "rail-btn--active" : "";
+    return global.UserBookLists.getIdsFor(action).includes(id)
+      ? "rail-btn--active"
+      : "";
   }
 
   /** Keep rail highlight in sync with localStorage (e.g. after add, or want↔already-read rules). */
@@ -64,9 +76,9 @@
 
   function createLibraryBookCard(book, options = {}) {
     const listRemoveContext =
-      options.listRemoveContext === "want-to-read" || 
+      options.listRemoveContext === "want-to-read" ||
       options.listRemoveContext === "already-read" ||
-      options.listRemoveContext === "currently-reading" || 
+      options.listRemoveContext === "currently-reading" ||
       options.listRemoveContext === "favourites"
         ? options.listRemoveContext
         : null;
@@ -81,8 +93,14 @@
       : "0.0";
 
     const safeId = escapeHtml(String(book.id ?? ""));
-    const removeListAttr = listRemoveContext ? escapeHtml(listRemoveContext) : "";
-    const removeLabel = listRemoveContext ? escapeHtml(LIST_REMOVE_LABELS[listRemoveContext] || "Remove from this list") : "";
+    const removeListAttr = listRemoveContext
+      ? escapeHtml(listRemoveContext)
+      : "";
+    const removeLabel = listRemoveContext
+      ? escapeHtml(
+          LIST_REMOVE_LABELS[listRemoveContext] || "Remove from this list",
+        )
+      : "";
 
     const removeRow = listRemoveContext
       ? `<li><button type="button" class="card-rail-remove" data-remove-from-list="${removeListAttr}" aria-label="${removeLabel}" title="${removeLabel}"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button></li>`
@@ -96,7 +114,7 @@
     const cCr = railActiveClass(rawId, "currently-reading");
 
     return `
-      <div class="book-card" data-book-id="${safeId}">
+      <div class="book-card" data-book-id="${safeId}" data-book-details-link="${safeId}" style="cursor: pointer;">
         <div class="book-card-media">
           <img src="${safeCover}" alt="${safeTitle}">
           <div class="main-card-hedden">
@@ -131,13 +149,47 @@
       bindOptions.listRemoveContext === "favourites"
         ? bindOptions.listRemoveContext
         : null;
-    const onListChanged = typeof bindOptions.onListChanged === "function" ? bindOptions.onListChanged : null;
+    const onListChanged =
+      typeof bindOptions.onListChanged === "function"
+        ? bindOptions.onListChanged
+        : null;
 
     if (typeof Swal !== "undefined" && typeof Swal.mixin === "function") {
       Swal.mixin({ scrollbarPadding: false });
     }
 
     const userArea = isUserAreaPath();
+
+    // Handle book details link
+    container.addEventListener("click", (e) => {
+      const detailsLink = e.target.closest("[data-book-details-link]");
+      if (detailsLink && container.contains(detailsLink)) {
+        // Don't trigger if clicking on action buttons
+        if (
+          e.target.closest("[data-card-action]") ||
+          e.target.closest("[data-remove-from-list]")
+        ) {
+          return;
+        }
+
+        const bookId = detailsLink.dataset.bookDetailsLink;
+        if (bookId) {
+          let url;
+          const isAdmin = isAdminAreaPath();
+          const isUser = isUserAreaPath();
+          
+          if (isUser) {
+            url = "./books_details.html?id=" + encodeURIComponent(bookId);
+          } else if (isAdmin) {
+            url = "../user/books_details.html?id=" + encodeURIComponent(bookId);
+          } else {
+            url = "user/books_details.html?id=" + encodeURIComponent(bookId);
+          }
+          window.location.href = url;
+        }
+        return;
+      }
+    });
 
     container.addEventListener("click", (e) => {
       const removeBtn = e.target.closest("[data-remove-from-list]");
@@ -150,7 +202,11 @@
 
         const card = removeBtn.closest(".book-card");
         removeBtn.blur();
-        if (document.activeElement && card && card.contains(document.activeElement)) {
+        if (
+          document.activeElement &&
+          card &&
+          card.contains(document.activeElement)
+        ) {
           document.activeElement.blur();
         }
         card?.classList.add("book-card--rail-reset");
@@ -161,7 +217,8 @@
           return;
         }
 
-        const clearRailReset = () => card?.classList.remove("book-card--rail-reset");
+        const clearRailReset = () =>
+          card?.classList.remove("book-card--rail-reset");
         const finish = () => {
           clearRailReset();
           onListChanged?.();
@@ -213,7 +270,11 @@
 
       const card = actionBtn.closest(".book-card");
       actionBtn.blur();
-      if (document.activeElement && card && card.contains(document.activeElement)) {
+      if (
+        document.activeElement &&
+        card &&
+        card.contains(document.activeElement)
+      ) {
         document.activeElement.blur();
       }
       card?.classList.add("book-card--rail-reset");
@@ -223,7 +284,8 @@
         scrollbarPadding: false,
       };
 
-      const clearRailReset = () => card?.classList.remove("book-card--rail-reset");
+      const clearRailReset = () =>
+        card?.classList.remove("book-card--rail-reset");
 
       if (!userArea) {
         Swal.fire({

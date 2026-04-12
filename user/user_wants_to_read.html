@@ -20,8 +20,7 @@
     <nav>
         <ul>
             <li><a href="user.html">Home</a></li>
-            <li><a href="user_dashboard.html">My Dashboard</a></li>
-            <li><a href="book_search_results.html">Search Books</a></li>
+            
             <li><a href="user_wishlist.html">Wishlist</a></li>
             <li><a href="user_wants_to_read.html" class="active">Want to Read</a></li>
             <li><a href="user_currently_reading.html">Currently Reading</a></li>
@@ -48,21 +47,107 @@
     </main>
 
     <footer class="site-footer">
-      <div class="site-footer-inner conteiner">
-        <div class="site-footer-top">
-          <span class="site-footer-brand">Booooooook</span>
-          <nav class="site-footer-nav" aria-label="Footer links">
-            <a href="user.html">Home</a>
-            <a href="../index.html">Library home</a>
-            <a href="../login.html">Switch account</a>
-          </nav>
+        <div class="conteiner">
+            <div class="footer-grid">
+                <div class="footer-col brand-col">
+                    <div class="footer-logo">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Fully Stack</span>
+                    </div>
+                    <p class="footer-description">
+                        Empowering minds through digital access to the world's most comprehensive library of human knowledge and imagination.
+                    </p>
+                    <div class="footer-socials">
+                        <a href="#" aria-label="Share"><i class="fa-solid fa-share-nodes"></i></a>
+                        <a href="#" aria-label="Global"><i class="fa-solid fa-globe"></i></a>
+                        <a href="#" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                    </div>
+                </div>
+    
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">E-Books</a></li>
+                        <li><a href="#">Audiobooks</a></li>
+                        <li><a href="#">Journals</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                    </ul>
+                </div>
+    
+                <div class="footer-col">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+    
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                    </ul>
+                </div>
+            </div>
+    
+            <hr class="footer-divider">
+    
+            <div class="footer-bottom">
+                <p>&copy; 2024 NexLib Digital Systems. All rights reserved. Built with love for readers everywhere.</p>
+                <div class="bottom-links">
+                    <a href="#">Sitemap</a>
+                    <a href="#">Cookie Settings</a>
+                </div>
+            </div>
         </div>
-        <p class="site-footer-copy">
-          &copy; 2024 Library Management System. All rights reserved.
-        </p>
-      </div>
     </footer>
+    
+    
 
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+      <div class="modal-backdrop" data-settings-close></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Settings</h2>
+          <button type="button" class="icon-btn" data-settings-close aria-label="Close settings modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <label class="field-label" for="mainColor">Main Color</label>
+            <input type="color" id="mainColor" class="field-input" value="#0f49bd">
+          </div>
+          <div>
+            <label class="field-label" for="fontFamily">Font Family</label>
+            <select id="fontFamily" class="field-input">
+              <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>Segoe UI</option>
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="Helvetica, sans-serif">Helvetica</option>
+              <option value="Times New Roman, serif">Times New Roman</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="Courier New, monospace">Courier New</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="fontSize">Font Size</label>
+            <input type="range" id="fontSize" class="field-input" min="12" max="24" value="16">
+            <span id="fontSizeValue">16px</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" data-settings-close>Cancel</button>
+          <button type="button" class="btn-primary" id="saveSettings">Save</button>
+        </div>
+      </div>
+    </div>
+    <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../js/books.lib.js"></script>
     <script src="../js/user-book-lists.js"></script>

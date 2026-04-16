@@ -80,8 +80,4 @@ window.Library = {
 };
 
 loadBooks();
-books = books.map((b, index) => normalizeBook(b, b.id || `BK-MIGRATED-${index + 1}`));
 saveBooks();
-
-
-// console.log(book);

@@ -19,15 +19,6 @@ const bookIdInput = document.getElementById("bookId");
 
 let formMode = "add";
 
-function escapeHtml(str) {
-  return String(str)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
 function openBookModal(mode, book) {
   formMode = mode;
 
@@ -50,7 +41,7 @@ function openBookModal(mode, book) {
   }
 
   modal.classList.add("is-open");
-  form.title.focus();
+  form.title.focus(); 
 }
 
 function closeBookModal() {
@@ -83,35 +74,35 @@ function renderTable() {
 
       return `
         <tr>
-          <td>${escapeHtml(b.id)}</td>
+          <td>${b.id}</td>
 
           <td>
             <div class="book-details">
-              <img class="book-cover" src="${escapeHtml(b.coverpage)}" alt="">
+              <img class="book-cover" src="${b.coverpage}" alt="">
               <div class="book-text">
-                <p class="book-title">${escapeHtml(b.title)}</p>
-                <p class="book-desc">${escapeHtml(shortDesc)}</p>
+                <p class="book-title">${b.title}</p>
+                <p class="book-desc">${shortDesc}</p>
               </div>
             </div>
           </td>
 
-          <td>${escapeHtml(b.author)}</td>
+          <td>${b.author}</td>
 
           <td>
-            <span class="category-tag">${escapeHtml(b.category)}</span>
+            <span class="category-tag">${b.category}</span>
             
           </td>
           <td>
-            <span class="category-tag">${escapeHtml(String(b.rating ?? 0))} <i class="fa-solid fa-star star-rating"></i></span>
+            <span class="category-tag">${b.rating ?? 0} <i class="fa-solid fa-star star-rating"></i></span>
           </td>
 
           <td>
             <div class="actions">
-              <button class="action-btn" type="button" data-action="edit" data-id="${escapeHtml(b.id)}">
+              <button class="action-btn" type="button" data-action="edit" data-id="${b.id}">
                 <i class="fa-regular fa-pen-to-square"></i>
               </button>
 
-              <button class="action-btn" type="button" data-action="delete" data-id="${escapeHtml(b.id)}">
+              <button class="action-btn" type="button" data-action="delete" data-id="${b.id}">
                 <i class="fa-regular fa-trash-can"></i>
               </button>
             </div>

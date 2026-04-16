@@ -11,15 +11,6 @@
     };
   }
 
-  function escapeHtml(str) {
-    return String(str)
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
-  }
-
   function isUserAreaPath() {
     return /\/user(\/|$)/i.test(global.location.pathname);
   }
@@ -49,7 +40,7 @@
       return;
     }
 
-    document.title = `${escapeHtml(book.title)} – Library`;
+    document.title = `${book.title} – Library`;
 
     const detailsContainer = document.getElementById('bookDetailsContent');
     if (!detailsContainer) {
@@ -69,48 +60,48 @@
     detailsContainer.innerHTML = `
       <div class="cover-col">
         <div class="cover-wrap">
-          <img src="${escapeHtml(resolveCover(book))}" alt="${escapeHtml(book.title)} cover" />
+          <img src="${resolveCover(book)}" alt="${book.title} cover" />
         </div>
         <div class="meta-box">
           <div class="meta-row">
             <span class="lbl">Title</span>
-            <span class="val">${escapeHtml(book.title)}</span>
+            <span class="val">${book.title}</span>
           </div>
           <div class="meta-row">
             <span class="lbl">Author</span>
-            <span class="val">${escapeHtml(book.author)}</span>
+            <span class="val">${book.author}</span>
           </div>
           <div class="meta-row">
             <span class="lbl">ISBN</span>
-            <span class="val">${escapeHtml(book.id)}</span>
+            <span class="val">${book.id}</span>
           </div>
           <div class="meta-row">
             <span class="lbl">Category</span>
-            <span class="val">${escapeHtml(book.category)}</span>
+            <span class="val">${book.category}</span>
           </div>
           <div class="meta-row">
             <span class="lbl">Total Copies</span>
-            <span class="val">${escapeHtml(String(book.totalCopies))}</span>
+            <span class="val">${(book.totalCopies)}</span>
           </div>
           <div class="meta-row">
             <span class="lbl">Available</span>
-            <span class="val">${escapeHtml(String(book.availableCopies))}</span>
+            <span class="val">${(book.availableCopies)}</span>
           </div>
         </div>
       </div>
       <div class="info-col">
-        <h1>${escapeHtml(book.title)}</h1>
-        <p class="author-name">${escapeHtml(book.author)}</p>
+        <h1>${(book.title)}</h1>
+        <p class="author-name">${(book.author)}</p>
         <div class="tags-row">
-          <span class="tag tag-cat">${escapeHtml(book.category)}</span>
-          <span class="tag tag-era">${escapeHtml(book.category)}</span>
+          <span class="tag tag-cat">${(book.category)}</span>
+          <span class="tag tag-era">${(book.category)}</span>
           <span class="tag tag-rating">
             <span class="stars"><i class="fa-solid fa-star"></i></span>
             ${safeRating} &nbsp;<span style="opacity:0.6;font-weight:400;">(${Math.floor(Math.random() * 5000 + 1000)} reviews)</span>
           </span>
         </div>
         <p class="desc-title">Description</p>
-        <p class="desc-text">${escapeHtml(book.description)}</p>
+        <p class="desc-text">${(book.description)}</p>
         <div class="borrow-bar">
           <div class="avail-icon">
             <i class="fa-solid ${borrowIcon}"></i>
@@ -118,14 +109,14 @@
           <div class="avail-text">
             <div class="avail-badge">
               <span class="avail-dot"></span>
-              ${escapeHtml(availStatus)} <br>
-              no. of available books is <i>${escapeHtml(String(book.availableCopies))}</i>
+              ${(availStatus)} <br>
+              no. of available books is <i>${(String(book.availableCopies))}</i>
             </div>
             <div class="sub">Availability</div>
           </div>
           <button class="borrow-btn" ${book.availableCopies > 0 ? '' : 'disabled'}>
             <i class="fa-solid ${borrowIcon}"></i>
-            ${escapeHtml(borrowLabel)}
+            ${(borrowLabel)}
           </button>
         </div>
       </div>
@@ -134,9 +125,9 @@
     const breadcrumbs = document.querySelector('.breadcrumb');
     if (breadcrumbs) {
       const categoryLink = breadcrumbs.querySelector('a:nth-child(3)');
-      if (categoryLink) categoryLink.textContent = escapeHtml(book.category);
+      if (categoryLink) categoryLink.textContent = (book.category);
       const currentSpan = breadcrumbs.querySelector('.current');
-      if (currentSpan) currentSpan.textContent = escapeHtml(book.title);
+      if (currentSpan) currentSpan.textContent = (book.title);
     }
 
     const allBooks = global.Library.getBooks();
@@ -148,11 +139,11 @@
           .map(
             (b) => `
             <div class="more-card">
-              <img src="${escapeHtml(resolveCover(b))}" alt="${escapeHtml(b.title)}" style="cursor: pointer;" onclick="window.location.href='books_details.html?id=${encodeURIComponent(
+              <img src="${(resolveCover(b))}" alt="${(b.title)}" style="cursor: pointer;" onclick="window.location.href='books_details.html?id=${encodeURIComponent(
               b.id,
             )}'">
-              <div class="mc-title">${escapeHtml(b.title)}</div>
-              <div class="mc-year">By ${escapeHtml(b.author)}</div>
+              <div class="mc-title">${(b.title)}</div>
+              <div class="mc-year">By ${(b.author)}</div>
             </div>
           `,
           )

@@ -136,6 +136,7 @@ ul {
   align-items: center;
   gap: 8px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  /* display: none; */
 }
 
 ul li a {
@@ -665,7 +666,7 @@ body.dark-mode .site-footer--auth {
 
 /************* start home page ***************/
 .image-hero{
-  background-image:url(../images/hero-img.jpeg) ;
+  background-image:url(../images/Hero-2.avif) ;
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
@@ -673,7 +674,7 @@ body.dark-mode .site-footer--auth {
 }
 
 .bg-hero{
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.55);
   height: 100vh;
   width: 100%;
   z-index: 10;
@@ -705,7 +706,7 @@ body.dark-mode .site-footer--auth {
 .Content-hero h1::before{
   content: "Welcome to |";
   font-weight: bold;
-  animation: wordchange 5s  ease-in-out  infinite  ;
+  animation: wordchange 5s  ease-in-out  infinite; 
 
 }
 
@@ -780,6 +781,9 @@ body.dark-mode .site-footer--auth {
   88%{
     content: "Welcome to Fully Stuck Online Lib|";
   }
+  90%{
+    content: "Welcome to Fully Stuck Online Libr|";
+  }
   92%{
     content: "Welcome to Fully Stuck Online Libra|";
   }
@@ -790,8 +794,6 @@ body.dark-mode .site-footer--auth {
     content: "Welcome to Fully Stuck Online Library |";
   }
 }
-
-
 
 
 .Content-hero p {
@@ -911,10 +913,11 @@ body.dark-mode .site-footer--auth {
 }
 
 .search-home .controls input{
-  padding: 0.3rem 0.5rem;
+  padding: 0.5rem 0.5rem;
+  border-radius: 1.5rem;
   background-color: var(--bg-main-color);
   color: var(--text-color);
-  width: 15rem;
+  width: 25rem;
   
 }
 
@@ -2379,4 +2382,36 @@ body.settings-modal-open {
   font-size: 1.5rem;
   color: gray;
   /* border: white solid 2px; */
+}
+
+
+.btn-primary{
+  background: var(--main-color);
+  border: 1px solid rgba(128,128,128,0.25);
+  color: var(--text-color);
+  padding: 8px 14px;
+    border-radius: 15px ;
+
+}
+
+.btn-secondary{
+  background: var(--bg-main-color);
+  border: 1px solid rgba(128,128,128,0.25);
+  color: var(--text-color);
+  padding: 8px 14px;
+    border-radius: 15px ;
+
+}
+
+.btn-secondary:hover{
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+  filter: brightness(1.5);
+
+}
+
+.btn-primary:hover{
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+  filter: brightness(1.3);
 }

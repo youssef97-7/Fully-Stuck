@@ -52,11 +52,14 @@ if (btn) {
 window.addEventListener("scroll", function () {
   let scroll = document.querySelector(".scroll-to-top");
 
+  
   if (window.scrollY >= 200) {
     scroll.classList.remove("hidden");
+
   } else {
     scroll.classList.add("hidden");
   }
+  
 });
 
 ///////// home ////////

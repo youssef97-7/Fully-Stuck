@@ -1,7 +1,5 @@
 (function () {
-  /** All registered users (signup adds here). */
   const ACCOUNTS_KEY = "library.auth.accounts.v1";
-  /** Last logged-in user (no password) — for profile / “who am I” on other pages. */
   const SESSION_KEY = "library.auth.currentUser";
 
   function getAccounts() {
@@ -29,7 +27,7 @@
     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   }
 
-  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRe = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
   const phoneRe = /^[0-9+\s()-]{10,20}$/;
   const nameRe = /^[a-zA-Z\u00C0-\u024F\s'-]{2,60}$/;
 

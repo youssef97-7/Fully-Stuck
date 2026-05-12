@@ -4,19 +4,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>User Dashboard - Library</title>
 
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/media.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
   </head>
   <body>
-    <!-- nav bar -->
-     <script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
-    </script>
     <nav class="">
         <ul>
             <li><a href="{% url 'user_home' %}" class="active">Home</a></li> 
@@ -31,13 +25,13 @@
         </ul>
     </nav>
 
-    <header id="hero" >
+    <header id="hero">
       <div class="image-hero">
-        <div class="bg-hero ">
+        <div class="bg-hero">
           <div class="hero">
             <div class="Content-hero">
               <span>Curated Collection</span>
-              <h1>  </h1>
+              <h1></h1>
               <p>
                 Access over 2 million ebooks, audiobooks, and journals. Dive
                 into a seamless reading experience designed for the modern
@@ -65,8 +59,6 @@
         <div class="category-container" id="category-container"></div>
       </section>
 
-
-
       <section id="book-featured" class="featured-books">
         <div class="search-home">
           <div>
@@ -82,14 +74,10 @@
           </div>
         </div>
 
-
-        
-          <div class="content-book" id="featuredBooksContainer"></div>
-        
-
+        <div class="content-book" id="featuredBooksContainer"></div>
       </section>
-      
     </main>
+
     <section id="contact-us">
         <section class="contact-section">
           <div class="container">
@@ -102,26 +90,25 @@
             <div class="contact-grid">
               <div class="contact-card form-wrapper">
                 <h3><i class="fas fa-envelope"></i> Send a Message</h3>
-                <form>
-    {% csrf_token %}
-    {% csrf_token %}
+                <form method="post" action="">
+                  {% csrf_token %}
                   <div class="form-row">
                     <div class="input-group">
                       <label>Full Name</label>
-                      <input type="text" placeholder="John Doe">
+                      <input type="text" name="full_name" placeholder="John Doe">
                     </div>
                     <div class="input-group">
                       <label>Email Address</label>
-                      <input type="email" placeholder="john@example.com">
+                      <input type="email" name="email" placeholder="john@example.com">
                     </div>
                   </div>
                   <div class="input-group">
                     <label>Subject</label>
-                    <input type="text" placeholder="How can we help?">
+                    <input type="text" name="subject" placeholder="How can we help?">
                   </div>
                   <div class="input-group">
                     <label>Message</label>
-                    <textarea rows="6" placeholder="Tell us more about your inquiry..."></textarea>
+                    <textarea name="message" rows="6" placeholder="Tell us more about your inquiry..."></textarea>
                   </div>
                   <button type="submit" class="btn-submit">
                     Send Message <i class="fas fa-paper-plane"></i>
@@ -159,8 +146,6 @@
                     </div>
                   </div>
                 </div>
-        
-                
               </div>
             </div>
           </div>
@@ -226,57 +211,221 @@
               </div>
           </div>
       </div>
-  </footer>
-  
-  
+    </footer>
 
-  <!-- Settings Modal -->
-  <div id="settingsModal" class="modal">
-    <div class="modal-backdrop" data-settings-close></div>
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Settings</h2>
-        <button type="button" class="icon-btn" data-settings-close aria-label="Close settings modal">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div>
-          <label class="field-label" for="mainColor">Main Color</label>
-          <input type="color" id="mainColor" class="field-input" value="#0f49bd">
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+      <div class="modal-backdrop" data-settings-close></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Settings</h2>
+          <button type="button" class="icon-btn" data-settings-close aria-label="Close settings modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
         </div>
-        <div>
-          <label class="field-label" for="fontFamily">Font Family</label>
-          <select id="fontFamily" class="field-input">
-            <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>Segoe UI</option>
-            <option value="Arial, sans-serif">Arial</option>
-            <option value="Helvetica, sans-serif">Helvetica</option>
-            <option value="Times New Roman, serif">Times New Roman</option>
-            <option value="Georgia, serif">Georgia</option>
-            <option value="Courier New, monospace">Courier New</option>
-          </select>
+        <div class="modal-body">
+          <div>
+            <label class="field-label" for="mainColor">Main Color</label>
+            <input type="color" id="mainColor" class="field-input" value="#0f49bd">
+          </div>
+          <div>
+            <label class="field-label" for="fontFamily">Font Family</label>
+            <select id="fontFamily" class="field-input">
+              <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>Segoe UI</option>
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="Helvetica, sans-serif">Helvetica</option>
+              <option value="Times New Roman, serif">Times New Roman</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="Courier New, monospace">Courier New</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="fontSize">Font Size</label>
+            <input type="range" id="fontSize" class="field-input" min="12" max="24" value="16">
+            <span id="fontSizeValue">16px</span>
+          </div>
         </div>
-        <div>
-          <label class="field-label" for="fontSize">Font Size</label>
-          <input type="range" id="fontSize" class="field-input" min="12" max="24" value="16">
-          <span id="fontSizeValue">16px</span>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" data-settings-close>Cancel</button>
+          <button type="button" class="btn-primary" id="saveSettings">Save</button>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-secondary" data-settings-close>Cancel</button>
-        <button type="button" class="btn-primary" id="saveSettings">Save</button>
       </div>
     </div>
-  </div>
 
-  <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
+    <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
     
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{% static 'js/books.lib.js' %}"></script>
-    <script src="{% static 'js/user-book-lists.js' %}"></script>
-    <script src="{% static 'js/library-book-ui.js' %}"></script>
-    <script src="{% static 'js/user-home.js' %}"></script>
-    <script src="{% static 'js/index.js' %}"></script>
+    <script>
+      // Theme toggle functionality
+      (function() {
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        function applyTheme(isDark) {
+          if (isDark) {
+            document.body.classList.add('dark-mode');
+            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+          } else {
+            document.body.classList.remove('dark-mode');
+            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+          }
+        }
+        
+        applyTheme(false);
+        
+        if (themeToggle) {
+          themeToggle.addEventListener('click', function() {
+            const isDark = !document.body.classList.contains('dark-mode');
+            applyTheme(isDark);
+          });
+        }
+      })();
 
+      // Scroll to top
+      (function() {
+        const scrollBtn = document.querySelector('.scroll-to-top');
+        if (scrollBtn) {
+          window.addEventListener('scroll', function() {
+            if (window.scrollY >= 200) {
+              scrollBtn.classList.remove('hidden');
+            } else {
+              scrollBtn.classList.add('hidden');
+            }
+          });
+        }
+      })();
+
+      // Categories display
+      (function() {
+        const categories = [
+          { title: "Fiction", count: "850k+", icon: "📚" },
+          { title: "Science", count: "420k+", icon: "🧪" },
+          { title: "History", count: "310k+", icon: "📜" },
+          { title: "Tech", count: "250k+", icon: "💻" },
+          { title: "Philosophy", count: "180k+", icon: "🧠" },
+          { title: "Arts", count: "150k+", icon: "🎨" },
+        ];
+
+        const container = document.getElementById("category-container");
+        if (container) {
+          categories.forEach((item) => {
+            const card = document.createElement("div");
+            card.className = "category-card";
+            card.innerHTML = `
+              <div class="icon">${item.icon}</div>
+              <h3>${item.title}</h3>
+              <p>${item.count} titles</p>
+            `;
+            container.appendChild(card);
+          });
+        }
+      })();
+
+      // Settings Modal
+      (function() {
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsModal = document.getElementById('settingsModal');
+        const mainColorInput = document.getElementById('mainColor');
+        const fontFamilySelect = document.getElementById('fontFamily');
+        const fontSizeInput = document.getElementById('fontSize');
+        const fontSizeValue = document.getElementById('fontSizeValue');
+        const saveSettingsBtn = document.getElementById('saveSettings');
+
+        function applySettings(settings) {
+          if (settings.mainColor) document.documentElement.style.setProperty('--main-color', settings.mainColor);
+          if (settings.fontFamily) document.documentElement.style.setProperty('--font-family', settings.fontFamily);
+          if (settings.fontSize) document.documentElement.style.setProperty('--font-size', settings.fontSize + 'px');
+        }
+
+        function openSettingsModal() { if (settingsModal) settingsModal.classList.add('is-open'); }
+        function closeSettingsModal() { if (settingsModal) settingsModal.classList.remove('is-open'); }
+
+        function saveSettings() {
+          const settings = {
+            mainColor: mainColorInput ? mainColorInput.value : '#0f49bd',
+            fontFamily: fontFamilySelect ? fontFamilySelect.value : '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+            fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : 16
+          };
+          applySettings(settings);
+          closeSettingsModal();
+        }
+
+        if (settingsBtn) settingsBtn.addEventListener('click', openSettingsModal);
+        if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
+        if (settingsModal) {
+          settingsModal.addEventListener('click', function(e) {
+            if (e.target.closest('[data-settings-close]')) closeSettingsModal();
+          });
+        }
+        if (fontSizeInput) {
+          fontSizeInput.addEventListener('input', function() {
+            if (fontSizeValue) fontSizeValue.textContent = fontSizeInput.value + 'px';
+          });
+        }
+
+        applySettings({ mainColor: '#0f49bd', fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif', fontSize: 16 });
+
+        document.addEventListener('keydown', function(e) {
+          if (settingsModal && settingsModal.classList.contains('is-open') && e.key === 'Escape') closeSettingsModal();
+        });
+      })();
+
+      // Book search and display (Django template integration)
+      (function() {
+        const booksContainer = document.getElementById("featuredBooksContainer");
+        const searchInput = document.getElementById("searchInput");
+
+        // This function will be called with books data from Django context
+        function renderBooks(books, term = "") {
+          if (!booksContainer || !books) return;
+          
+          const normalizedTerm = term.trim().toLowerCase();
+          const filteredBooks = normalizedTerm
+            ? books.filter(book => (book.title || "").toLowerCase().includes(normalizedTerm))
+            : books;
+
+          if (filteredBooks.length === 0) {
+            booksContainer.innerHTML = "<p>No books found.</p>";
+            return;
+          }
+
+          booksContainer.innerHTML = filteredBooks.map(book => `
+            <div class="book-card" data-book-id="${book.id}" data-book-details-link="${book.id}" style="cursor: pointer;">
+              <div class="book-card-media">
+                <img src="${book.coverpage || '{% static 'images/book-1.jpeg' %}'}" alt="${book.title}">
+                <div class="main-card-hedden">
+                  <ul class="card-hedden">
+                    <li><button type="button" data-card-action="wishlist" title="Add to Wishlist"><i class="fa-solid fa-bookmark"></i></button></li>
+                    <li><button type="button" data-card-action="favourites" title="Add to Favourites"><i class="fa-regular fa-heart"></i></button></li>
+                    <li><button type="button" data-card-action="want-to-read" title="Add to Want to Read"><i class="fa-solid fa-plus"></i></button></li>
+                    <li><button type="button" data-card-action="already-read" title="Mark as Already Read"><i class="fa-solid fa-check"></i></button></li>
+                    <li><button type="button" data-card-action="currently-reading" title="Add to Currently Reading"><i class="fa-solid fa-book-open"></i></button></li>
+                  </ul>
+                </div>
+              </div>
+              <h3>${book.title}</h3>
+              <p>${book.author}</p>
+              <div class="buttom-card">
+                <span>${book.category}</span>
+                <span class="star"><i class="fa-solid fa-star"></i>${book.rating || 0}</span>
+              </div>
+            </div>
+          `).join("");
+        }
+
+        // Books data should be passed from Django view as a JSON object
+        // For now, display a message
+        if (booksContainer) {
+          booksContainer.innerHTML = '<p>Loading books from library...</p>';
+        }
+
+        if (searchInput) {
+          searchInput.addEventListener("input", function(e) {
+            // Search functionality will be implemented when books data is available
+            const term = e.target.value;
+            // This will work once books data is passed from Django
+          });
+        }
+      })();
+    </script>
   </body>
 </html>

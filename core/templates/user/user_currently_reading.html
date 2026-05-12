@@ -11,11 +11,6 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
   <body data-user-page="currently-reading">
-    <script>
-      if (localStorage.getItem("theme") === "dark") {
-        document.body.classList.add("dark-mode");
-      }
-    </script>
     <!-- nav bar -->
     <nav>
         <ul>
@@ -40,8 +35,45 @@
       <section class="featured-books" aria-labelledby="currently-reading-heading">
          <div class="search-home">
           <h2 id="currently-reading-heading">From your catalog</h2>
+          <div class="controls">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by title or author..."
+            />
+          </div>
         </div>
-        <div class="content-book" id="currentlyReadingBooks"></div>
+        <div class="content-book" id="currentlyReadingBooks">
+          {% if book_list %}
+            {% for book in book_list %}
+            <div class="book-card" data-book-id="{{ book.book.id }}" data-book-details-link="{{ book.book.id }}" style="cursor: pointer;">
+              <div class="book-card-media">
+                <a href="{% url 'book_details' book.book.id %}">
+                <img src="{% if book.book.cover.url %}{{ book.book.cover.url }}{% endif %}" alt="{{ book.book.title }}">
+                </a>
+                <div class="main-card-hedden">
+                  <ul class="card-hedden">
+                    <li><button type="button" data-card-action="wishlist" title="Add to Wishlist"><i class="fa-solid fa-bookmark"></i></button></li>
+                    <li><button type="button" data-card-action="favourites" title="Add to Favourites"><i class="fa-regular fa-heart"></i></button></li>
+                    <li><button type="button" data-card-action="want-to-read" title="Add to Want to Read"><i class="fa-solid fa-plus"></i></button></li>
+                    <li><button type="button" data-card-action="already-read" title="Mark as Already Read"><i class="fa-solid fa-check"></i></button></li>
+                    <li><button type="button" data-card-action="currently-reading" class="rail-btn--active" title="Remove from Currently Reading"><i class="fa-solid fa-book-open"></i></button></li>
+                    <li><button type="button" data-remove-from-list="currently-reading" title="Remove from Currently Reading"><i class="fa-solid fa-trash-can"></i></button></li>
+                  </ul>
+                </div>
+              </div>
+              <h3>{{ book.book.title }}</h3>
+              <p>{{ book.book.author }}</p>
+              <div class="buttom-card">
+                <span>{{ book.book.category|default:"General" }}</span>
+                <span class="star"><i class="fa-solid fa-star"></i>{{ book.book.rating|default:"0.0" }}</span>
+              </div>
+            </div>
+            {% endfor %}
+          {% else %}
+            <p class="user-list-empty" role="status">Your Currently Reading list is empty. On <a href="{% url 'user_home' %}">Home</a>, hover a book and tap the book button to add it.</p>
+          {% endif %}
+        </div>
       </section>
      
     </main>
@@ -148,11 +180,113 @@
   <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{% static 'js/books.lib.js' %}"></script>
-    <script src="{% static 'js/user-book-lists.js' %}"></script>
-    <script src="{% static 'js/library-book-ui.js' %}"></script>
-    <script src="{% static 'js/index.js' %}"></script>
-    <script src="../js/user-features.js"></script>
+    <script>
+      // Theme toggle
+      (function() {
+        const themeToggle = document.getElementById('theme-toggle');
+        function applyTheme(isDark) {
+          if (isDark) {
+            document.body.classList.add('dark-mode');
+            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+          } else {
+            document.body.classList.remove('dark-mode');
+            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+          }
+        }
+        applyTheme(false);
+        if (themeToggle) themeToggle.addEventListener('click', () => applyTheme(!document.body.classList.contains('dark-mode')));
+      })();
 
+      // Settings Modal
+      (function() {
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsModal = document.getElementById('settingsModal');
+        const mainColorInput = document.getElementById('mainColor');
+        const fontFamilySelect = document.getElementById('fontFamily');
+        const fontSizeInput = document.getElementById('fontSize');
+        const fontSizeValue = document.getElementById('fontSizeValue');
+        const saveSettingsBtn = document.getElementById('saveSettings');
+
+        function applySettings(settings) {
+          if (settings.mainColor) document.documentElement.style.setProperty('--main-color', settings.mainColor);
+          if (settings.fontFamily) document.documentElement.style.setProperty('--font-family', settings.fontFamily);
+          if (settings.fontSize) document.documentElement.style.setProperty('--font-size', settings.fontSize + 'px');
+        }
+
+        function openSettingsModal() { if (settingsModal) settingsModal.classList.add('is-open'); }
+        function closeSettingsModal() { if (settingsModal) settingsModal.classList.remove('is-open'); }
+
+        function saveSettings() {
+          applySettings({
+            mainColor: mainColorInput ? mainColorInput.value : '#0f49bd',
+            fontFamily: fontFamilySelect ? fontFamilySelect.value : '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+            fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : 16
+          });
+          closeSettingsModal();
+        }
+
+        if (settingsBtn) settingsBtn.addEventListener('click', openSettingsModal);
+        if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
+        if (settingsModal) {
+          settingsModal.addEventListener('click', function(e) {
+            if (e.target.closest('[data-settings-close]')) closeSettingsModal();
+          });
+        }
+        if (fontSizeInput) {
+          fontSizeInput.addEventListener('input', function() {
+            if (fontSizeValue) fontSizeValue.textContent = fontSizeInput.value + 'px';
+          });
+        }
+
+        applySettings({ mainColor: '#0f49bd', fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif', fontSize: 16 });
+      })();
+
+      // Search functionality
+      (function() {
+        const container = document.getElementById("currentlyReadingBooks");
+        const searchInput = document.getElementById("searchInput");
+        
+        if (container && searchInput) {
+          const bookCards = Array.from(container.querySelectorAll('.book-card'));
+
+          function filterBooks(searchTerm) {
+            const term = searchTerm.toLowerCase().trim();
+            
+            bookCards.forEach(card => {
+              const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+              const author = card.querySelector('p')?.textContent.toLowerCase() || '';
+              
+              if (term === '' || title.includes(term) || author.includes(term)) {
+                card.style.display = '';
+              } else {
+                card.style.display = 'none';
+              }
+            });
+          }
+
+          searchInput.addEventListener('input', function(e) {
+            filterBooks(e.target.value);
+          });
+        }
+      })();
+
+      // Book card click navigation
+      (function() {
+        const container = document.getElementById("currentlyReadingBooks");
+        
+        if (container) {
+          container.addEventListener('click', function(e) {
+            // Don't navigate if clicking on buttons
+            if (e.target.closest('button')) return;
+            
+            const card = e.target.closest('.book-card');
+            if (card && card.dataset.bookDetailsLink) {
+              const bookId = card.dataset.bookDetailsLink;
+              window.location.href = `books_details.html?id=${encodeURIComponent(bookId)}`;
+            }
+          });
+        }
+      })();
+    </script>
   </body>
 </html>

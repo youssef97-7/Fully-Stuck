@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import get_user_model, login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from books import models as book_models
 from . import models
 
 # Create your views here.
@@ -93,8 +94,10 @@ def view_user_home(request):
     return render(request,'user/user.html')
 
 @login_required
-def view_book_details(request):
-    return render(request,'user/books_details.html')
+def view_book_details(request,id):
+    book = get_object_or_404(book_models.Book,id=id)
+    context = {'book' : book}
+    return render(request,'user/books_details.html',context)
 
 @login_required
 def view_pdf_reader(request):
@@ -102,7 +105,13 @@ def view_pdf_reader(request):
 
 @login_required
 def view_already_readed(request):
-    return render(request,'user/user_already_read.html')
+    user = request.user
+    if not user:
+        redirect('login')
+
+    book_list = models.UserBookRelation.objects.filter(user=user,status='read').select_related('book')
+    context = {'book_list' : book_list}
+    return render(request,'user/user_already_read.html',context)
 
 @login_required
 def view_borrowed(request):
@@ -110,15 +119,33 @@ def view_borrowed(request):
     
 @login_required
 def view_currently_read(request):
-    return render(request,'user/user_currently_reading.html')
+    user = request.user
+    if not user:
+        redirect('login')
+
+    book_list = models.UserBookRelation.objects.filter(user=user,status='current').select_related('book')
+    context = {'book_list' : book_list}
+    return render(request,'user/user_currently_reading.html',context)
 
 @login_required
 def view_favourites(request):
-    return render(request,'user/user_favourites.html')
+    user = request.user
+    if not user:
+        redirect('login')
+
+    book_list = models.UserBookRelation.objects.filter(user=user,status='favourite').select_related('book')
+    context = {'book_list' : book_list}
+    return render(request,'user/user_favourites.html',context)
 
 @login_required
 def view_wish_list(request):
-    return render(request,'user/user_wishlist.html')
+    user = request.user
+    if not user:
+        redirect('login')
+
+    book_list = models.UserBookRelation.objects.filter(user=user,status='wish').select_related('book')
+    context = {'book_list' : book_list}
+    return render(request,'user/user_wishlist.html',context)
 
 
 def view_logout(request):

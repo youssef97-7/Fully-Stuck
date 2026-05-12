@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Book Details – Library</title>
+    <title>{% if book %}{{ book.title }} – Library{% else %}Book Details – Library{% endif %}</title>
 
     <link
       rel="stylesheet"
@@ -12,6 +12,7 @@
     />
 
     <link rel="stylesheet" href="{% static 'css/media.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
 
   <body>
@@ -49,36 +50,98 @@
           <span
             ><i class="fa-solid fa-chevron-right" style="font-size: 0.65rem"></i
           ></span>
-          <a href="#">Classics</a>
+          <a href="#">{{ book.category|default:"Books" }}</a>
           <span
             ><i class="fa-solid fa-chevron-right" style="font-size: 0.65rem"></i
           ></span>
-          <span class="current">Book Details</span>
+          <span class="current">{% if book %}{{ book.title }}{% else %}Book Details{% endif %}</span>
         </nav>
 
-        <!-- Book details are rendered dynamically from the clicked book card -->
-        <div id="bookDetailsContent" class="detail-grid"></div>
+        <!-- Book details rendered from Django context -->
+        <div id="bookDetailsContent" class="detail-grid">
+          {% if book %}
+          <div class="cover-col">
+            <div class="cover-wrap">
+              <img src="{% if book.cover.url %}{{ book.cover.url }}{% else %}{% static 'images/book-1.jpeg' %}{% endif %}" alt="{{ book.title }} cover" />
+            </div>
+            <div class="meta-box">
+              <div class="meta-row">
+                <span class="lbl">Title</span>
+                <span class="val">{{ book.title }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="lbl">Author</span>
+                <span class="val">{{ book.author }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="lbl">ISBN</span>
+                <span class="val">{{ book_detail.id }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="lbl">Category</span>
+                <span class="val">{{ book.category|default:"General" }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="lbl">Total Copies</span>
+                <span class="val">{{ book.total_copies|default:"1" }}</span>
+              </div>
+              <div class="meta-row">
+                <span class="lbl">Available</span>
+                <span class="val">{{ book.available_copies|default:"1" }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="info-col">
+            <h1>{{ book.title }}</h1>
+            <p class="author-name">{{ book.author }}</p>
+            <div class="tags-row">
+              <span class="tag tag-cat">{{ book.category|default:"General" }}</span>
+              <span class="tag tag-era">{{ book.category|default:"General" }}</span>
+              <span class="tag tag-rating">
+                <span class="stars"><i class="fa-solid fa-star"></i></span>
+                {{ book.rating|default:"0.0" }} &nbsp;<span style="opacity:0.6;font-weight:400;">({{ book.review_count|default:"0" }} reviews)</span>
+              </span>
+            </div>
+            <p class="desc-title">Description</p>
+            <p class="desc-text">{{ book.description|default:"No description available for this book." }}</p>
+            <div class="borrow-bar">
+              <div class="avail-icon">
+                <i class="fa-solid {% if book.availableCopies > 0 %}fa-book-open{% else %}fa-ban{% endif %}"></i>
+              </div>
+              <div class="avail-text">
+                <div class="avail-badge">
+                  <span class="avail-dot"></span>
+                  {% if book.availableCopies > 0 %}Ready to Borrow{% else %}Not Available{% endif %}<br>
+                  no. of available books is <i>{{ book.availableCopies|default:"0" }}</i>
+                </div>
+                <div class="sub">Availability</div>
+              </div>
+              <button class="borrow-btn" {% if book.availableCopies <= 0 %}disabled{% endif %}>
+                <i class="fa-solid {% if book.availableCopies > 0 %}fa-book-open{% else %}fa-ban{% endif %}"></i>
+                {% if book.availableCopies > 0 %}Borrow This Book{% else %}Not Available{% endif %}
+              </button>
+            </div>
+          </div>
+          {% else %}
+          <p>No book details available. Please select a book from the library.</p>
+          {% endif %}
+        </div>
 
         <!-- More from author -->
         <div class="more-section">
-          <h2>More from F. Scott Fitzgerald</h2>
+          <h2>More from {{ book.author|default:"this author" }}</h2>
           <div class="more-grid">
-            <div class="more-card">
-              <img
-                src="https://picsum.photos/200/300"
-                alt="This Side of Paradise"
-              />
-              <div class="mc-title">This Side of Paradise</div>
-              <div class="mc-year">1920</div>
-            </div>
-            <div class="more-card">
-              <img
-                src="https://picsum.photos/200/299"
-                alt="Tender is the Night"
-              />
-              <div class="mc-title">Tender is the Night</div>
-              <div class="mc-year">1934</div>
-            </div>
+            {% if more_books_by_author %}
+              {% for book in more_books_by_author %}
+              <div class="more-card" onclick="window.location.href='books_details.html?id={{ book.id }}'">
+                <img src="{% if book.cover.url %}{{ book.cover.url }}{% else %}{% static 'images/book-1.jpeg' %}{% endif %}" alt="{{ book.title }}" style="cursor: pointer;">
+                <div class="mc-title">{{ book.title }}</div>
+                <div class="mc-year">By {{ book.author }}</div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <p>No other books by this author available.</p>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -146,10 +209,167 @@
         </div>
     </footer>
 
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+      <div class="modal-backdrop" data-settings-close></div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Settings</h2>
+          <button type="button" class="icon-btn" data-settings-close aria-label="Close settings modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>
+            <label class="field-label" for="mainColor">Main Color</label>
+            <input type="color" id="mainColor" class="field-input" value="#0f49bd">
+          </div>
+          <div>
+            <label class="field-label" for="fontFamily">Font Family</label>
+            <select id="fontFamily" class="field-input">
+              <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>Segoe UI</option>
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="Helvetica, sans-serif">Helvetica</option>
+              <option value="Times New Roman, serif">Times New Roman</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="Courier New, monospace">Courier New</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="fontSize">Font Size</label>
+            <input type="range" id="fontSize" class="field-input" min="12" max="24" value="16">
+            <span id="fontSizeValue">16px</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" data-settings-close>Cancel</button>
+          <button type="button" class="btn-primary" id="saveSettings">Save</button>
+        </div>
+      </div>
+    </div>
+    
+    <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{% static 'js/books.lib.js' %}"></script>
-    <script src="{% static 'js/user-book-lists.js' %}"></script>
-    <script src="../js/book-details.js"></script>
-    <script src="{% static 'js/index.js' %}"></script>
+    <script>
+      // Theme toggle functionality
+      (function() {
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        function applyTheme(isDark) {
+          if (isDark) {
+            document.body.classList.add('dark-mode');
+            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+          } else {
+            document.body.classList.remove('dark-mode');
+            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+          }
+        }
+        
+        applyTheme(false);
+        
+        if (themeToggle) {
+          themeToggle.addEventListener('click', function() {
+            const isDark = !document.body.classList.contains('dark-mode');
+            applyTheme(isDark);
+          });
+        }
+      })();
+
+      // Settings Modal functionality
+      (function() {
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsModal = document.getElementById('settingsModal');
+        const mainColorInput = document.getElementById('mainColor');
+        const fontFamilySelect = document.getElementById('fontFamily');
+        const fontSizeInput = document.getElementById('fontSize');
+        const fontSizeValue = document.getElementById('fontSizeValue');
+        const saveSettingsBtn = document.getElementById('saveSettings');
+
+        function applySettings(settings) {
+          if (settings.mainColor) {
+            document.documentElement.style.setProperty('--main-color', settings.mainColor);
+          }
+          if (settings.fontFamily) {
+            document.documentElement.style.setProperty('--font-family', settings.fontFamily);
+          }
+          if (settings.fontSize) {
+            document.documentElement.style.setProperty('--font-size', settings.fontSize + 'px');
+          }
+        }
+
+        function loadSettings() {
+          const defaultSettings = {
+            mainColor: '#0f49bd',
+            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+            fontSize: 16
+          };
+          if (mainColorInput) mainColorInput.value = defaultSettings.mainColor;
+          if (fontFamilySelect) fontFamilySelect.value = defaultSettings.fontFamily;
+          if (fontSizeInput) fontSizeInput.value = defaultSettings.fontSize;
+          if (fontSizeValue) fontSizeValue.textContent = defaultSettings.fontSize + 'px';
+          applySettings(defaultSettings);
+        }
+
+        function openSettingsModal() {
+          if (settingsModal) settingsModal.classList.add('is-open');
+        }
+
+        function closeSettingsModal() {
+          if (settingsModal) settingsModal.classList.remove('is-open');
+        }
+
+        function saveSettings() {
+          const settings = {
+            mainColor: mainColorInput ? mainColorInput.value : '#0f49bd',
+            fontFamily: fontFamilySelect ? fontFamilySelect.value : '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+            fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : 16
+          };
+          applySettings(settings);
+          closeSettingsModal();
+        }
+
+        if (settingsBtn) settingsBtn.addEventListener('click', openSettingsModal);
+        if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
+
+        if (settingsModal) {
+          settingsModal.addEventListener('click', function(e) {
+            if (e.target.closest('[data-settings-close]')) closeSettingsModal();
+          });
+        }
+
+        if (fontSizeInput) {
+          fontSizeInput.addEventListener('input', function() {
+            if (fontSizeValue) fontSizeValue.textContent = fontSizeInput.value + 'px';
+          });
+        }
+
+        document.addEventListener('keydown', function(e) {
+          if (settingsModal && settingsModal.classList.contains('is-open') && e.key === 'Escape') {
+            closeSettingsModal();
+          }
+        });
+
+        loadSettings();
+      })();
+
+      // Borrow button functionality
+      (function() {
+        const borrowBtn = document.querySelector(".borrow-btn");
+        if (borrowBtn && !borrowBtn.disabled) {
+          borrowBtn.addEventListener("click", function() {
+            Swal.fire({
+              icon: 'success',
+              title: 'Book Borrowed!',
+              text: 'You have successfully borrowed this book.',
+              confirmButtonText: 'OK'
+            });
+            this.innerHTML = '<i class="fa-solid fa-check"></i> Borrowed!';
+            this.style.background = "#16a34a";
+            this.disabled = true;
+          });
+        }
+      })();
+    </script>
   </body>
 </html>

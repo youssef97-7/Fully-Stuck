@@ -1,0 +1,13 @@
+# Environments
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Database (Optional, but usually best practice so you don't overwrite the live DB)
+db.sqlite3
+
+# Environment variables
+.env

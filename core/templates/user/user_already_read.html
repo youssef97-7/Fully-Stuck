@@ -11,12 +11,6 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body data-user-page="already-read">
-    <script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
-    </script>
-
     <!-- nav bar -->
     <nav>
         <ul>
@@ -42,8 +36,43 @@
         <section class="featured-books" aria-labelledby="already-read-heading">
             <div class="search-home">
                 <h2 id="already-read-heading">From your catalog</h2>
+                <div class="controls">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search by title or author..."
+                    />
+                </div>
             </div>
-            <div class="content-book" id="alreadyReadBooks"></div>
+            <div class="content-book" id="alreadyReadBooks">
+                {% if book_list %}
+                    {% for book in book_list %}
+                    <div class="book-card" data-book-id="{{ book.id }}" data-book-details-link="{{ book.id }}" style="cursor: pointer;">
+                        <div class="book-card-media">
+                            <img src="{% if book.book.cover.url %}{{ book.book.cover.url }}{% else %}{% static 'images/book-1.jpeg' %}{% endif %}" alt="{{ book.book.title }}">
+                            <div class="main-card-hedden">
+                                <ul class="card-hedden">
+                                    <li><button type="button" data-card-action="wishlist" title="Add to Wishlist"><i class="fa-solid fa-bookmark"></i></button></li>
+                                    <li><button type="button" data-card-action="favourites" title="Add to Favourites"><i class="fa-regular fa-heart"></i></button></li>
+                                    <li><button type="button" data-card-action="want-to-read" title="Add to Want to Read"><i class="fa-solid fa-plus"></i></button></li>
+                                    <li><button type="button" data-card-action="already-read" class="rail-btn--active" title="Remove from Already Read"><i class="fa-solid fa-check"></i></button></li>
+                                    <li><button type="button" data-card-action="currently-reading" title="Add to Currently Reading"><i class="fa-solid fa-book-open"></i></button></li>
+                                    <li><button type="button" data-remove-from-list="already-read" title="Remove from Already Read"><i class="fa-solid fa-trash-can"></i></button></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <h3>{{ book.book.title }}</h3>
+                        <p>{{ book.book.author }}</p>
+                        <div class="buttom-card">
+                            <span>{{ book.book.category|default:"General" }}</span>
+                            <span class="star"><i class="fa-solid fa-star"></i>{{ book.book.rating|default:"0.0" }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="user-list-empty" role="status">No finished books yet. Mark titles as read from the card actions on <a href="{% url 'user_home' %}">Home</a> (check icon).</p>
+                {% endif %}
+            </div>
         </section>
     </main>
 
@@ -107,8 +136,6 @@
             </div>
         </div>
     </footer>
-    
-    
 
     <!-- Settings Modal -->
     <div id="settingsModal" class="modal">
@@ -149,116 +176,116 @@
       </div>
     </div>
 
-
-    <footer class="site-footer">
-        <div class="conteiner">
-            <div class="footer-grid">
-                <div class="footer-col brand-col">
-                    <div class="footer-logo">
-                        <i class="fa-solid fa-book-open"></i>
-                        <span>Fully Stack</span>
-                    </div>
-                    <p class="footer-description">
-                        Empowering minds through digital access to the world's most comprehensive library of human knowledge and imagination.
-                    </p>
-                    <div class="footer-socials">
-                        <a href="#" aria-label="Share"><i class="fa-solid fa-share-nodes"></i></a>
-                        <a href="#" aria-label="Global"><i class="fa-solid fa-globe"></i></a>
-                        <a href="#" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-                    </div>
-                </div>
-    
-                <div class="footer-col">
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="#">E-Books</a></li>
-                        <li><a href="#">Audiobooks</a></li>
-                        <li><a href="#">Journals</a></li>
-                        <li><a href="#">New Arrivals</a></li>
-                    </ul>
-                </div>
-    
-                <div class="footer-col">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-    
-                <div class="footer-col">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Accessibility</a></li>
-                        <li><a href="#">Gift Cards</a></li>
-                    </ul>
-                </div>
-            </div>
-    
-            <hr class="footer-divider">
-    
-            <div class="footer-bottom">
-                <p>&copy; 2024 NexLib Digital Systems. All rights reserved. Built with love for readers everywhere.</p>
-                <div class="bottom-links">
-                    <a href="#">Sitemap</a>
-                    <a href="#">Cookie Settings</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-    
-    
-
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="modal">
-      <div class="modal-backdrop" data-settings-close></div>
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title">Settings</h2>
-          <button type="button" class="icon-btn" data-settings-close aria-label="Close settings modal">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div>
-            <label class="field-label" for="mainColor">Main Color</label>
-            <input type="color" id="mainColor" class="field-input" value="#0f49bd">
-          </div>
-          <div>
-            <label class="field-label" for="fontFamily">Font Family</label>
-            <select id="fontFamily" class="field-input">
-              <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>Segoe UI</option>
-              <option value="Arial, sans-serif">Arial</option>
-              <option value="Helvetica, sans-serif">Helvetica</option>
-              <option value="Times New Roman, serif">Times New Roman</option>
-              <option value="Georgia, serif">Georgia</option>
-              <option value="Courier New, monospace">Courier New</option>
-            </select>
-          </div>
-          <div>
-            <label class="field-label" for="fontSize">Font Size</label>
-            <input type="range" id="fontSize" class="field-input" min="12" max="24" value="16">
-            <span id="fontSizeValue">16px</span>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn-secondary" data-settings-close>Cancel</button>
-          <button type="button" class="btn-primary" id="saveSettings">Save</button>
-        </div>
-      </div>
-    </div>
-   
     <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{% static 'js/books.lib.js' %}"></script>
-    <script src="{% static 'js/user-book-lists.js' %}"></script>
-    <script src="{% static 'js/library-book-ui.js' %}"></script>
-    <script src="{% static 'js/index.js' %}"></script>
-    <script src="../js/user-features.js"></script>
+    <script>
+      // Theme toggle
+      (function() {
+        const themeToggle = document.getElementById('theme-toggle');
+        function applyTheme(isDark) {
+          if (isDark) {
+            document.body.classList.add('dark-mode');
+            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+          } else {
+            document.body.classList.remove('dark-mode');
+            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+          }
+        }
+        applyTheme(false);
+        if (themeToggle) themeToggle.addEventListener('click', () => applyTheme(!document.body.classList.contains('dark-mode')));
+      })();
+
+      // Settings Modal
+      (function() {
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsModal = document.getElementById('settingsModal');
+        const mainColorInput = document.getElementById('mainColor');
+        const fontFamilySelect = document.getElementById('fontFamily');
+        const fontSizeInput = document.getElementById('fontSize');
+        const fontSizeValue = document.getElementById('fontSizeValue');
+        const saveSettingsBtn = document.getElementById('saveSettings');
+
+        function applySettings(settings) {
+          if (settings.mainColor) document.documentElement.style.setProperty('--main-color', settings.mainColor);
+          if (settings.fontFamily) document.documentElement.style.setProperty('--font-family', settings.fontFamily);
+          if (settings.fontSize) document.documentElement.style.setProperty('--font-size', settings.fontSize + 'px');
+        }
+
+        function openSettingsModal() { if (settingsModal) settingsModal.classList.add('is-open'); }
+        function closeSettingsModal() { if (settingsModal) settingsModal.classList.remove('is-open'); }
+
+        function saveSettings() {
+          applySettings({
+            mainColor: mainColorInput ? mainColorInput.value : '#0f49bd',
+            fontFamily: fontFamilySelect ? fontFamilySelect.value : '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+            fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : 16
+          });
+          closeSettingsModal();
+        }
+
+        if (settingsBtn) settingsBtn.addEventListener('click', openSettingsModal);
+        if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
+        if (settingsModal) {
+          settingsModal.addEventListener('click', function(e) {
+            if (e.target.closest('[data-settings-close]')) closeSettingsModal();
+          });
+        }
+        if (fontSizeInput) {
+          fontSizeInput.addEventListener('input', function() {
+            if (fontSizeValue) fontSizeValue.textContent = fontSizeInput.value + 'px';
+          });
+        }
+
+        applySettings({ mainColor: '#0f49bd', fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif', fontSize: 16 });
+      })();
+
+      // Search functionality
+      (function() {
+        const container = document.getElementById("alreadyReadBooks");
+        const searchInput = document.getElementById("searchInput");
+        
+        if (container && searchInput) {
+          const bookCards = Array.from(container.querySelectorAll('.book-card'));
+
+          function filterBooks(searchTerm) {
+            const term = searchTerm.toLowerCase().trim();
+            
+            bookCards.forEach(card => {
+              const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+              const author = card.querySelector('p')?.textContent.toLowerCase() || '';
+              
+              if (term === '' || title.includes(term) || author.includes(term)) {
+                card.style.display = '';
+              } else {
+                card.style.display = 'none';
+              }
+            });
+          }
+
+          searchInput.addEventListener('input', function(e) {
+            filterBooks(e.target.value);
+          });
+        }
+      })();
+
+      // Book card click navigation
+      (function() {
+        const container = document.getElementById("alreadyReadBooks");
+        
+        if (container) {
+          container.addEventListener('click', function(e) {
+            // Don't navigate if clicking on buttons
+            if (e.target.closest('button')) return;
+            
+            const card = e.target.closest('.book-card');
+            if (card && card.dataset.bookDetailsLink) {
+              const bookId = card.dataset.bookDetailsLink;
+              window.location.href = `books_details.html?id=${encodeURIComponent(bookId)}`;
+            }
+          });
+        }
+      })();
+    </script>
 </body>
 </html>

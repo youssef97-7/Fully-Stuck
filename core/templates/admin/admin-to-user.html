@@ -1,30 +1,25 @@
-<!doctype html>
-<html lang="en">
-  {% load static %}
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+<title>Document</title>
+{% endblock extra_head %}
+{% block navbar %}
+<nav class="">
+        <ul>
+            <li><a href="{% url 'admin_home' %}">Admin</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+            <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+        </ul>
+    </nav>
+{% endblock navbar %}
 
-    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/media.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-  </head>
-  <body>
-    <!-- nav bar -->
-     <script>
+{% block content %}
+
+<script>
         if (localStorage.getItem('theme') === 'dark') {
             document.body.classList.add('dark-mode');
         }
     </script>
-    <nav class="">
-        <ul>
-            
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-            <li><a href="{% url 'admin_home' %}">Admin</a></li>
-            <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
-        </ul>
-    </nav>
 
     <header id="hero" >
       <div class="image-hero">
@@ -164,66 +159,7 @@
         </section>
       </section>
 
-    <footer class="site-footer">
-      <div class="conteiner">
-          <div class="footer-grid">
-              <div class="footer-col brand-col">
-                  <div class="footer-logo">
-                      <i class="fa-solid fa-book-open"></i>
-                      <span>Fully Stack</span>
-                  </div>
-                  <p class="footer-description">
-                      Empowering minds through digital access to the world's most comprehensive library of human knowledge and imagination.
-                  </p>
-                  <div class="footer-socials">
-                      <a href="#" aria-label="Share"><i class="fa-solid fa-share-nodes"></i></a>
-                      <a href="#" aria-label="Global"><i class="fa-solid fa-globe"></i></a>
-                      <a href="#" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-                  </div>
-              </div>
-  
-              <div class="footer-col">
-                  <h3>Resources</h3>
-                  <ul>
-                      <li><a href="#">E-Books</a></li>
-                      <li><a href="#">Audiobooks</a></li>
-                      <li><a href="#">Journals</a></li>
-                      <li><a href="#">New Arrivals</a></li>
-                  </ul>
-              </div>
-  
-              <div class="footer-col">
-                  <h3>Company</h3>
-                  <ul>
-                      <li><a href="#">About Us</a></li>
-                      <li><a href="#">Careers</a></li>
-                      <li><a href="#">Privacy Policy</a></li>
-                      <li><a href="#">Terms of Service</a></li>
-                  </ul>
-              </div>
-  
-              <div class="footer-col">
-                  <h3>Support</h3>
-                  <ul>
-                      <li><a href="#">Help Center</a></li>
-                      <li><a href="#">Contact Us</a></li>
-                      <li><a href="#">Accessibility</a></li>
-                      <li><a href="#">Gift Cards</a></li>
-                  </ul>
-              </div>
-          </div>
-  
-          <hr class="footer-divider">
-  
-          <div class="footer-bottom">
-              <p>&copy; 2024 NexLib Digital Systems. All rights reserved. Built with love for readers everywhere.</p>
-              <div class="bottom-links">
-                  <a href="#">Sitemap</a>
-                  <a href="#">Cookie Settings</a>
-              </div>
-          </div>
-      </div>
-  </footer>
+    
   
   
 
@@ -274,6 +210,4 @@
     <script src="{% static 'js/library-book-ui.js' %}"></script>
     <script src="{% static 'js/user-home.js' %}"></script>
     <script src="{% static 'js/index.js' %}"></script>
-
-  </body>
-</html>
+{% endblock content %}

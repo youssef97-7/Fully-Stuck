@@ -43,7 +43,7 @@
                 <p class="auth-subtitle">Join Booooooook in a few steps</p>
             </div>
 
-            <form method="POST" action="{% url 'signup' %}" class="auth-form">
+            <form id="signupForm" method="POST" action="{% url 'signup' %}" class="auth-form">
             {% csrf_token %}
                 <div class="auth-grid">
                     <div class="auth-field">

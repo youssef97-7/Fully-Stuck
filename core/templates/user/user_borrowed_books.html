@@ -1,205 +1,138 @@
-<!DOCTYPE html>
-<html lang="en">
-  {% load static %}
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_head %}
+<title>Borrowed Books</title>
+{% endblock extra_head %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Borrowed Books</title>
+{% block navbar %}
+<nav>
+  <ul>
+    <li><a href="{% url 'user_home' %}">Home</a></li>
+    <li><a href="{% url 'all_books'%}">Library</a></li>
+    <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+    <li><a href="{% url 'currently_read' %}">Currently Reading</a></li>
+    <li><a href="{% url 'already_read' %}">Already Read</a></li>
+    <li><a href="{% url 'favourites' %}">Favourites</a></li>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+    <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+  </ul>
+</nav>
+{% endblock navbar %}
 
-    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/media.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+{% block content %}
+<main class="conteiner user-feature-page">
+  <header class="page-intro">
+    <span class="eyebrow">Your borrowed items</span>
+    <h1>Borrowed Books</h1>
+    <p class="lede">Books you currently have borrowed from the library.</p>
+  </header>
+  <div class="content-book" id="borrowedBooksContainer">
+    <p>No borrowed books at this time.</p>
+  </div>
+</main>
+{% endblock content %}
 
-<body>
-    <!-- nav bar -->
-    <nav>
-        <ul>
-            <li><a href="{% url 'user_home' %}">Home</a></li>
-            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-            <li><a href="{% url 'all_books'%}">Want to Read</a></li>
-            <li><a href="{% url 'currently_read' %}">Currently Reading</a></li>
-            <li><a href="{% url 'already_read' %}">Already Read</a></li>
-            <li><a href="{% url 'favourites' %}">Favourites</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-            <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
-        </ul>
-    </nav>
-    <main class="conteiner user-feature-page">
-        <header class="page-intro">
-            <span class="eyebrow">Your borrowed items</span>
-            <h1>Borrowed Books</h1>
-            <p class="lede">Books you currently have borrowed from the library.</p>
-        </header>
-        <div class="content-book" id="borrowedBooksContainer">
-            <p>No borrowed books at this time.</p>
-        </div>
-    </main>
-
-    <footer class="site-footer">
-        <div class="conteiner">
-            <div class="footer-grid">
-                <div class="footer-col brand-col">
-                    <div class="footer-logo">
-                        <i class="fa-solid fa-book-open"></i>
-                        <span>Fully Stack</span>
-                    </div>
-                    <p class="footer-description">
-                        Empowering minds through digital access to the world's most comprehensive library of human knowledge and imagination.
-                    </p>
-                    <div class="footer-socials">
-                        <a href="#" aria-label="Share"><i class="fa-solid fa-share-nodes"></i></a>
-                        <a href="#" aria-label="Global"><i class="fa-solid fa-globe"></i></a>
-                        <a href="#" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-                    </div>
-                </div>
-    
-                <div class="footer-col">
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="#">E-Books</a></li>
-                        <li><a href="#">Audiobooks</a></li>
-                        <li><a href="#">Journals</a></li>
-                        <li><a href="#">New Arrivals</a></li>
-                    </ul>
-                </div>
-    
-                <div class="footer-col">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-    
-                <div class="footer-col">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Accessibility</a></li>
-                        <li><a href="#">Gift Cards</a></li>
-                    </ul>
-                </div>
-            </div>
-    
-            <hr class="footer-divider">
-    
-            <div class="footer-bottom">
-                <p>&copy; 2024 NexLib Digital Systems. All rights reserved. Built with love for readers everywhere.</p>
-                <div class="bottom-links">
-                    <a href="#">Sitemap</a>
-                    <a href="#">Cookie Settings</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <div id="settingsModal" class="modal">
-      <div class="modal-backdrop" data-settings-close></div>
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title">Settings</h2>
-          <button type="button" class="icon-btn" data-settings-close aria-label="Close settings modal">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div>
-            <label class="field-label" for="mainColor">Main Color</label>
-            <input type="color" id="mainColor" class="field-input" value="#0f49bd">
-          </div>
-          <div>
-            <label class="field-label" for="fontFamily">Font Family</label>
-            <select id="fontFamily" class="field-input">
-              <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>Segoe UI</option>
-              <option value="Arial, sans-serif">Arial</option>
-              <option value="Helvetica, sans-serif">Helvetica</option>
-              <option value="Times New Roman, serif">Times New Roman</option>
-              <option value="Georgia, serif">Georgia</option>
-              <option value="Courier New, monospace">Courier New</option>
-            </select>
-          </div>
-          <div>
-            <label class="field-label" for="fontSize">Font Size</label>
-            <input type="range" id="fontSize" class="field-input" min="12" max="24" value="16">
-            <span id="fontSizeValue">16px</span>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn-secondary" data-settings-close>Cancel</button>
-          <button type="button" class="btn-primary" id="saveSettings">Save</button>
-        </div>
+{% block extra_content %}
+<div id="settingsModal" class="modal">
+  <div class="modal-backdrop" data-settings-close></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Settings</h2>
+      <button type="button" class="icon-btn" data-settings-close aria-label="Close settings modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <label class="field-label" for="mainColor">Main Color</label>
+        <input type="color" id="mainColor" class="field-input" value="#0f49bd">
+      </div>
+      <div>
+        <label class="field-label" for="fontFamily">Font Family</label>
+        <select id="fontFamily" class="field-input">
+          <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>Segoe UI</option>
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="Helvetica, sans-serif">Helvetica</option>
+          <option value="Times New Roman, serif">Times New Roman</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="Courier New, monospace">Courier New</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label" for="fontSize">Font Size</label>
+        <input type="range" id="fontSize" class="field-input" min="12" max="24" value="16">
+        <span id="fontSizeValue">16px</span>
       </div>
     </div>
-    
-    <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" data-settings-close>Cancel</button>
+      <button type="button" class="btn-primary" id="saveSettings">Save</button>
+    </div>
+  </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-      // Theme toggle
-      (function() {
-        const themeToggle = document.getElementById('theme-toggle');
-        function applyTheme(isDark) {
-          if (isDark) {
-            document.body.classList.add('dark-mode');
-            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
-          } else {
-            document.body.classList.remove('dark-mode');
-            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
-          }
-        }
-        applyTheme(false);
-        if (themeToggle) themeToggle.addEventListener('click', () => applyTheme(!document.body.classList.contains('dark-mode')));
-      })();
+<button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
 
-      // Settings Modal
-      (function() {
-        const settingsBtn = document.getElementById('settings-btn');
-        const settingsModal = document.getElementById('settingsModal');
-        const mainColorInput = document.getElementById('mainColor');
-        const fontFamilySelect = document.getElementById('fontFamily');
-        const fontSizeInput = document.getElementById('fontSize');
-        const fontSizeValue = document.getElementById('fontSizeValue');
-        const saveSettingsBtn = document.getElementById('saveSettings');
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  // Theme toggle
+  (function () {
+    const themeToggle = document.getElementById('theme-toggle');
+    function applyTheme(isDark) {
+      if (isDark) {
+        document.body.classList.add('dark-mode');
+        if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+      } else {
+        document.body.classList.remove('dark-mode');
+        if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+      }
+    }
+    applyTheme(false);
+    if (themeToggle) themeToggle.addEventListener('click', () => applyTheme(!document.body.classList.contains('dark-mode')));
+  })();
 
-        function applySettings(settings) {
-          if (settings.mainColor) document.documentElement.style.setProperty('--main-color', settings.mainColor);
-          if (settings.fontFamily) document.documentElement.style.setProperty('--font-family', settings.fontFamily);
-          if (settings.fontSize) document.documentElement.style.setProperty('--font-size', settings.fontSize + 'px');
-        }
+  // Settings Modal
+  (function () {
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsModal = document.getElementById('settingsModal');
+    const mainColorInput = document.getElementById('mainColor');
+    const fontFamilySelect = document.getElementById('fontFamily');
+    const fontSizeInput = document.getElementById('fontSize');
+    const fontSizeValue = document.getElementById('fontSizeValue');
+    const saveSettingsBtn = document.getElementById('saveSettings');
 
-        function openSettingsModal() { if (settingsModal) settingsModal.classList.add('is-open'); }
-        function closeSettingsModal() { if (settingsModal) settingsModal.classList.remove('is-open'); }
+    function applySettings(settings) {
+      if (settings.mainColor) document.documentElement.style.setProperty('--main-color', settings.mainColor);
+      if (settings.fontFamily) document.documentElement.style.setProperty('--font-family', settings.fontFamily);
+      if (settings.fontSize) document.documentElement.style.setProperty('--font-size', settings.fontSize + 'px');
+    }
 
-        function saveSettings() {
-          applySettings({
-            mainColor: mainColorInput ? mainColorInput.value : '#0f49bd',
-            fontFamily: fontFamilySelect ? fontFamilySelect.value : '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-            fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : 16
-          });
-          closeSettingsModal();
-        }
+    function openSettingsModal() { if (settingsModal) settingsModal.classList.add('is-open'); }
+    function closeSettingsModal() { if (settingsModal) settingsModal.classList.remove('is-open'); }
 
-        if (settingsBtn) settingsBtn.addEventListener('click', openSettingsModal);
-        if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
-        if (settingsModal) {
-          settingsModal.addEventListener('click', function(e) {
-            if (e.target.closest('[data-settings-close]')) closeSettingsModal();
-          });
-        }
-        if (fontSizeInput) {
-          fontSizeInput.addEventListener('input', function() {
-            if (fontSizeValue) fontSizeValue.textContent = fontSizeInput.value + 'px';
-          });
-        }
+    function saveSettings() {
+      applySettings({
+        mainColor: mainColorInput ? mainColorInput.value : '#0f49bd',
+        fontFamily: fontFamilySelect ? fontFamilySelect.value : '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+        fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : 16
+      });
+      closeSettingsModal();
+    }
 
-        applySettings({ mainColor: '#0f49bd', fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif', fontSize: 16 });
-      })();
-    </script>
-</body>
+    if (settingsBtn) settingsBtn.addEventListener('click', openSettingsModal);
+    if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
+    if (settingsModal) {
+      settingsModal.addEventListener('click', function (e) {
+        if (e.target.closest('[data-settings-close]')) closeSettingsModal();
+      });
+    }
+    if (fontSizeInput) {
+      fontSizeInput.addEventListener('input', function () {
+        if (fontSizeValue) fontSizeValue.textContent = fontSizeInput.value + 'px';
+      });
+    }
 
-</html>
+    applySettings({ mainColor: '#0f49bd', fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif', fontSize: 16 });
+  })();
+</script>
+{% endblock extra_content%}

@@ -70,7 +70,7 @@
                             <td>
                                 <div class="book-details">
                                     {% if book.cover %}
-                                    <img src="{{ book.cover.url }}" alt="cover">
+                                    <img src="{{ book.cover.url }}" alt="cover" style="width: 75px; height: 99px; object-fit: cover; flex-shrink: 0; border-radius: 1px;">
                                     {% endif %}
                                     <span>{{ book.title }}</span>
                                 </div>

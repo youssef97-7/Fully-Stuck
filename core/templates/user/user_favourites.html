@@ -1,24 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-  {% load static %}
+{% extends 'base.html' %}
+{% load static %}
+{% block body_attributes %} data-user-page="favourites" {% endblock body_attributes %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favourites</title>
+{% block extra_head %}
+<title>Favourites</title>
+{% endblock extra_head %}
 
-    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/media.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-
-<body data-user-page="favourites">
-    <!-- nav bar -->
-    <nav>
+{% block navbar %}
+<nav>
         <ul>
             <li><a href="{% url 'user_home' %}">Home</a></li>
+            <li><a href="{% url 'all_books'%}">Library</a></li>
             <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-            <li><a href="{% url 'all_books'%}">Want to Read</a></li>
             <li><a href="{% url 'currently_read' %}">Currently Reading</a></li>
             <li><a href="{% url 'already_read' %}">Already Read</a></li>
             <li><a href="{% url 'favourites' %}" class="active">Favourites</a></li>
@@ -26,8 +19,10 @@
             <button type="button" id="theme-toggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
         </ul>
     </nav>
+{% endblock navbar %}
 
-    <main class="conteiner user-feature-page">
+{% block content %}
+<main class="conteiner user-feature-page">
         <header class="page-intro">
             <span class="eyebrow">Your bookshelf</span>
             <h1>Favourites</h1>
@@ -115,69 +110,10 @@
             </div>
         </section>
     </main>
+{% endblock content %}
 
-    <footer class="site-footer">
-        <div class="conteiner">
-            <div class="footer-grid">
-                <div class="footer-col brand-col">
-                    <div class="footer-logo">
-                        <i class="fa-solid fa-book-open"></i>
-                        <span>NexLib</span>
-                    </div>
-                    <p class="footer-description">
-                        Empowering minds through digital access to the world's most comprehensive library of human knowledge and imagination.
-                    </p>
-                    <div class="footer-socials">
-                        <a href="#" aria-label="Share"><i class="fa-solid fa-share-nodes"></i></a>
-                        <a href="#" aria-label="Global"><i class="fa-solid fa-globe"></i></a>
-                        <a href="#" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
-                    </div>
-                </div>
-    
-                <div class="footer-col">
-                    <h3>Resources</h3>
-                    <ul>
-                        <li><a href="#">E-Books</a></li>
-                        <li><a href="#">Audiobooks</a></li>
-                        <li><a href="#">Journals</a></li>
-                        <li><a href="#">New Arrivals</a></li>
-                    </ul>
-                </div>
-    
-                <div class="footer-col">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                    </ul>
-                </div>
-    
-                <div class="footer-col">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Accessibility</a></li>
-                        <li><a href="#">Gift Cards</a></li>
-                    </ul>
-                </div>
-            </div>
-    
-            <hr class="footer-divider">
-    
-            <div class="footer-bottom">
-                <p>&copy; 2024 NexLib Digital Systems. All rights reserved. Built with love for readers everywhere.</p>
-                <div class="bottom-links">
-                    <a href="#">Sitemap</a>
-                    <a href="#">Cookie Settings</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
+{% block extra_content %}
+<button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
 
     <div id="settingsModal" class="modal">
       <div class="modal-backdrop" data-settings-close></div>
@@ -308,5 +244,4 @@
         }
       })();
     </script>
-</body>
-</html>
+{% endblock extra_content %}

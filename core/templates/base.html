@@ -12,12 +12,15 @@
     {% endblock extra_head%}
 </head>
 
-<body>
+<body {% block body_attributes %} {% endblock%}>
     {% block navbar %}
     {% endblock navbar %}
 
     {% block content %}
     {% endblock content %}
+
+    {% block extra_content %}
+    {% endblock extra_content%}
 
     {% include 'parts/footer.html' %}
 </body>

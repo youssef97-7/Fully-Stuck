@@ -15,6 +15,7 @@ urlpatterns = [
     path('books/favourites/', views.view_favourites, name='favourites'),
     path('books/wishlist/', views.view_wish_list, name='wishlist'),
 
+    path('book/status/<int:id>',views.add_status, name='add_status'),
     path('logout/', views.view_logout, name='logout'),
 
 ]

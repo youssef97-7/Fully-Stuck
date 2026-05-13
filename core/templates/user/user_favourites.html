@@ -54,15 +54,50 @@
                                 <img src="{% if book.book.cover.url %}{{ book.book.cover.url }}{% else %}{% static 'images/book-1.jpeg' %}{% endif %}" alt="{{ book.book.title }}">
                             </a>
                             <div class="main-card-hedden">
-                                <ul class="card-hedden">
-                                    <li><button type="button" data-card-action="wishlist" title="Add to Wishlist"><i class="fa-solid fa-bookmark"></i></button></li>
-                                    <li><button type="button" data-card-action="favourites" class="rail-btn--active" title="Remove from Favourites"><i class="fa-regular fa-heart"></i></button></li>
-                                    <li><button type="button" data-card-action="want-to-read" title="Add to Want to Read"><i class="fa-solid fa-plus"></i></button></li>
-                                    <li><button type="button" data-card-action="already-read" title="Mark as Already Read"><i class="fa-solid fa-check"></i></button></li>
-                                    <li><button type="button" data-card-action="currently-reading" title="Add to Currently Reading"><i class="fa-solid fa-book-open"></i></button></li>
-                                    <li><button type="button" data-remove-from-list="favourites" title="Remove from Favourites"><i class="fa-solid fa-trash-can"></i></button></li>
-                                </ul>
-                            </div>
+                  <form method="POST" action="{% url 'add_status' book.book.id %}">
+                  {% csrf_token %}
+
+                  <ul class="card-hedden">
+
+                      <li>
+                          <button type="submit" name="action" value="wishlist" title="Remove from Wishlist">
+                              <i class="fa-solid fa-bookmark"></i>
+                          </button>
+                      </li>
+
+                      <li>
+                          <button type="submit" name="action" value="favourites" title="Add to Favourites">
+                              <i class="fa-regular fa-heart"></i>
+                          </button>
+                      </li>
+
+                      <li>
+                          <button type="submit" name="action" value="want-to-read" title="Add to Want to Read">
+                              <i class="fa-solid fa-plus"></i>
+                          </button>
+                      </li>
+
+                      <li>
+                          <button type="submit" name="action" value="already-read" title="Mark as Already Read">
+                              <i class="fa-solid fa-check"></i>
+                          </button>
+                      </li>
+
+                      <li>
+                          <button type="submit" name="action" value="currently-reading" title="Add to Currently Reading">
+                              <i class="fa-solid fa-book-open"></i>
+                          </button>
+                      </li>
+
+                      <li>
+                          <button type="submit" name="action" value="remove_from_favourites" title="Remove from Favourites">
+                              <i class="fa-solid fa-trash-can"></i>
+                          </button>
+                      </li>
+
+                  </ul>
+              </form>
+                </div>
                         </div>
                         <a href="{% url 'book_details' book.book.id %}" style="text-decoration: none; color: inherit;">
                             <h3>{{ book.book.title }}</h3>

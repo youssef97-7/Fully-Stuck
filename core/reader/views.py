@@ -152,3 +152,94 @@ def view_logout(request):
     logout(request)
     messages.success(request, "Logged out successfully")
     return redirect('login')
+
+
+@login_required
+def add_status(request,id):
+    user = request.user
+    action = request.POST.get('action')
+    book = get_object_or_404(book_models.Book,id=id)
+    
+    if action == "favourites":
+        status = 'favourite'
+        relation = models.UserBookRelation.objects.filter(
+        user=user,
+        book=book,
+        status='favourite'
+    )
+    
+    if action == "wishlist":
+        status = 'wish'
+        relation = models.UserBookRelation.objects.filter(
+            user=user,
+            book=book,
+            status='wish'
+        )
+    
+    if action == 'already-read':
+        status = 'read'
+        relation = models.UserBookRelation.objects.filter(
+            user=user,
+            book=book,
+            status='read'
+        )
+    
+    if action == 'currently-reading':
+        status = 'current'
+        relation = models.UserBookRelation.objects.filter(
+            user=user,
+            book=book,
+            status='current'
+        )
+    
+    if action == 'remove_from_wishlist':
+        relation = models.UserBookRelation.objects.filter(
+            user=user,
+            book=book,
+            status='wish'
+        )
+        if relation.exists():
+            relation.delete()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    
+    if action == "remove_from_favourites":
+        relation = models.UserBookRelation.objects.filter(
+            user=user,
+            book=book,
+            status='favourite'
+        )
+        if relation.exists():
+            relation.delete()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    
+    if action == 'remove_from_currently_reading':
+        relation = models.UserBookRelation.objects.filter(
+            user=user,
+            book=book,
+            status='current'
+        )
+        if relation.exists():
+            relation.delete()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    
+    if action == 'remove_from_already_read':
+        relation = models.UserBookRelation.objects.filter(
+            user=user,
+            book=book,
+            status='read'
+        )
+        if relation.exists():
+            relation.delete()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+        
+
+    if relation.exists():
+        relation.delete()
+    else:
+        models.UserBookRelation.objects.create(
+            user=user,
+            book=book,
+            status=status
+        )
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))

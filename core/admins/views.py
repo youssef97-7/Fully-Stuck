@@ -12,7 +12,8 @@ def view_admin_home(request):
 
 @login_required
 def view_admint_to_user(request):
-    return render(request,'admin/admin-to-user.html')
+    book_list = book_models.Book.objects.all()
+    return render(request,'admin/admin-to-user.html',{'book_list' : book_list})
 
 
 def delete_book(request, book_id):

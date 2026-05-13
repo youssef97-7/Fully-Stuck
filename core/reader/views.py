@@ -12,7 +12,8 @@ User = get_user_model()
 
 
 def view_intro(request):
-    return render(request,'index.html')
+    book_list = book_models.Book.objects.all()
+    return render(request,'index.html',{'book_list' : book_list})
 
 
 def view_register(request):
@@ -92,7 +93,8 @@ def view_login(request):
 
 @login_required
 def view_user_home(request):
-    return render(request,'user/user.html')
+    book_list = book_models.Book.objects.all()
+    return render(request,'user/user.html', {'book_list' : book_list})
 
 @login_required
 def view_book_details(request,id):

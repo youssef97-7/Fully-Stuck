@@ -88,8 +88,63 @@
         </div>
 
 
-        
-          <div class="content-book" id="featuredBooksContainer"></div>
+      
+
+          <div class="content-book" id="wantToReadBooks">
+                {% if book_list %}
+                    {% for book in book_list %}
+                    <div class="book-card" data-book-id="{{ book.id }}" data-book-details-link="{{ book.id }}" style="cursor: pointer;">
+                        <div class="book-card-media">
+                        <a href="{% url 'book_details' book.id %}">
+                            <img src="{% if book.cover.url %}{{ book.cover.url }}{% else %}{% static 'images/book-1.jpeg' %}{% endif %}" alt="{{ book.title }}">
+                        </a>    
+                        <div class="main-card-hedden">                        
+                        <form method="POST" action="{% url 'add_status' book.id %}">
+                            {% csrf_token %}
+                            
+                            <ul class="card-hedden">
+
+                                <li>
+                                    <button type="submit" name="action" value="wishlist" title="Add to Wishlist">
+                                        <i class="fa-solid fa-bookmark"></i>
+                                    </button>
+                                </li>
+
+                                <li>
+                                    <button type="submit" name="action" value="favourites" title="Add to Favourites">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                </li>
+
+
+                                <li>
+                                    <button type="submit" name="action" value="already-read" title="Mark as Already Read">
+                                        <i class="fa-solid fa-check"></i>
+                                    </button>
+                                </li>
+
+                                <li>
+                                    <button type="submit" name="action" value="currently-reading" title="Add to Currently Reading">
+                                        <i class="fa-solid fa-book-open"></i>
+                                    </button>
+                                </li>
+
+                            </ul>
+                        </form>
+                        </div>
+                        </div>
+                        <h3>{{ book.title }}</h3>
+                        <p>{{ book.author }}</p>
+                        <div class="buttom-card">
+                            <span>{{ book.category|default:"General" }}</span>
+                            <span class="star"><i class="fa-solid fa-star"></i>{{ book.rating|default:"0.0" }}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                   <p class="user-list-empty" role="status">There are currently no books available in the library.</p>
+                {% endif %}
+            </div>
         
 
       </section>
@@ -111,26 +166,25 @@
             <div class="contact-grid">
               <div class="contact-card form-wrapper">
                 <h3><i class="fas fa-envelope"></i> Send a Message</h3>
-                <form>
-    {% csrf_token %}
-    {% csrf_token %}
+                <form method="post" action="{%url 'notifications'%}">
+                {% csrf_token %}
                   <div class="form-row">
                     <div class="input-group">
                       <label>Full Name</label>
-                      <input type="text" placeholder="John Doe">
+                      <input type="text" name="full_name" placeholder="John Doe">
                     </div>
                     <div class="input-group">
                       <label>Email Address</label>
-                      <input type="email" placeholder="john@example.com">
+                      <input type="email" name="email" placeholder="john@example.com">
                     </div>
                   </div>
                   <div class="input-group">
                     <label>Subject</label>
-                    <input type="text" placeholder="How can we help?">
+                    <input type="text" name="subject" placeholder="How can we help?">
                   </div>
                   <div class="input-group">
                     <label>Message</label>
-                    <textarea rows="6" placeholder="Tell us more about your inquiry..."></textarea>
+                    <textarea rows="6" name="message" placeholder="Tell us more about your inquiry..."></textarea>
                   </div>
                   <button type="submit" class="btn-submit">
                     Send Message <i class="fas fa-paper-plane"></i>

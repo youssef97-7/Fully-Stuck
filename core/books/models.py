@@ -53,6 +53,19 @@ class Book(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
     def __str__(self):
         return self.title
+    
+
+
+class Notification(models.Model):
+    full_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    reciver = models.EmailField(null=True,blank=True)
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    

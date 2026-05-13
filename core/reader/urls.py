@@ -14,6 +14,7 @@ urlpatterns = [
     path('books/current/', views.view_currently_read, name='currently_read'),
     path('books/favourites/', views.view_favourites, name='favourites'),
     path('books/wishlist/', views.view_wish_list, name='wishlist'),
+    path('all_books/',views.view_books, name='all_books'),
 
     path('book/status/<int:id>',views.add_status, name='add_status'),
     path('logout/', views.view_logout, name='logout'),

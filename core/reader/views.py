@@ -14,6 +14,7 @@ User = get_user_model()
 def view_intro(request):
     return render(request,'index.html')
 
+
 def view_register(request):
     if request.method == 'POST':
 
@@ -243,3 +244,8 @@ def add_status(request,id):
         )
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required
+def view_books(request):
+    book_list = book_models.Book.objects.all()
+    return render(request,'user/user_wants_to_read.html',{'book_list' : book_list})

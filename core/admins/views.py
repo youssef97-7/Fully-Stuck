@@ -36,7 +36,8 @@ def edit_book(request, book_id):
         book.category = category_object
 
         book.title = request.POST.get('title')
-        book.cover = request.POST.get('coverpage')
+        if 'cover' in request.FILES:
+            book.cover = request.FILES.get('cover')
         book.rating = request.POST.get('rating')
         book.description = request.POST.get('description')
         book.total_copies = request.POST.get('totalCopies')
@@ -59,7 +60,7 @@ def add_book(request):
             author=author_object,
             category=category_object,
             
-            cover=request.POST.get('cover'), 
+            cover=request.FILES.get('cover'), 
             
             rating=request.POST.get('rating'),
             description=request.POST.get('description'),

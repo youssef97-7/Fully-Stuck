@@ -195,13 +195,16 @@
           if (isDark) {
             document.body.classList.add('dark-mode');
             if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            localStorage.setItem('theme', 'dark');
           } else {
             document.body.classList.remove('dark-mode');
             if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            localStorage.setItem('theme', 'light');
           }
         }
         
-        applyTheme(false);
+        const storedTheme = localStorage.getItem('theme') === 'dark';
+        applyTheme(storedTheme);
         
         if (themeToggle) {
           themeToggle.addEventListener('click', function() {
@@ -233,17 +236,34 @@
           }
         }
 
+        const defaultSettings = {
+          mainColor: '#0f49bd',
+          fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+          fontSize: 16,
+        };
+
+        function getStoredSettings() {
+          try {
+            return JSON.parse(localStorage.getItem('userSettings') || 'null') || {};
+          } catch {
+            return {};
+          }
+        }
+
+        function saveUserSettings(settings) {
+          localStorage.setItem('userSettings', JSON.stringify(settings));
+        }
+
         function loadSettings() {
-          const defaultSettings = {
-            mainColor: '#0f49bd',
-            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-            fontSize: 16
+          const settings = {
+            ...defaultSettings,
+            ...getStoredSettings(),
           };
-          if (mainColorInput) mainColorInput.value = defaultSettings.mainColor;
-          if (fontFamilySelect) fontFamilySelect.value = defaultSettings.fontFamily;
-          if (fontSizeInput) fontSizeInput.value = defaultSettings.fontSize;
-          if (fontSizeValue) fontSizeValue.textContent = defaultSettings.fontSize + 'px';
-          applySettings(defaultSettings);
+          if (mainColorInput) mainColorInput.value = settings.mainColor;
+          if (fontFamilySelect) fontFamilySelect.value = settings.fontFamily;
+          if (fontSizeInput) fontSizeInput.value = settings.fontSize;
+          if (fontSizeValue) fontSizeValue.textContent = settings.fontSize + 'px';
+          applySettings(settings);
         }
 
         function openSettingsModal() {
@@ -256,10 +276,11 @@
 
         function saveSettings() {
           const settings = {
-            mainColor: mainColorInput ? mainColorInput.value : '#0f49bd',
-            fontFamily: fontFamilySelect ? fontFamilySelect.value : '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-            fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : 16
+            mainColor: mainColorInput ? mainColorInput.value : defaultSettings.mainColor,
+            fontFamily: fontFamilySelect ? fontFamilySelect.value : defaultSettings.fontFamily,
+            fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : defaultSettings.fontSize,
           };
+          saveUserSettings(settings);
           applySettings(settings);
           closeSettingsModal();
         }

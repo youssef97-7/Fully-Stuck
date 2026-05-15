@@ -2,18 +2,7 @@
   const ACCOUNTS_KEY = "library.auth.accounts.v1";
   const SESSION_KEY = "library.auth.currentUser";
 
-  function getAccounts() {
-    try {
-      const raw = localStorage.getItem(ACCOUNTS_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  }
 
-  function saveAccounts(list) {
-    localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(list));
-  }
 
   function saveSession(account) {
     const session = {
@@ -24,7 +13,7 @@
       birthDate: account.birthDate || "",
       role: account.role === "admin" ? "admin" : "user",
     };
-    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    // localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   }
 
   const emailRe = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
@@ -93,18 +82,18 @@
       const accounts = getAccounts();
       const account = accounts.find((a) => a.email.toLowerCase() === email.toLowerCase());
 
-      if (!account || account.password !== password) {
-        localStorage.removeItem(SESSION_KEY);
-        if (typeof Swal !== "undefined") {
-          Swal.fire({
-            ...swalBase(),
-            icon: "error",
-            title: "Login failed",
-            text: "Email or password is incorrect. Sign up first if you are new.",
-          });
-        }
-        return;
-      }
+      // if (!account || account.password !== password) {
+      //   localStorage.removeItem(SESSION_KEY);
+      //   if (typeof Swal !== "undefined") {
+      //     Swal.fire({
+      //       ...swalBase(),
+      //       icon: "error",
+      //       title: "Login failed",
+      //       text: "Email or password is incorrect. Sign up first if you are new.",
+      //     });
+      //   }
+      //   return;
+      // }
 
       saveSession(account);
 

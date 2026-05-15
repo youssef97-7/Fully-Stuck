@@ -52,14 +52,11 @@ if (btn) {
 window.addEventListener("scroll", function () {
   let scroll = document.querySelector(".scroll-to-top");
 
-  
   if (window.scrollY >= 200) {
     scroll.classList.remove("hidden");
-
   } else {
     scroll.classList.add("hidden");
   }
-  
 });
 
 ///////// home ////////
@@ -727,40 +724,58 @@ const fontSizeInput = document.getElementById("fontSize");
 const fontSizeValue = document.getElementById("fontSizeValue");
 const saveSettingsBtn = document.getElementById("saveSettings");
 
+const defaultUserSettings = {
+  mainColor: "#0f49bd",
+  fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+  fontSize: 16,
+};
+
+function getStoredSettings() {
+  try {
+    const stored = JSON.parse(localStorage.getItem("userSettings") || "null");
+    return stored && typeof stored === "object" ? stored : {};
+  } catch {
+    return {};
+  }
+}
+
 // Load saved settings
 function loadSettings() {
-  const settings = JSON.parse(localStorage.getItem("userSettings") || "{}");
-  if (settings.mainColor) {
-    document.documentElement.style.setProperty(
-      "--main-color",
-      settings.mainColor,
-    );
-    mainColorInput.value = settings.mainColor;
-  }
-  if (settings.fontFamily) {
-    document.documentElement.style.setProperty(
-      "--font-family",
-      settings.fontFamily,
-    );
-    fontFamilySelect.value = settings.fontFamily;
-  }
-  if (settings.fontSize) {
-    document.documentElement.style.setProperty(
-      "--font-size",
-      settings.fontSize + "px",
-    );
-    fontSizeInput.value = settings.fontSize;
-    fontSizeValue.textContent = settings.fontSize + "px";
-  }
+  const stored = getStoredSettings();
+  const settings = {
+    ...defaultUserSettings,
+    ...stored,
+  };
+
+  document.documentElement.style.setProperty(
+    "--main-color",
+    settings.mainColor,
+  );
+  document.documentElement.style.setProperty(
+    "--font-family",
+    settings.fontFamily,
+  );
+  document.documentElement.style.setProperty(
+    "--font-size",
+    settings.fontSize + "px",
+  );
+
+  if (mainColorInput) mainColorInput.value = settings.mainColor;
+  if (fontFamilySelect) fontFamilySelect.value = settings.fontFamily;
+  if (fontSizeInput) fontSizeInput.value = settings.fontSize;
+  if (fontSizeValue) fontSizeValue.textContent = settings.fontSize + "px";
 }
 
 // Save settings
 function saveSettings() {
+  if (!mainColorInput || !fontFamilySelect || !fontSizeInput) return;
+
   const settings = {
-    mainColor: mainColorInput.value,
-    fontFamily: fontFamilySelect.value,
-    fontSize: parseInt(fontSizeInput.value),
+    mainColor: mainColorInput.value || defaultUserSettings.mainColor,
+    fontFamily: fontFamilySelect.value || defaultUserSettings.fontFamily,
+    fontSize: parseInt(fontSizeInput.value, 10) || defaultUserSettings.fontSize,
   };
+
   localStorage.setItem("userSettings", JSON.stringify(settings));
   loadSettings();
   closeSettingsModal();
@@ -768,39 +783,47 @@ function saveSettings() {
 
 // Open modal
 function openSettingsModal() {
+  if (!settingsModal) return;
   settingsModal.classList.add("is-open");
   document.body.classList.add("settings-modal-open");
 }
 
 // Close modal
 function closeSettingsModal() {
+  if (!settingsModal) return;
   settingsModal.classList.remove("is-open");
   document.body.classList.remove("settings-modal-open");
 }
 
 // Event listeners
-if (settingsBtn) {
+if (settingsBtn && settingsModal) {
   settingsBtn.addEventListener("click", openSettingsModal);
 }
 
-if (fontSizeInput) {
+if (fontSizeInput && fontSizeValue) {
   fontSizeInput.addEventListener("input", () => {
     fontSizeValue.textContent = fontSizeInput.value + "px";
   });
 }
 
-if (saveSettingsBtn) {
+if (saveSettingsBtn && settingsModal) {
   saveSettingsBtn.addEventListener("click", saveSettings);
 }
 
-settingsModal.addEventListener("click", (e) => {
-  if (e.target.closest("[data-settings-close]")) {
-    closeSettingsModal();
-  }
-});
+if (settingsModal) {
+  settingsModal.addEventListener("click", (e) => {
+    if (e.target.closest("[data-settings-close]")) {
+      closeSettingsModal();
+    }
+  });
+}
 
 document.addEventListener("keydown", (e) => {
-  if (settingsModal.classList.contains("is-open") && e.key === "Escape") {
+  if (
+    settingsModal &&
+    settingsModal.classList.contains("is-open") &&
+    e.key === "Escape"
+  ) {
     closeSettingsModal();
   }
 });

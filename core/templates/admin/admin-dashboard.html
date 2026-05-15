@@ -1,298 +1,440 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block extra_head %}
+{% extends 'base.html' %} {% load static %} {% block extra_head %}
 <title>Manage Books | Admin</title>
-{% endblock extra_head %}
-
-{% block navbar %}
+{% endblock extra_head %} {% block navbar %}
 <nav class="landing-nav conteiner">
-        <div class="nav-logo">
-            <a href="{% url 'intro' %}">Fully Stuck</a>
-        </div>
+  <div class="nav-logo">
+    <a href="{% url 'intro' %}">Fully Stuck</a>
+  </div>
 
+  <div class="nav-right">
+    <div class="auth-buttons">
+      <a href="{% url 'admin-user' %}">View User</a>
+      <a href="{% url 'logout' %}" id="logoutBtn">Logout</a>
+    </div>
 
-        <div class="nav-right">
+    <button id="theme-toggle">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </div>
+</nav>
+{% endblock navbar %} {% block content %}
 
-            <div class="auth-buttons">
-                <a href="{% url 'admin-user' %}">View User</a>
-                <a href="{% url 'logout' %}" id="logoutBtn">Logout</a>
-            </div>
-
-            <button id="theme-toggle">
-                <i class="fa-solid fa-moon"></i>
-            </button>
-        </div>
-    </nav>
-{% endblock navbar %}
-
-{% block content %}
-
- <script>
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
-    </script>
+<script>
+  (function () {
+    const themeToggle = document.getElementById("theme-toggle");
+    const isDark = localStorage.getItem("theme") === "dark";
+    if (isDark) {
+      document.body.classList.add("dark-mode");
+    }
+    if (themeToggle) {
+      themeToggle.innerHTML = isDark
+        ? '<i class="fa-solid fa-sun"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
+    }
+  })();
+</script>
 
 <main class="admin-page">
-        <header class="admin-header">
-            <div>
-                <h1 class="admin-title">Manage Books</h1>
-                <p class="admin-subtitle">View and edit your complete library catalog</p>
-            </div>
+  <header class="admin-header">
+    <div>
+      <h1 class="admin-title">Manage Books</h1>
+      <p class="admin-subtitle">View and edit your complete library catalog</p>
+    </div>
 
-            <button id="addBookBtn" class="btn btn-primary" type="button"
-                onclick="document.getElementById('bookModal').style.display='block'">
-                <i class="fa-solid fa-plus"></i>
-                Add New Book
-            </button>
-        </header>
+    <button
+      id="addBookBtn"
+      class="btn btn-primary"
+      type="button"
+      onclick="document.getElementById('bookModal').style.display = 'block'"
+    >
+      <i class="fa-solid fa-plus"></i>
+      Add New Book
+    </button>
+  </header>
 
-        <section class="admin-panel">
-            <div class="table-container">
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>BOOK ID</th>
-                            <th>BOOK DETAILS</th>
-                            <th>AUTHOR</th>
-                            <th>CATEGORY</th>
-                            <th>Rating</th>
-                            <th>ACTIONS</th>
-                        </tr>
-                    </thead>
+  <section class="admin-panel">
+    <div class="table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>BOOK ID</th>
+            <th>BOOK DETAILS</th>
+            <th>AUTHOR</th>
+            <th>CATEGORY</th>
+            <th>Rating</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
 
-                    <tbody id="booksTbody">
-                        {% for book in books %}
-                        <tr>
-                            <td>{{ book.id }}</td>
+        <tbody id="booksTbody">
+          {% for book in books %}
+          <tr>
+            <td>{{ book.id }}</td>
 
-                            <td>
-                                <div class="book-details">
-                                    {% if book.cover %}
-                                    <img src="{{ book.cover.url }}" alt="cover" style="width: 75px; height: 99px; object-fit: cover; flex-shrink: 0; border-radius: 1px;">
-                                    {% endif %}
-                                    <span>{{ book.title }}</span>
-                                </div>
-                            </td>
+            <td>
+              <div class="book-details">
+                {% if book.cover %}
+                <img
+                  src="{{ book.cover.url }}"
+                  alt="cover"
+                  style="
+                    width: 75px;
+                    height: 99px;
+                    object-fit: cover;
+                    flex-shrink: 0;
+                    border-radius: 1px;
+                  "
+                />
+                {% endif %}
+                <span>{{ book.title }}</span>
+              </div>
+            </td>
 
-                            <td>{{ book.author.name }}</td>
-                            <td>{{ book.category.name }}</td>
-                            <td>{{ book.rating }}</td>
+            <td>{{ book.author.name }}</td>
+            <td>{{ book.category.name }}</td>
+            <td>{{ book.rating }}</td>
 
-                            <td>
-                                <!--<button class="btn btn-sm">Edit</button>-->
-                                <button type="button" class="btn btn-primary"
-                                    onclick="document.getElementById('edit-modal-{{ book.id }}').style.display='block'">
-                                    Edit
-                                </button>
+            <td>
+              <!--<button class="btn btn-sm">Edit</button>-->
+              <button
+                type="button"
+                class="btn btn-primary"
+                onclick="document.getElementById('edit-modal-{{ book.id }}').style.display='block'"
+              >
+                Edit
+              </button>
 
-                                <div id="edit-modal-{{ book.id }}" class="modal" style="display: none;">
-                                    <div class="modal-backdrop"
-                                        onclick="document.getElementById('edit-modal-{{ book.id }}').style.display='none'">
-                                    </div>
+              <div
+                id="edit-modal-{{ book.id }}"
+                class="modal"
+                style="display: none"
+              >
+                <div
+                  class="modal-backdrop"
+                  onclick="document.getElementById('edit-modal-{{ book.id }}').style.display='none'"
+                ></div>
 
-                                    <div class="modal-content">
-                                        <header class="modal-header">
-                                            <h3 class="modal-title">Edit Book</h3>
+                <div class="modal-content">
+                  <header class="modal-header">
+                    <h3 class="modal-title">Edit Book</h3>
 
-                                            <button class="icon-btn" type="button"
-                                                onclick="document.getElementById('edit-modal-{{ book.id }}').style.display='none'">
-                                                <i class="fa-solid fa-xmark"></i>
-                                            </button>
-                                        </header>
+                    <button
+                      class="icon-btn"
+                      type="button"
+                      onclick="document.getElementById('edit-modal-{{ book.id }}').style.display='none'"
+                    >
+                      <i class="fa-solid fa-xmark"></i>
+                    </button>
+                  </header>
 
-                                        <form method="POST" action="{% url 'edit_book' book.id %}" class="modal-body" enctype="multipart/form-data">
-                                            {% csrf_token %}
+                  <form
+                    method="POST"
+                    action="{% url 'edit_book' book.id %}"
+                    class="modal-body"
+                    enctype="multipart/form-data"
+                  >
+                    {% csrf_token %}
 
-                                            <label class="field">
-                                                <span class="field-label">Title</span>
-                                                <input class="field-input" name="title" type="text"
-                                                    value="{{ book.title }}" required />
-                                            </label>
+                    <label class="field">
+                      <span class="field-label">Title</span>
+                      <input
+                        class="field-input"
+                        name="title"
+                        type="text"
+                        value="{{ book.title }}"
+                        required
+                      />
+                    </label>
 
-                                            <label class="field">
-                                                <span class="field-label">Author</span>
-                                                <input class="field-input" name="author" type="text"
-                                                    value="{{ book.author }}" required />
-                                            </label>
+                    <label class="field">
+                      <span class="field-label">Author</span>
+                      <input
+                        class="field-input"
+                        name="author"
+                        type="text"
+                        value="{{ book.author }}"
+                        required
+                      />
+                    </label>
 
-                                            <label class="field">
-                                                <span class="field-label">Cover page</span>
-                                                <input class="field-input" name="cover" type="file"
-                                                    value="{{ book.coverpage }}" accept="image/*"/>
-                                            </label>
+                    <label class="field">
+                      <span class="field-label">Cover page</span>
+                      <input
+                        class="field-input"
+                        name="cover"
+                        type="file"
+                        value="{{ book.coverpage }}"
+                        accept="image/*"
+                      />
+                    </label>
 
-                                            <label class="field">
-                                                <span class="field-label">Category</span>
-                                                <input class="field-input" name="category" type="text"
-                                                    value="{{ book.category }}" required />
-                                            </label>
+                    <label class="field">
+                      <span class="field-label">Category</span>
+                      <input
+                        class="field-input"
+                        name="category"
+                        type="text"
+                        value="{{ book.category }}"
+                        required
+                      />
+                    </label>
 
-                                            <label class="field">
-                                                <span class="field-label">Rating (0 to 5)</span>
-                                                <input class="field-input" name="rating" type="number" min="0" max="5"
-                                                    step="0.1" value="{{ book.rating }}" required />
-                                            </label>
+                    <label class="field">
+                      <span class="field-label">Rating (0 to 5)</span>
+                      <input
+                        class="field-input"
+                        name="rating"
+                        type="number"
+                        min="0"
+                        max="5"
+                        step="0.1"
+                        value="{{ book.rating }}"
+                        required
+                      />
+                    </label>
 
-                                            <label class="field">
-                                                <span class="field-label">Description</span>
-                                                <textarea class="field-input" name="description" rows="4"
-                                                    required>{{ book.description }}</textarea>
-                                            </label>
+                    <label class="field">
+                      <span class="field-label">Description</span>
+                      <textarea
+                        class="field-input"
+                        name="description"
+                        rows="4"
+                        required
+                      >
+{{ book.description }}</textarea
+                      >
+                    </label>
 
-                                            <label class="field">
-                                                <span class="field-label">Total Copies</span>
-                                                <input class="field-input" name="totalCopies" type="number"
-                                                    value="{{ book.totalCopies }}" required />
-                                            </label>
+                    <label class="field">
+                      <span class="field-label">Total Copies</span>
+                      <input
+                        class="field-input"
+                        name="totalCopies"
+                        type="number"
+                        value="{{ book.totalCopies }}"
+                        required
+                      />
+                    </label>
 
-                                            <label class="field">
-                                                <span class="field-label">Available Copies</span>
-                                                <input class="field-input" name="availableCopies" type="number"
-                                                    value="{{ book.availableCopies }}" required />
-                                            </label>
+                    <label class="field">
+                      <span class="field-label">Available Copies</span>
+                      <input
+                        class="field-input"
+                        name="availableCopies"
+                        type="number"
+                        value="{{ book.availableCopies }}"
+                        required
+                      />
+                    </label>
 
-                                            <footer class="modal-footer">
-                                                <button class="btn" type="button"
-                                                    onclick="document.getElementById('edit-modal-{{ book.id }}').style.display='none'">Cancel</button>
-                                                <button class="btn btn-primary" type="submit">Save Changes</button>
-                                            </footer>
-                                        </form>
-                                    </div>
-                                </div>
-                                
+                    <footer class="modal-footer">
+                      <button
+                        class="btn"
+                        type="button"
+                        onclick="document.getElementById('edit-modal-{{ book.id }}').style.display='none'"
+                      >
+                        Cancel
+                      </button>
+                      <button class="btn btn-primary" type="submit">
+                        Save Changes
+                      </button>
+                    </footer>
+                  </form>
+                </div>
+              </div>
 
-                                <form method="POST" action="{% url 'delete_book' book.id %}" style="display:inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-danger"> Delete </button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-            <footer class="panel-footer">
-                <span id="resultsText">Showing 0 books</span>
-            </footer>
-        </section>
-    </main>
-
-    <!-- Modal -->
-    <div id="bookModal" class="modal" style="display: none;">
-        <div class="modal-backdrop" onclick="document.getElementById('bookModal').style.display='none'"></div>
-
-        <div class="modal-content">
-            <header class="modal-header">
-                <h3 class="modal-title">Add Book</h3>
-                <button class="icon-btn" type="button"
-                    onclick="document.getElementById('bookModal').style.display='none'">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </header>
-
-            <form method="POST" action="{% url 'add_book' %}" class="modal-body" enctype="multipart/form-data">
+              <form
+                method="POST"
+                action="{% url 'delete_book' book.id %}"
+                style="display: inline"
+              >
                 {% csrf_token %}
-
-                <label class="field">
-                    <span class="field-label">Title</span>
-                    <input class="field-input" name="title" type="text" required />
-                </label>
-
-                <label class="field">
-                    <span class="field-label">Author</span>
-                    <input class="field-input" name="author" type="text" required />
-                </label>
-
-                <label class="field">
-                    <span class="field-label">Cover page</span>
-                    <input class="field-input" name="cover" type="file" accept="image/*" required />
-                </label>
-
-                <label class="field">
-                    <span class="field-label">Category</span>
-                    <input class="field-input" name="category" type="text" required />
-                </label>
-
-                <label class="field">
-                    <span class="field-label">Rating (0 to 5)</span>
-                    <input class="field-input" name="rating" type="number" min="0" max="5" step="0.1" required />
-                </label>
-
-                <label class="field">
-                    <span class="field-label">Description</span>
-                    <textarea class="field-input" name="description" rows="4" required></textarea>
-                </label>
-
-                <label class="field">
-                    <span class="field-label">Total Copies</span>
-                    <input class="field-input" name="totalCopies" type="number" required />
-                </label>
-
-                <label class="field">
-                    <span class="field-label">Available Copies</span>
-                    <input class="field-input" name="availableCopies" type="number" required />
-                </label>
-
-                <footer class="modal-footer">
-                    <button class="btn" type="button"
-                        onclick="document.getElementById('bookModal').style.display='none'">Cancel</button>
-                    <button class="btn btn-primary" type="submit">Add</button>
-                </footer>
-            </form>
-        </div>
-    </div>
-
-    <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
-
-
-    <div id="settingsModal" class="modal">
-        <div class="modal-backdrop" data-settings-close></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Settings</h2>
-                <button type="button" class="icon-btn" data-settings-close aria-label="Close settings modal">
-                    <i class="fa-solid fa-xmark"></i>
+                <button type="submit" class="btn btn-sm btn-danger">
+                  Delete
                 </button>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <label class="field-label" for="mainColor">Main Color</label>
-                    <input type="color" id="mainColor" class="field-input" value="#0f49bd">
-                </div>
-                <div>
-                    <label class="field-label" for="fontFamily">Font Family</label>
-                    <select id="fontFamily" class="field-input">
-                        <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>Segoe UI</option>
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="Helvetica, sans-serif">Helvetica</option>
-                        <option value="Times New Roman, serif">Times New Roman</option>
-                        <option value="Georgia, serif">Georgia</option>
-                        <option value="Courier New, monospace">Courier New</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="field-label" for="fontSize">Font Size</label>
-                    <input type="range" id="fontSize" class="field-input" min="12" max="24" value="16">
-                    <span id="fontSizeValue">16px</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-secondary" data-settings-close>Cancel</button>
-                <button type="button" class="btn-primary" id="saveSettings">Save</button>
-            </div>
-        </div>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!--<script src="{% static 'js/books.lib.js' %}"></script>-->
-    <script src="{% static 'js/admin.js' %}"></script>
-    <script src="{% static 'js/index.js' %}"></script>
+    <footer class="panel-footer">
+      <span id="resultsText">Showing 0 books</span>
+    </footer>
+  </section>
+</main>
+
+<!-- Modal -->
+<div id="bookModal" class="modal" style="display: none">
+  <div
+    class="modal-backdrop"
+    onclick="document.getElementById('bookModal').style.display = 'none'"
+  ></div>
+
+  <div class="modal-content">
+    <header class="modal-header">
+      <h3 class="modal-title">Add Book</h3>
+      <button
+        class="icon-btn"
+        type="button"
+        onclick="document.getElementById('bookModal').style.display = 'none'"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </header>
+
+    <form
+      method="POST"
+      action="{% url 'add_book' %}"
+      class="modal-body"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+
+      <label class="field">
+        <span class="field-label">Title</span>
+        <input class="field-input" name="title" type="text" required />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Author</span>
+        <input class="field-input" name="author" type="text" required />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Cover page</span>
+        <input
+          class="field-input"
+          name="cover"
+          type="file"
+          accept="image/*"
+          required
+        />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Category</span>
+        <input class="field-input" name="category" type="text" required />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Rating (0 to 5)</span>
+        <input
+          class="field-input"
+          name="rating"
+          type="number"
+          min="0"
+          max="5"
+          step="0.1"
+          required
+        />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Description</span>
+        <textarea
+          class="field-input"
+          name="description"
+          rows="4"
+          required
+        ></textarea>
+      </label>
+
+      <label class="field">
+        <span class="field-label">Total Copies</span>
+        <input class="field-input" name="totalCopies" type="number" required />
+      </label>
+
+      <label class="field">
+        <span class="field-label">Available Copies</span>
+        <input
+          class="field-input"
+          name="availableCopies"
+          type="number"
+          required
+        />
+      </label>
+
+      <footer class="modal-footer">
+        <button
+          class="btn"
+          type="button"
+          onclick="document.getElementById('bookModal').style.display = 'none'"
+        >
+          Cancel
+        </button>
+        <button class="btn btn-primary" type="submit">Add</button>
+      </footer>
+    </form>
+  </div>
+</div>
+
+<button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
+
+<div id="settingsModal" class="modal">
+  <div class="modal-backdrop" data-settings-close></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Settings</h2>
+      <button
+        type="button"
+        class="icon-btn"
+        data-settings-close
+        aria-label="Close settings modal"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <label class="field-label" for="mainColor">Main Color</label>
+        <input
+          type="color"
+          id="mainColor"
+          class="field-input"
+          value="#0f49bd"
+        />
+      </div>
+      <div>
+        <label class="field-label" for="fontFamily">Font Family</label>
+        <select id="fontFamily" class="field-input">
+          <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>
+            Segoe UI
+          </option>
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="Helvetica, sans-serif">Helvetica</option>
+          <option value="Times New Roman, serif">Times New Roman</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="Courier New, monospace">Courier New</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label" for="fontSize">Font Size</label>
+        <input
+          type="range"
+          id="fontSize"
+          class="field-input"
+          min="12"
+          max="24"
+          value="16"
+        />
+        <span id="fontSizeValue">16px</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" data-settings-close>
+        Cancel
+      </button>
+      <button type="button" class="btn-primary" id="saveSettings">Save</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--<script src="{% static 'js/books.lib.js' %}"></script>-->
+<script src="{% static 'js/admin.js' %}"></script>
+<script src="{% static 'js/index.js' %}"></script>
 
 {% endblock content %}
-
-
-    
-

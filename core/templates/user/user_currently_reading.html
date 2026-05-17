@@ -1,13 +1,26 @@
 {% extends 'base.html' %}
- {% load static %}
-  {% block body_attributes%}
+{% load static %}
+{% block body_attributes%}
 data-user-page="currently-reading"
- {% endblock body_attributes%}
-  {% block extra_head %}
+{% endblock body_attributes%}
+{% block extra_head %}
 <title>Currently reading</title>
-{% endblock extra_head %} 
+{% endblock extra_head %}
 {% block navbar %}
-
+<script>
+  (function () {
+    const themeToggle = document.getElementById("theme-toggle");
+    const isDark = localStorage.getItem("theme") === "dark";
+    if (isDark) {
+      document.body.classList.add("dark-mode");
+    }
+    if (themeToggle) {
+      themeToggle.innerHTML = isDark
+        ? '<i class="fa-solid fa-sun"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
+    }
+  })();
+</script>
 
 <nav>
   <ul>
@@ -24,7 +37,8 @@ data-user-page="currently-reading"
   </ul>
 </nav>
 
-{% endblock navbar %} {% block content %}
+{% endblock navbar %}
+{% block content %}
 <main class="conteiner user-feature-page">
   <header class="page-intro">
     <span class="eyebrow">Your reading queue</span>
@@ -36,27 +50,16 @@ data-user-page="currently-reading"
     <div class="search-home">
       <h2 id="currently-reading-heading">From your catalog</h2>
       <div class="controls">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Search by title or author..."
-        />
+        <input type="text" id="searchInput" placeholder="Search by title or author..." />
       </div>
     </div>
     <div class="content-book" id="currentlyReadingBooks">
       {% if book_list %} {% for book in book_list %}
-      <div
-        class="book-card"
-        data-book-id="{{ book.book.id }}"
-        data-book-details-link="{{ book.book.id }}"
-        style="cursor: pointer"
-      >
+      <div class="book-card" data-book-id="{{ book.book.id }}" data-book-details-link="{{ book.book.id }}"
+        style="cursor: pointer">
         <div class="book-card-media">
           <a href="{% url 'book_details' book.book.id %}">
-            <img
-              src="{% if book.book.cover.url %}{{ book.book.cover.url }}{% endif %}"
-              alt="{{ book.book.title }}"
-            />
+            <img src="{% if book.book.cover.url %}{{ book.book.cover.url }}{% endif %}" alt="{{ book.book.title }}" />
           </a>
           <div class="main-card-hedden">
             <form method="POST" action="{% url 'add_status' book.book.id %}">
@@ -64,56 +67,32 @@ data-user-page="currently-reading"
 
               <ul class="card-hedden">
                 <li>
-                  <button
-                    type="submit"
-                    name="action"
-                    value="wishlist"
-                    title="Remove from Wishlist"
-                  >
+                  <button type="submit" name="action" value="wishlist" title="Remove from Wishlist">
                     <i class="fa-solid fa-bookmark"></i>
                   </button>
                 </li>
 
                 <li>
-                  <button
-                    type="submit"
-                    name="action"
-                    value="favourites"
-                    title="Add to Favourites"
-                  >
+                  <button type="submit" name="action" value="favourites" title="Add to Favourites">
                     <i class="fa-regular fa-heart"></i>
                   </button>
                 </li>
 
                 <li>
-                  <button
-                    type="submit"
-                    name="action"
-                    value="already-read"
-                    title="Mark as Already Read"
-                  >
+                  <button type="submit" name="action" value="already-read" title="Mark as Already Read">
                     <i class="fa-solid fa-check"></i>
                   </button>
                 </li>
 
                 <li>
-                  <button
-                    type="submit"
-                    name="action"
-                    value="currently-reading"
-                    title="Add to Currently Reading"
-                  >
+                  <button type="submit" name="action" value="currently-reading" title="Add to Currently Reading">
                     <i class="fa-solid fa-book-open"></i>
                   </button>
                 </li>
 
                 <li>
-                  <button
-                    type="submit"
-                    name="action"
-                    value="remove_from_currently_reading"
-                    title="Remove from Currently Reading"
-                  >
+                  <button type="submit" name="action" value="remove_from_currently_reading"
+                    title="Remove from Currently Reading">
                     <i class="fa-solid fa-trash-can"></i>
                   </button>
                 </li>
@@ -125,9 +104,7 @@ data-user-page="currently-reading"
         <p>{{ book.book.author }}</p>
         <div class="buttom-card">
           <span>{{ book.book.category|default:"General" }}</span>
-          <span class="star"
-            ><i class="fa-solid fa-star"></i>{{book.book.rating|default:"0.0"}}</span
-          >
+          <span class="star"><i class="fa-solid fa-star"></i>{{book.book.rating|default:"0.0"}}</span>
         </div>
       </div>
       {% endfor %} {% else %}
@@ -140,84 +117,13 @@ data-user-page="currently-reading"
     </div>
   </section>
 </main>
-{% endblock content%} {% block extra_content %}
-<div id="settingsModal" class="modal">
-  <div class="modal-backdrop" data-settings-close></div>
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 class="modal-title">Settings</h2>
-      <button
-        type="button"
-        class="icon-btn"
-        data-settings-close
-        aria-label="Close settings modal"
-      >
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div>
-        <label class="field-label" for="mainColor">Main Color</label>
-        <input
-          type="color"
-          id="mainColor"
-          class="field-input"
-          value="#0f49bd"
-        />
-      </div>
-      <div>
-        <label class="field-label" for="fontFamily">Font Family</label>
-        <select id="fontFamily" class="field-input">
-          <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>
-            Segoe UI
-          </option>
-          <option value="Arial, sans-serif">Arial</option>
-          <option value="Helvetica, sans-serif">Helvetica</option>
-          <option value="Times New Roman, serif">Times New Roman</option>
-          <option value="Georgia, serif">Georgia</option>
-          <option value="Courier New, monospace">Courier New</option>
-        </select>
-      </div>
-      <div>
-        <label class="field-label" for="fontSize">Font Size</label>
-        <input
-          type="range"
-          id="fontSize"
-          class="field-input"
-          min="12"
-          max="24"
-          value="16"
-        />
-        <span id="fontSizeValue">16px</span>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn-secondary" data-settings-close>
-        Cancel
-      </button>
-      <button type="button" class="btn-primary" id="saveSettings">Save</button>
-    </div>
-  </div>
-</div>
+{% endblock content%}
+{% block extra_content %}
 
-<button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{% static 'js/index.js' %}"></script>
-  
-  <script>
-  (function () {
-    const themeToggle = document.getElementById("theme-toggle");
-    const isDark = localStorage.getItem("theme") === "dark";
-    if (isDark) {
-      document.body.classList.add("dark-mode");
-    }
-    if (themeToggle) {
-      themeToggle.innerHTML = isDark
-        ? '<i class="fa-solid fa-sun"></i>'
-        : '<i class="fa-solid fa-moon"></i>';
-    }
-  })();
-</script>
+
+
 
 {% endblock extra_content %}

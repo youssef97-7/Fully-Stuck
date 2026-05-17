@@ -132,6 +132,8 @@ STATICFILES_DIRS = [
 
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -151,3 +153,5 @@ TEMPLATES = [
 AUTH_USER_MODEL = 'reader.User'
 
 LOGIN_URL = 'login'
+
+

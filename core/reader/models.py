@@ -24,6 +24,7 @@ class UserBookRelation(models.Model):
         CURRENT = 'current', 'current'
         BORROWED = 'borrowed', 'Borrowed'
         FAVOURITE = 'favourite', 'favourite'
+        
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,

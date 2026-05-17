@@ -16,7 +16,8 @@
     <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
     <li><a href="{% url 'currently_read' %}">Currently Reading</a></li>
     <li><a href="{% url 'already_read' %}">Already Read</a></li>
-    <li><a href="{% url 'favourites' %}">Favourites</a></li>
+    <li><a href="{% url 'favourites' %}"> Favourites</a></li>
+    <li><a href="{% url 'borrowed' %}">Borrowed</a></li>
     <li><a href="{% url 'logout' %}">Logout</a></li>
     <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
   </ul>
@@ -58,7 +59,7 @@
           </div>
           <div class="meta-row">
             <span class="lbl">ISBN</span>
-            <span class="val">{{ book_detail.id }}</span>
+            <span class="val">{{ book.id }}</span>
           </div>
           <div class="meta-row">
             <span class="lbl">Category</span>
@@ -82,28 +83,30 @@
           <span class="tag tag-era">{{ book.category|default:"General" }}</span>
           <span class="tag tag-rating">
             <span class="stars"><i class="fa-solid fa-star"></i></span>
-            {{ book.rating|default:"0.0" }} &nbsp;<span style="opacity:0.6;font-weight:400;">({{
-              book.review_count|default:"0" }} reviews)</span>
+            {{ book.rating|default:"0.0" }} &nbsp;<span style="opacity:0.6;font-weight:400;"></span>
           </span>
         </div>
         <p class="desc-title">Description</p>
         <p class="desc-text">{{ book.description|default:"No description available for this book." }}</p>
         <div class="borrow-bar">
           <div class="avail-icon">
-            <i class="fa-solid {% if book.availableCopies > 0 %}fa-book-open{% else %}fa-ban{% endif %}"></i>
+            <i class="fa-solid {% if book.available_copies > 0 %}fa-book-open{% else %}fa-ban{% endif %}"></i>
           </div>
           <div class="avail-text">
             <div class="avail-badge">
               <span class="avail-dot"></span>
-              {% if book.availableCopies > 0 %}Ready to Borrow{% else %}Not Available{% endif %}<br>
-              no. of available books is <i>{{ book.availableCopies|default:"0" }}</i>
+              {% if book.available_copies > 0 %}Ready to Borrow{% else %}Not Available{% endif %}<br>
+              Number of available books is {{ book.available_copies|default:"0" }}
             </div>
             <div class="sub">Availability</div>
           </div>
-          <button class="borrow-btn" {% if book.availableCopies <=0 %}disabled{% endif %}>
-            <i class="fa-solid {% if book.availableCopies > 0 %}fa-book-open{% else %}fa-ban{% endif %}"></i>
-            {% if book.availableCopies > 0 %}Borrow This Book{% else %}Not Available{% endif %}
-          </button>
+          <form id="borrowForm" action="{% url 'add_to_borrow' book.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="borrow-btn" {% if book.available_copies <= 0 or already_borrowed %}disabled{% endif %}>
+              <i class="fa-solid {% if already_borrowed %}fa-check{% elif book.available_copies > 0 %}fa-book-open{% else %}fa-ban{% endif %}"></i>
+              {% if already_borrowed %}Already Borrowed{% elif book.available_copies > 0 %}Borrow This Book{% else %}Not Available{% endif %}
+            </button>
+          </form>
         </div>
       </div>
       {% else %}
@@ -115,13 +118,13 @@
       <h2>More from {{ book.author|default:"this author" }}</h2>
       <div class="more-grid">
         {% if more_books_by_author %}
-        {% for book in more_books_by_author %}
-        <div class="more-card" onclick="window.location.href='books_details.html?id={{ book.id }}'">
-          <img src="{% if book.cover.url %}{{ book.cover.url }}{% else %}{% static 'images/book-1.jpeg' %}{% endif %}"
-            alt="{{ book.title }}" style="cursor: pointer;">
-          <div class="mc-title">{{ book.title }}</div>
-          <div class="mc-year">By {{ book.author }}</div>
-        </div>
+        {% for related_book in more_books_by_author %}
+        <a class="more-card" href="{% url 'book_details' related_book.id %}">
+          <img src="{% if related_book.cover %}{{ related_book.cover.url }}{% else %}{% static 'images/book-1.jpeg' %}{% endif %}"
+            alt="{{ related_book.title }}">
+          <div class="mc-title">{{ related_book.title }}</div>
+          <div class="mc-year">By {{ related_book.author }}</div>
+        </a>
         {% endfor %}
         {% else %}
         <p>No other books by this author available.</p>

@@ -13,19 +13,95 @@
     <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
     <li><a href="{% url 'currently_read' %}">Currently Reading</a></li>
     <li><a href="{% url 'already_read' %}">Already Read</a></li>
-    <li><a href="{% url 'favourites' %}">Favourites</a></li>
+    <li><a href="{% url 'favourites' %}"> Favourites</a></li>
+    <li><a href="{% url 'borrowed' %}" class="active">Borrowed</a></li>
     <li><a href="{% url 'logout' %}">Logout</a></li>
     <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
   </ul>
 </nav>
 {% endblock navbar %}
 {% block content %}
+
 <main class="conteiner user-feature-page">
   <header class="page-intro">
     <span class="eyebrow">Your borrowed items</span>
     <h1>Borrowed Books</h1>
     <p class="lede">Books you currently have borrowed from the library.</p>
   </header>
+
+  <section class="featured-books" aria-labelledby="favourites-heading">
+    <div class="search-home">
+      <h2 id="favourites-heading">From your catalog</h2>
+      <div class="controls">
+        <input type="text" id="searchInput" placeholder="Search by title or author..." />
+      </div>
+    </div>
+    <div class="content-book" id="favouritesBooks">
+      {% if book_list %} {% for book in book_list %}
+      <div class="book-card" data-book-id="{{ book.id }}" style="cursor: pointer">
+        <div class="book-card-media">
+          <a href="{% url 'book_details' book.book.id %}">
+            <img
+              src="{% if book.book.cover.url %}{{ book.book.cover.url }}{% else %}{% static 'images/book-1.jpeg' %}{% endif %}"
+              alt="{{ book.book.title }}" />
+          </a>
+          <div class="main-card-hedden">
+            <form method="POST" action="{% url 'add_status' book.book.id %}">
+              {% csrf_token %}
+
+              <ul class="card-hedden">
+                <li>
+                  <button type="submit" name="action" value="wishlist" title="Remove from Wishlist">
+                    <i class="fa-solid fa-bookmark"></i>
+                  </button>
+                </li>
+
+                <li>
+                  <button type="submit" name="action" value="favourites" title="Add to Favourites">
+                    <i class="fa-regular fa-heart"></i>
+                  </button>
+                </li>
+
+                <li>
+                  <button type="submit" name="action" value="already-read" title="Mark as Already Read">
+                    <i class="fa-solid fa-check"></i>
+                  </button>
+                </li>
+
+                <li>
+                  <button type="submit" name="action" value="currently-reading" title="Add to Currently Reading">
+                    <i class="fa-solid fa-book-open"></i>
+                  </button>
+                </li>
+
+                <li>
+                  <button type="submit" name="action" value="remove_from_favourites" title="Remove from Favourites">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </li>
+              </ul>
+            </form>
+          </div>
+        </div>
+        <a href="{% url 'book_details' book.book.id %}" style="text-decoration: none; color: inherit">
+          <h3>{{ book.book.title }}</h3>
+          <p>{{ book.book.author }}</p>
+        </a>
+        <div class="buttom-card">
+          <span>{{ book.book.category|default:"General" }}</span>
+          <span class="star"><i class="fa-solid fa-star"></i>{{book.book.rating|default:"0.0"}}</span>
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <p class="user-list-empty" role="status">
+        Your Borrowed list is empty. On
+        <a href="{% url 'user_home' %}">Home</a>, hover a book and tap the heart
+        button to save it here.
+      </p>
+      {% endif %}
+    </div>
+  </section>
+
   <div class="content-book" id="borrowedBooksContainer">
     <p>No borrowed books at this time.</p>
   </div>

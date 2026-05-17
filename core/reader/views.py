@@ -115,30 +115,7 @@ def view_user_home(request):
     book_list = book_models.Book.objects.all()
     return render(request,'user/user.html', {'book_list' : book_list})
 
-@login_required
-def view_book_details(request,id):
-    book = get_object_or_404(book_models.Book,id=id)
-    context = {'book' : book}
-    return render(request,'user/books_details.html',context)
-
-@login_required
-def view_pdf_reader(request):
-    return render(request,'user/pdf_reader.html')
-
-@login_required
-def view_already_readed(request):
-    user = request.user
-    if not user:
-        redirect('login')
-
-    book_list = models.UserBookRelation.objects.filter(user=user,status='read').select_related('book')
-    context = {'book_list' : book_list}
-    return render(request,'user/user_already_read.html',context)
-
-@login_required
-def view_borrowed(request):
-    return render(request,'user/user_borrowed_books.html')
-    
+   
 @login_required
 def view_currently_read(request):
     user = request.user
@@ -168,6 +145,52 @@ def view_wish_list(request):
     book_list = models.UserBookRelation.objects.filter(user=user,status='wish').select_related('book')
     context = {'book_list' : book_list}
     return render(request,'user/user_wishlist.html',context)
+
+@login_required
+def view_already_readed(request):
+    user = request.user
+    if not user:
+        redirect('login')
+
+    book_list = models.UserBookRelation.objects.filter(user=user,status='read').select_related('book')
+    context = {'book_list' : book_list}
+    return render(request,'user/user_already_read.html',context)
+
+
+
+@login_required
+def view_book_details(request, id):
+    book = get_object_or_404(book_models.Book, id=id)
+    
+    already_borrowed = models.UserBookRelation.objects.filter(
+        user=request.user,
+        book=book,
+        status='borrowed'
+    ).exists()
+    
+    more_books_by_author = book_models.Book.objects.filter(
+        author=book.author
+    ).exclude(id=id)[:6]
+
+    context = {
+        'book': book,
+        'already_borrowed': already_borrowed,
+        'more_books_by_author': more_books_by_author,
+    }
+    return render(request, 'user/books_details.html', context)
+
+
+@login_required
+def view_pdf_reader(request):
+    return render(request,'user/pdf_reader.html')
+
+
+@login_required
+def view_borrowed(request):
+    user=request.user
+    book_list = models.UserBookRelation.objects.filter(user=user,status='borrowed').select_related('book')
+    return render(request,'user/user_borrowed_books.html',{'book_list' : book_list})
+ 
 
 
 def view_logout(request):

@@ -11,16 +11,15 @@ data-user-page="want-to-read"
 
 <nav>
   <ul>
-    <li><a href="{% url 'user_home' %}">Home</a></li>
+    <li><a href="{% url 'user_home' %}" >Home</a></li>
     <li><a href="{% url 'all_books'%}" class="active">Library</a></li>
     <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
     <li><a href="{% url 'currently_read' %}">Currently Reading</a></li>
     <li><a href="{% url 'already_read' %}">Already Read</a></li>
-    <li><a href="{% url 'favourites' %}">Favourites</a></li>
+    <li><a href="{% url 'favourites' %}"> Favourites</a></li>
+    <li><a href="{% url 'borrowed' %}">Borrowed</a></li>
     <li><a href="{% url 'logout' %}">Logout</a></li>
-    <button type="button" id="theme-toggle" aria-label="Toggle theme">
-      <i class="fa-solid fa-moon"></i>
-    </button>
+    <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
   </ul>
 </nav>
 {% endblock navbar %}

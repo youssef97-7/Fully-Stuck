@@ -1,99 +1,9 @@
 {% extends 'base.html' %}
- {% load static %}
-  {% block extra_head %}
+{% load static %}
+{% block extra_head %}
 <title>Borrowed Books</title>
 {% endblock extra_head %}
- {% block navbar %}
-
-
-
-<nav>
-  <ul>
-    <li><a href="{% url 'user_home' %}">Home</a></li>
-    <li><a href="{% url 'all_books'%}">Library</a></li>
-    <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-    <li><a href="{% url 'currently_read' %}">Currently Reading</a></li>
-    <li><a href="{% url 'already_read' %}">Already Read</a></li>
-    <li><a href="{% url 'favourites' %}">Favourites</a></li>
-    <li><a href="{% url 'logout' %}">Logout</a></li>
-    <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
-  </ul>
-</nav>
-{% endblock navbar %} {% block content %}
-<main class="conteiner user-feature-page">
-  <header class="page-intro">
-    <span class="eyebrow">Your borrowed items</span>
-    <h1>Borrowed Books</h1>
-    <p class="lede">Books you currently have borrowed from the library.</p>
-  </header>
-  <div class="content-book" id="borrowedBooksContainer">
-    <p>No borrowed books at this time.</p>
-  </div>
-</main>
-{% endblock content %} {% block extra_content %}
-<div id="settingsModal" class="modal">
-  <div class="modal-backdrop" data-settings-close></div>
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 class="modal-title">Settings</h2>
-      <button
-        type="button"
-        class="icon-btn"
-        data-settings-close
-        aria-label="Close settings modal"
-      >
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div>
-        <label class="field-label" for="mainColor">Main Color</label>
-        <input
-          type="color"
-          id="mainColor"
-          class="field-input"
-          value="#0f49bd"
-        />
-      </div>
-      <div>
-        <label class="field-label" for="fontFamily">Font Family</label>
-        <select id="fontFamily" class="field-input">
-          <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>
-            Segoe UI
-          </option>
-          <option value="Arial, sans-serif">Arial</option>
-          <option value="Helvetica, sans-serif">Helvetica</option>
-          <option value="Times New Roman, serif">Times New Roman</option>
-          <option value="Georgia, serif">Georgia</option>
-          <option value="Courier New, monospace">Courier New</option>
-        </select>
-      </div>
-      <div>
-        <label class="field-label" for="fontSize">Font Size</label>
-        <input
-          type="range"
-          id="fontSize"
-          class="field-input"
-          min="12"
-          max="24"
-          value="16"
-        />
-        <span id="fontSizeValue">16px</span>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn-secondary" data-settings-close>
-        Cancel
-      </button>
-      <button type="button" class="btn-primary" id="saveSettings">Save</button>
-    </div>
-  </div>
-</div>
-
-<button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="{% static 'js/index.js' %}"></script>
+{% block navbar %}
 <script>
   (function () {
     const themeToggle = document.getElementById("theme-toggle");
@@ -108,4 +18,36 @@
     }
   })();
 </script>
+
+<nav>
+  <ul>
+    <li><a href="{% url 'user_home' %}">Home</a></li>
+    <li><a href="{% url 'all_books'%}">Library</a></li>
+    <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+    <li><a href="{% url 'currently_read' %}">Currently Reading</a></li>
+    <li><a href="{% url 'already_read' %}">Already Read</a></li>
+    <li><a href="{% url 'favourites' %}">Favourites</a></li>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+    <button id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+  </ul>
+</nav>
+{% endblock navbar %}
+{% block content %}
+<main class="conteiner user-feature-page">
+  <header class="page-intro">
+    <span class="eyebrow">Your borrowed items</span>
+    <h1>Borrowed Books</h1>
+    <p class="lede">Books you currently have borrowed from the library.</p>
+  </header>
+  <div class="content-book" id="borrowedBooksContainer">
+    <p>No borrowed books at this time.</p>
+  </div>
+</main>
+{% endblock content %}
+{% block extra_content %}
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/index.js' %}"></script>
+
 {% endblock extra_content%}

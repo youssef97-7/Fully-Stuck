@@ -283,6 +283,8 @@ def add_status(request,id):
             status='borrowed'
         )
         if relation.exists():
+            book.available_copies += 1
+            book.save()
             relation.delete()
         return redirect(request.META.get('HTTP_REFERER', '/'))
         

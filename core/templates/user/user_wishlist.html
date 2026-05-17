@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 {% load static %}
-
-{% block extra_head %}
+ {% block extra_head %}
 
 <title>User Wish List</title>
 {% endblock extra_head %}
+ {% block navbar %}
 
-{% block navbar %}
+ 
 <nav>
   <ul>
     <li><a href="{% url 'user_home' %}">Home</a></li>
@@ -20,8 +20,7 @@
   </ul>
 </nav>
 {% endblock navbar %}
-
-{% block content %}
+ {% block content %}
 <main class="conteiner">
   <section class="featured-books">
     <div class="search-home">
@@ -31,51 +30,76 @@
       </div>
     </div>
     <div class="content-book" id="wishlistContainer">
-      {% if book_list %}
-      {% for book in book_list %}
-      <div class="book-card" data-book-id="{{ book.book.id }}" data-book-details-link="{{ book.id }}"
-        style="cursor: pointer;">
+      {% if book_list %} {% for book in book_list %}
+      <div
+        class="book-card"
+        data-book-id="{{ book.book.id }}"
+        data-book-details-link="{{ book.id }}"
+        style="cursor: pointer"
+      >
         <div class="book-card-media">
           <a href="{% url 'book_details' book.book.id %}">
-            <img src="{{ book.book.cover.url }}" alt="{{ book.book.title }}">
+            <img src="{{ book.book.cover.url }}" alt="{{ book.book.title }}" />
           </a>
           <div class="main-card-hedden">
             <form method="POST" action="{% url 'add_status' book.book.id %}">
               {% csrf_token %}
 
               <ul class="card-hedden">
-
                 <li>
-                  <button type="submit" name="action" value="wishlist" title="Remove from Wishlist">
+                  <button
+                    type="submit"
+                    name="action"
+                    value="wishlist"
+                    title="Remove from Wishlist"
+                  >
                     <i class="fa-solid fa-bookmark"></i>
                   </button>
                 </li>
 
                 <li>
-                  <button type="submit" name="action" value="favourites" title="Add to Favourites">
+                  <button
+                    type="submit"
+                    name="action"
+                    value="favourites"
+                    title="Add to Favourites"
+                  >
                     <i class="fa-regular fa-heart"></i>
                   </button>
                 </li>
 
-
                 <li>
-                  <button type="submit" name="action" value="already-read" title="Mark as Already Read">
+                  <button
+                    type="submit"
+                    name="action"
+                    value="already-read"
+                    title="Mark as Already Read"
+                  >
                     <i class="fa-solid fa-check"></i>
                   </button>
                 </li>
 
                 <li>
-                  <button type="submit" name="action" value="currently-reading" title="Add to Currently Reading">
+                  <button
+                    type="submit"
+                    name="action"
+                    value="currently-reading"
+                    title="Add to Currently Reading"
+                  >
                     <i class="fa-solid fa-book-open"></i>
                   </button>
                 </li>
 
                 <li>
-                  <button type="submit" name="action" value="remove_from_wishlist" title="Remove from Wishlist">
+                  <button
+                    type="submit"
+                    name="action"
+                    value="remove_from_wishlist"
+                    title="Remove from Wishlist"
+                  >
                     <i class="fa-solid fa-trash-can"></i>
                   </button>
                 </li>
-
               </ul>
             </form>
           </div>
@@ -84,34 +108,42 @@
         <p>{{ book.book.author }}</p>
         <div class="buttom-card">
           <span>{{ book.book.category|default:"General" }}</span>
-          <span class="star"><i class="fa-solid fa-star"></i>{{ book.book.rating|default:"0.0" }}</span>
+          <span class="star"
+            ><i class="fa-solid fa-star"></i>{{book.book.rating|default:"0.0"}}</span
+          >
         </div>
       </div>
-      {% endfor %}
-      {% else %}
+      {% endfor %} {% else %}
       <p>No books in your wishlist yet.</p>
       {% endif %}
     </div>
   </section>
 </main>
-{% endblock content %}
-
-
-{% block extra_content %}
+{% endblock content %} {% block extra_content %}
 <!-- Settings Modal -->
 <div id="settingsModal" class="modal">
   <div class="modal-backdrop" data-settings-close></div>
   <div class="modal-content">
     <div class="modal-header">
       <h2 class="modal-title">Settings</h2>
-      <button type="button" class="icon-btn" data-settings-close aria-label="Close settings modal">
+      <button
+        type="button"
+        class="icon-btn"
+        data-settings-close
+        aria-label="Close settings modal"
+      >
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
     <div class="modal-body">
       <div>
         <label class="field-label" for="mainColor">Main Color</label>
-        <input type="color" id="mainColor" class="field-input" value="#0f49bd" />
+        <input
+          type="color"
+          id="mainColor"
+          class="field-input"
+          value="#0f49bd"
+        />
       </div>
       <div>
         <label class="field-label" for="fontFamily">Font Family</label>
@@ -128,7 +160,14 @@
       </div>
       <div>
         <label class="field-label" for="fontSize">Font Size</label>
-        <input type="range" id="fontSize" class="field-input" min="12" max="24" value="16" />
+        <input
+          type="range"
+          id="fontSize"
+          class="field-input"
+          min="12"
+          max="24"
+          value="16"
+        />
         <span id="fontSizeValue">16px</span>
       </div>
     </div>
@@ -136,121 +175,25 @@
       <button type="button" class="btn-secondary" data-settings-close>
         Cancel
       </button>
-      <button type="button" class="btn-primary" id="saveSettings">
-        Save
-      </button>
+      <button type="button" class="btn-primary" id="saveSettings">Save</button>
     </div>
   </div>
 </div>
 <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/index.js' %}"></script>
 <script>
-  // Theme toggle
   (function () {
-    const themeToggle = document.getElementById('theme-toggle');
-    function applyTheme(isDark) {
-      if (isDark) {
-        document.body.classList.add('dark-mode');
-        if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
-      } else {
-        document.body.classList.remove('dark-mode');
-        if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
-      }
+    const themeToggle = document.getElementById("theme-toggle");
+    const isDark = localStorage.getItem("theme") === "dark";
+    if (isDark) {
+      document.body.classList.add("dark-mode");
     }
-    applyTheme(false);
-    if (themeToggle) themeToggle.addEventListener('click', () => applyTheme(!document.body.classList.contains('dark-mode')));
-  })();
-
-  // Settings Modal
-  (function () {
-    const settingsBtn = document.getElementById('settings-btn');
-    const settingsModal = document.getElementById('settingsModal');
-    const mainColorInput = document.getElementById('mainColor');
-    const fontFamilySelect = document.getElementById('fontFamily');
-    const fontSizeInput = document.getElementById('fontSize');
-    const fontSizeValue = document.getElementById('fontSizeValue');
-    const saveSettingsBtn = document.getElementById('saveSettings');
-
-    function applySettings(settings) {
-      if (settings.mainColor) document.documentElement.style.setProperty('--main-color', settings.mainColor);
-      if (settings.fontFamily) document.documentElement.style.setProperty('--font-family', settings.fontFamily);
-      if (settings.fontSize) document.documentElement.style.setProperty('--font-size', settings.fontSize + 'px');
-    }
-
-    function openSettingsModal() { if (settingsModal) settingsModal.classList.add('is-open'); }
-    function closeSettingsModal() { if (settingsModal) settingsModal.classList.remove('is-open'); }
-
-    function saveSettings() {
-      applySettings({
-        mainColor: mainColorInput ? mainColorInput.value : '#0f49bd',
-        fontFamily: fontFamilySelect ? fontFamilySelect.value : '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-        fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : 16
-      });
-      closeSettingsModal();
-    }
-
-    if (settingsBtn) settingsBtn.addEventListener('click', openSettingsModal);
-    if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
-    if (settingsModal) {
-      settingsModal.addEventListener('click', function (e) {
-        if (e.target.closest('[data-settings-close]')) closeSettingsModal();
-      });
-    }
-    if (fontSizeInput) {
-      fontSizeInput.addEventListener('input', function () {
-        if (fontSizeValue) fontSizeValue.textContent = fontSizeInput.value + 'px';
-      });
-    }
-
-    applySettings({ mainColor: '#0f49bd', fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif', fontSize: 16 });
-  })();
-
-  // Wishlist search functionality
-  (function () {
-    const container = document.getElementById("wishlistContainer");
-    const searchInput = document.getElementById("searchInput");
-
-    // Get all book cards
-    const bookCards = container ? Array.from(container.querySelectorAll('.book-card')) : [];
-
-    function filterBooks(searchTerm) {
-      const term = searchTerm.toLowerCase().trim();
-
-      bookCards.forEach(card => {
-        const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
-        const author = card.querySelector('p')?.textContent.toLowerCase() || '';
-
-        if (term === '' || title.includes(term) || author.includes(term)) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    if (searchInput) {
-      searchInput.addEventListener('input', function (e) {
-        filterBooks(e.target.value);
-      });
-    }
-  })();
-
-  // Book card click navigation
-  (function () {
-    const container = document.getElementById("wishlistContainer");
-
-    if (container) {
-      container.addEventListener('click', function (e) {
-        // Don't navigate if clicking on buttons
-        if (e.target.closest('button')) return;
-
-        const card = e.target.closest('.book-card');
-        if (card && card.dataset.bookDetailsLink) {
-          const bookId = card.dataset.bookDetailsLink;
-          window.location.href = `books_details.html?id=${encodeURIComponent(bookId)}`;
-        }
-      });
+    if (themeToggle) {
+      themeToggle.innerHTML = isDark
+        ? '<i class="fa-solid fa-sun"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
     }
   })();
 </script>

@@ -52,14 +52,11 @@ if (btn) {
 window.addEventListener("scroll", function () {
   let scroll = document.querySelector(".scroll-to-top");
 
-  
   if (window.scrollY >= 200) {
     scroll.classList.remove("hidden");
-
   } else {
     scroll.classList.add("hidden");
   }
-  
 });
 
 ///////// home ////////
@@ -706,6 +703,15 @@ if (borrowBtn) {
     this.innerHTML = '<i class="fa-solid fa-check"></i> Borrowed!';
     this.style.background = "#16a34a";
     this.disabled = true;
+    
+    if (typeof Swal !== "undefined") {
+      Swal.fire({
+        icon: 'success',
+        title: 'Book Borrowed!',
+        text: 'You have successfully borrowed this book.',
+        confirmButtonText: 'OK'
+      });
+    }
   });
 }
 
@@ -727,83 +733,210 @@ const fontSizeInput = document.getElementById("fontSize");
 const fontSizeValue = document.getElementById("fontSizeValue");
 const saveSettingsBtn = document.getElementById("saveSettings");
 
-// Load saved settings
-function loadSettings() {
-  const settings = JSON.parse(localStorage.getItem("userSettings") || "{}");
+const defaultUserSettings = {
+  mainColor: "#0f49bd",
+  fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+  fontSize: 16,
+};
+
+function getStoredSettings() {
+  try {
+    const stored = JSON.parse(localStorage.getItem("userSettings") || "null");
+    return stored && typeof stored === "object" ? stored : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveUserSettings(settings) {
+  localStorage.setItem("userSettings", JSON.stringify(settings));
+}
+
+function applySettings(settings) {
   if (settings.mainColor) {
     document.documentElement.style.setProperty(
       "--main-color",
       settings.mainColor,
     );
-    mainColorInput.value = settings.mainColor;
   }
   if (settings.fontFamily) {
     document.documentElement.style.setProperty(
       "--font-family",
       settings.fontFamily,
     );
-    fontFamilySelect.value = settings.fontFamily;
   }
   if (settings.fontSize) {
     document.documentElement.style.setProperty(
       "--font-size",
       settings.fontSize + "px",
     );
-    fontSizeInput.value = settings.fontSize;
-    fontSizeValue.textContent = settings.fontSize + "px";
   }
 }
 
-// Save settings
-function saveSettings() {
+function loadSettings() {
+  const stored = getStoredSettings();
   const settings = {
-    mainColor: mainColorInput.value,
-    fontFamily: fontFamilySelect.value,
-    fontSize: parseInt(fontSizeInput.value),
+    ...defaultUserSettings,
+    ...stored,
   };
-  localStorage.setItem("userSettings", JSON.stringify(settings));
-  loadSettings();
-  closeSettingsModal();
+
+  applySettings(settings);
+
+  if (mainColorInput) mainColorInput.value = settings.mainColor;
+  if (fontFamilySelect) fontFamilySelect.value = settings.fontFamily;
+  if (fontSizeInput) fontSizeInput.value = settings.fontSize;
+  if (fontSizeValue) fontSizeValue.textContent = settings.fontSize + "px";
 }
 
-// Open modal
 function openSettingsModal() {
+  if (!settingsModal) return;
   settingsModal.classList.add("is-open");
   document.body.classList.add("settings-modal-open");
 }
 
-// Close modal
 function closeSettingsModal() {
+  if (!settingsModal) return;
   settingsModal.classList.remove("is-open");
   document.body.classList.remove("settings-modal-open");
 }
 
-// Event listeners
-if (settingsBtn) {
+function saveSettings() {
+  if (!mainColorInput || !fontFamilySelect || !fontSizeInput) return;
+
+  const settings = {
+    mainColor: mainColorInput.value || defaultUserSettings.mainColor,
+    fontFamily: fontFamilySelect.value || defaultUserSettings.fontFamily,
+    fontSize: parseInt(fontSizeInput.value, 10) || defaultUserSettings.fontSize,
+  };
+
+  saveUserSettings(settings);
+  applySettings(settings);
+  closeSettingsModal();
+}
+
+if (settingsBtn && settingsModal) {
   settingsBtn.addEventListener("click", openSettingsModal);
 }
 
-if (fontSizeInput) {
+if (fontSizeInput && fontSizeValue) {
   fontSizeInput.addEventListener("input", () => {
     fontSizeValue.textContent = fontSizeInput.value + "px";
   });
 }
 
-if (saveSettingsBtn) {
+if (saveSettingsBtn && settingsModal) {
   saveSettingsBtn.addEventListener("click", saveSettings);
 }
 
-settingsModal.addEventListener("click", (e) => {
-  if (e.target.closest("[data-settings-close]")) {
-    closeSettingsModal();
-  }
-});
+if (settingsModal) {
+  settingsModal.addEventListener("click", (e) => {
+    if (e.target.closest("[data-settings-close]")) {
+      closeSettingsModal();
+    }
+  });
+}
 
 document.addEventListener("keydown", (e) => {
-  if (settingsModal.classList.contains("is-open") && e.key === "Escape") {
+  if (
+    settingsModal &&
+    settingsModal.classList.contains("is-open") &&
+    e.key === "Escape"
+  ) {
     closeSettingsModal();
   }
 });
 
-// Load settings on page load
 loadSettings();
+
+//********index.html search functionality********* */
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('searchInput');
+  const bookCards = document.querySelectorAll('.book-card');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+
+      bookCards.forEach(card => {
+        const title = card.querySelector('h3')?.textContent.toLowerCase() || "";
+        const author = card.querySelector('p')?.textContent.toLowerCase() || "";
+        
+        if (title.includes(searchTerm) || author.includes(searchTerm)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  }
+});
+
+//************user page search functionality*********** */
+(function() {
+  const searchInput = document.getElementById('searchInput');
+  
+  function setupSearch(containerId) {
+    const container = document.getElementById(containerId);
+    if (container && searchInput) {
+      const bookCards = Array.from(container.querySelectorAll('.book-card'));
+
+      function filterBooks(searchTerm) {
+        const term = searchTerm.toLowerCase().trim();
+
+        bookCards.forEach((card) => {
+          const title = card.querySelector('h3')?.textContent.toLowerCase() || "";
+          const author = card.querySelector('p')?.textContent.toLowerCase() || "";
+
+          if (term === "" || title.includes(term) || author.includes(term)) {
+            card.style.display = "";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      }
+
+      // Remove existing listeners to avoid duplicates
+      const newSearchInput = searchInput.cloneNode(true);
+      searchInput.parentNode.replaceChild(newSearchInput, searchInput);
+      
+      newSearchInput.addEventListener("input", function (e) {
+        filterBooks(e.target.value);
+      });
+    }
+  }
+
+  // Setup search for all possible containers
+  const containers = [
+    "wishlistContainer",
+    "favouritesBooks", 
+    "currentlyReadingBooks",
+    "wantToReadBooks",
+    "alreadyReadBooks"
+  ];
+  
+  containers.forEach(setupSearch);
+})();
+
+// Book card click navigation (unified)
+(function() {
+  const containers = [
+    "wishlistContainer",
+    "currentlyReadingBooks", 
+    "wantToReadBooks",
+    "alreadyReadBooks"
+  ];
+  
+  containers.forEach(containerId => {
+    const container = document.getElementById(containerId);
+    if (container) {
+      container.addEventListener("click", function (e) {
+        if (e.target.closest("button")) return;
+        const card = e.target.closest(".book-card");
+        if (card && card.dataset.bookDetailsLink) {
+          const bookId = card.dataset.bookDetailsLink;
+          window.location.href = `books_details.html?id=${encodeURIComponent(bookId)}`;
+        }
+      });
+    }
+  });
+})();

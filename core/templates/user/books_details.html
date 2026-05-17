@@ -186,124 +186,191 @@
     <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-      // Theme toggle functionality
-      (function() {
-        const themeToggle = document.getElementById('theme-toggle');
-        
-        function applyTheme(isDark) {
-          if (isDark) {
-            document.body.classList.add('dark-mode');
-            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    <script src="{% static 'js/index.js' %}"></script>
+
+    // Theme toggle
+  (function () {
+    const themeToggle = document.getElementById("theme-toggle");
+    function applyTheme(isDark) {
+      if (isDark) {
+        document.body.classList.add("dark-mode");
+        if (themeToggle)
+          themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.body.classList.remove("dark-mode");
+        if (themeToggle)
+          themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        localStorage.setItem("theme", "light");
+      }
+    }
+    const storedTheme = localStorage.getItem("theme") === "dark";
+    applyTheme(storedTheme);
+    if (themeToggle)
+      themeToggle.addEventListener("click", () =>
+        applyTheme(!document.body.classList.contains("dark-mode")),
+      );
+  })();
+
+  // Settings Modal
+  (function () {
+    const settingsBtn = document.getElementById("settings-btn");
+    const settingsModal = document.getElementById("settingsModal");
+    const mainColorInput = document.getElementById("mainColor");
+    const fontFamilySelect = document.getElementById("fontFamily");
+    const fontSizeInput = document.getElementById("fontSize");
+    const fontSizeValue = document.getElementById("fontSizeValue");
+    const saveSettingsBtn = document.getElementById("saveSettings");
+
+    const defaultSettings = {
+      mainColor: "#0f49bd",
+      fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+      fontSize: 16,
+    };
+
+    function getStoredSettings() {
+      try {
+        return JSON.parse(localStorage.getItem("userSettings") || "null") || {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveUserSettings(settings) {
+      localStorage.setItem("userSettings", JSON.stringify(settings));
+    }
+
+    function applySettings(settings) {
+      if (settings.mainColor)
+        document.documentElement.style.setProperty(
+          "--main-color",
+          settings.mainColor,
+        );
+      if (settings.fontFamily)
+        document.documentElement.style.setProperty(
+          "--font-family",
+          settings.fontFamily,
+        );
+      if (settings.fontSize)
+        document.documentElement.style.setProperty(
+          "--font-size",
+          settings.fontSize + "px",
+        );
+    }
+
+    function loadSavedSettings() {
+      const settings = {
+        ...defaultSettings,
+        ...getStoredSettings(),
+      };
+      applySettings(settings);
+      if (mainColorInput) mainColorInput.value = settings.mainColor;
+      if (fontFamilySelect) fontFamilySelect.value = settings.fontFamily;
+      if (fontSizeInput) fontSizeInput.value = settings.fontSize;
+      if (fontSizeValue) fontSizeValue.textContent = settings.fontSize + "px";
+    }
+
+    function openSettingsModal() {
+      if (settingsModal) settingsModal.classList.add("is-open");
+    }
+    function closeSettingsModal() {
+      if (settingsModal) settingsModal.classList.remove("is-open");
+    }
+
+    function saveSettings() {
+      const settings = {
+        mainColor: mainColorInput
+          ? mainColorInput.value
+          : defaultSettings.mainColor,
+        fontFamily: fontFamilySelect
+          ? fontFamilySelect.value
+          : defaultSettings.fontFamily,
+        fontSize: fontSizeInput
+          ? parseInt(fontSizeInput.value)
+          : defaultSettings.fontSize,
+      };
+      saveUserSettings(settings);
+      applySettings(settings);
+      closeSettingsModal();
+    }
+
+    if (settingsBtn) settingsBtn.addEventListener("click", openSettingsModal);
+    if (saveSettingsBtn)
+      saveSettingsBtn.addEventListener("click", saveSettings);
+    if (settingsModal) {
+      settingsModal.addEventListener("click", function (e) {
+        if (e.target.closest("[data-settings-close]")) closeSettingsModal();
+      });
+    }
+    if (fontSizeInput) {
+      fontSizeInput.addEventListener("input", function () {
+        if (fontSizeValue)
+          fontSizeValue.textContent = fontSizeInput.value + "px";
+      });
+    }
+
+    loadSavedSettings();
+  })();
+
+  // Search functionality
+  (function () {
+    const container = document.getElementById("alreadyReadBooks");
+    const searchInput = document.getElementById("searchInput");
+
+    if (container && searchInput) {
+      const bookCards = Array.from(container.querySelectorAll(".book-card"));
+
+      function filterBooks(searchTerm) {
+        const term = searchTerm.toLowerCase().trim();
+
+        bookCards.forEach((card) => {
+          const title =
+            card.querySelector("h3")?.textContent.toLowerCase() || "";
+          const author =
+            card.querySelector("p")?.textContent.toLowerCase() || "";
+
+          if (term === "" || title.includes(term) || author.includes(term)) {
+            card.style.display = "";
           } else {
-            document.body.classList.remove('dark-mode');
-            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
-          }
-        }
-        
-        applyTheme(false);
-        
-        if (themeToggle) {
-          themeToggle.addEventListener('click', function() {
-            const isDark = !document.body.classList.contains('dark-mode');
-            applyTheme(isDark);
-          });
-        }
-      })();
-
-      // Settings Modal functionality
-      (function() {
-        const settingsBtn = document.getElementById('settings-btn');
-        const settingsModal = document.getElementById('settingsModal');
-        const mainColorInput = document.getElementById('mainColor');
-        const fontFamilySelect = document.getElementById('fontFamily');
-        const fontSizeInput = document.getElementById('fontSize');
-        const fontSizeValue = document.getElementById('fontSizeValue');
-        const saveSettingsBtn = document.getElementById('saveSettings');
-
-        function applySettings(settings) {
-          if (settings.mainColor) {
-            document.documentElement.style.setProperty('--main-color', settings.mainColor);
-          }
-          if (settings.fontFamily) {
-            document.documentElement.style.setProperty('--font-family', settings.fontFamily);
-          }
-          if (settings.fontSize) {
-            document.documentElement.style.setProperty('--font-size', settings.fontSize + 'px');
-          }
-        }
-
-        function loadSettings() {
-          const defaultSettings = {
-            mainColor: '#0f49bd',
-            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-            fontSize: 16
-          };
-          if (mainColorInput) mainColorInput.value = defaultSettings.mainColor;
-          if (fontFamilySelect) fontFamilySelect.value = defaultSettings.fontFamily;
-          if (fontSizeInput) fontSizeInput.value = defaultSettings.fontSize;
-          if (fontSizeValue) fontSizeValue.textContent = defaultSettings.fontSize + 'px';
-          applySettings(defaultSettings);
-        }
-
-        function openSettingsModal() {
-          if (settingsModal) settingsModal.classList.add('is-open');
-        }
-
-        function closeSettingsModal() {
-          if (settingsModal) settingsModal.classList.remove('is-open');
-        }
-
-        function saveSettings() {
-          const settings = {
-            mainColor: mainColorInput ? mainColorInput.value : '#0f49bd',
-            fontFamily: fontFamilySelect ? fontFamilySelect.value : '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-            fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : 16
-          };
-          applySettings(settings);
-          closeSettingsModal();
-        }
-
-        if (settingsBtn) settingsBtn.addEventListener('click', openSettingsModal);
-        if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
-
-        if (settingsModal) {
-          settingsModal.addEventListener('click', function(e) {
-            if (e.target.closest('[data-settings-close]')) closeSettingsModal();
-          });
-        }
-
-        if (fontSizeInput) {
-          fontSizeInput.addEventListener('input', function() {
-            if (fontSizeValue) fontSizeValue.textContent = fontSizeInput.value + 'px';
-          });
-        }
-
-        document.addEventListener('keydown', function(e) {
-          if (settingsModal && settingsModal.classList.contains('is-open') && e.key === 'Escape') {
-            closeSettingsModal();
+            card.style.display = "none";
           }
         });
+      }
 
-        loadSettings();
-      })();
+      searchInput.addEventListener("input", function (e) {
+        filterBooks(e.target.value);
+      });
+    }
+  })();
 
-      // Borrow button functionality
-      (function() {
-        const borrowBtn = document.querySelector(".borrow-btn");
-        if (borrowBtn && !borrowBtn.disabled) {
-          borrowBtn.addEventListener("click", function() {
-            Swal.fire({
-              icon: 'success',
-              title: 'Book Borrowed!',
-              text: 'You have successfully borrowed this book.',
-              confirmButtonText: 'OK'
-            });
-            this.innerHTML = '<i class="fa-solid fa-check"></i> Borrowed!';
-            this.style.background = "#16a34a";
-            this.disabled = true;
-          });
+  // Book card click navigation
+  (function () {
+    const container = document.getElementById("alreadyReadBooks");
+
+    if (container) {
+      container.addEventListener("click", function (e) {
+        // Don't navigate if clicking on buttons
+        if (e.target.closest("button")) return;
+
+        const card = e.target.closest(".book-card");
+        if (card && card.dataset.bookDetailsLink) {
+          const bookId = card.dataset.bookDetailsLink;
+          window.location.href = `books_details.html?id=${encodeURIComponent(bookId)}`;
         }
-      })();
-    </script>
+      });
+    }
+  })();<script>
+  (function () {
+    const themeToggle = document.getElementById("theme-toggle");
+    const isDark = localStorage.getItem("theme") === "dark";
+    if (isDark) {
+      document.body.classList.add("dark-mode");
+    }
+    if (themeToggle) {
+      themeToggle.innerHTML = isDark
+        ? '<i class="fa-solid fa-sun"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
+    }
+  })();
+</script>
 {% endblock extra_content %}

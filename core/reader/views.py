@@ -29,12 +29,30 @@ def view_register(request):
         role = request.POST.get('role')
 
         if password != confirm_password:
-            messages.error(request, "Passwords do not match")
-            return redirect('signup')
+            context = {
+                'first_name': first_name,
+                'last_name': last_name,
+                'email': email,
+                'phone': phone,
+                'birth_date': birth_date,
+                'role': role,
+                'messages': "Passwords do not match"
+            }
+            messages.error(request, 'Passwords do not match')
+            return render(request, 'signup.html', context)
 
         if User.objects.filter(email=email).exists():
-            messages.error(request, "Email already exists")
-            return redirect('signup')
+            context = {
+                'first_name': first_name,
+                'last_name': last_name,
+                'email': email,
+                'phone': phone,
+                'birth_date': birth_date,
+                'role': role,
+                'messages': "Email already exists"
+            }
+            messages.error(request, 'Email already exists')
+            return render(request, 'signup.html', context)
 
         username = email.split('@')[0]
 
@@ -54,9 +72,9 @@ def view_register(request):
 
         user.save()
 
-        login(request, user)
-        messages.success(request, "Account created successfully")
-        return redirect('user_home')
+        
+        context = {'messages' : "User registered successfully"}
+        return render(request, 'login.html', context)
 
     return render(request, 'signup.html')
 
@@ -69,8 +87,8 @@ def view_login(request):
         try:
             user_obj = User.objects.get(email=email)
         except User.DoesNotExist:
-            messages.error(request, "Invalid credentials")
-            return redirect('login')
+            messages.error(request, 'Email does not exist')
+            return render(request, 'login.html')
 
         user = authenticate(
             request,
@@ -85,9 +103,10 @@ def view_login(request):
                 return redirect('admin_home')
 
             return redirect('user_home')
-
-        messages.error(request, "Invalid credentials")
-        return redirect('login')
+        
+        messages.error(request, 'Invalid password')
+        
+        return render(request, 'login.html')
 
     return render(request, 'login.html')
 
@@ -153,8 +172,7 @@ def view_wish_list(request):
 
 def view_logout(request):
     logout(request)
-    messages.success(request, "Logged out successfully")
-    return redirect('login')
+    return render(request, 'login.html')
 
 
 @login_required

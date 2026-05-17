@@ -1,260 +1,225 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block body_attributes %} data-user-page="already-read" {% endblock body_attributes %}
-{% block extra_head %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% block body_attributes %}
+data-user-page="already-read"
+ {% endblock body_attributes %}
+  {% block extra_head%}
 <title>Already Read</title>
 {% endblock extra_head %}
 
-{% block navbar %}
+
+
+
+ {% block navbar %}
 <nav>
-        <ul>
-            <li><a href="{% url 'user_home' %}">Home</a></li>
-            <li><a href="{% url 'all_books'%}">Library</a></li>
-            <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
-            <li><a href="{% url 'currently_read' %}">Currently Reading</a></li>
-            <li><a href="{% url 'already_read' %}" class="active">Already Read</a></li>
-            <li><a href="{% url 'favourites' %}">Favourites</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-            <button type="button" id="theme-toggle" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
-        </ul>
-    </nav>
+  <ul>
+    <li><a href="{% url 'user_home' %}">Home</a></li>
+    <li><a href="{% url 'all_books'%}">Library</a></li>
+    <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+    <li><a href="{% url 'currently_read' %}">Currently Reading</a></li>
+    <li><a href="{% url 'already_read' %}" class="active">Already Read</a></li>
+    <li><a href="{% url 'favourites' %}">Favourites</a></li>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+    <button type="button" id="theme-toggle" aria-label="Toggle theme">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+  </ul>
+</nav>
 
 {% endblock navbar %}
-
-{% block content %}
+ {% block content %}
 <main class="conteiner user-feature-page">
-        <header class="page-intro">
-            <span class="eyebrow">Your bookshelf</span>
-            <h1>Already Read</h1>
-            <p class="lede"> Books you have read and enjoyed.</p>
-        </header>
+  <header class="page-intro">
+    <span class="eyebrow">Your bookshelf</span>
+    <h1>Already Read</h1>
+    <p class="lede">Books you have read and enjoyed.</p>
+  </header>
 
-        <section class="featured-books" aria-labelledby="already-read-heading">
-            <div class="search-home">
-                <h2 id="already-read-heading">From your catalog</h2>
-                <div class="controls">
-                    <input
-                        type="text"
-                        id="searchInput"
-                        placeholder="Search by title or author..."
-                    />
-                </div>
-            </div>
-            <div class="content-book" id="alreadyReadBooks">
-                {% if book_list %}
-                    {% for book in book_list %}
-                    <div class="book-card" data-book-id="{{ book.id }}" data-book-details-link="{{ book.id }}" style="cursor: pointer;">
-                        <div class="book-card-media">
-                    <a href="{% url 'book_details' book.book.id %}">
-                        <img src="{% if book.book.cover %}{{ book.book.cover.url }}{% else %}{% static 'images/book-1.jpeg' %}{% endif %}" 
-                            alt="{{ book.book.title }}">
-                    </a>                            <div class="main-card-hedden">
-                  <form method="POST" action="{% url 'add_status' book.book.id %}">
-                  {% csrf_token %}
-
-                  <ul class="card-hedden">
-
-                      <li>
-                          <button type="submit" name="action" value="wishlist" title="Remove from Wishlist">
-                              <i class="fa-solid fa-bookmark"></i>
-                          </button>
-                      </li>
-
-                      <li>
-                          <button type="submit" name="action" value="favourites" title="Add to Favourites">
-                              <i class="fa-regular fa-heart"></i>
-                          </button>
-                      </li>
-
-                    
-
-                      <li>
-                          <button type="submit" name="action" value="already-read" title="Mark as Already Read">
-                              <i class="fa-solid fa-check"></i>
-                          </button>
-                      </li>
-
-                      <li>
-                          <button type="submit" name="action" value="currently-reading" title="Add to Currently Reading">
-                              <i class="fa-solid fa-book-open"></i>
-                          </button>
-                      </li>
-
-                      <li>
-                          <button type="submit" name="action" value="remove_from_already_read" title="Remove from Already Read">
-                              <i class="fa-solid fa-trash-can"></i>
-                          </button>
-                      </li>
-
-                  </ul>
-              </form>
-                </div>
-                        </div>
-                        <h3>{{ book.book.title }}</h3>
-                        <p>{{ book.book.author }}</p>
-                        <div class="buttom-card">
-                            <span>{{ book.book.category|default:"General" }}</span>
-                            <span class="star"><i class="fa-solid fa-star"></i>{{ book.book.rating|default:"0.0" }}</span>
-                        </div>
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <p class="user-list-empty" role="status">No finished books yet. Mark titles as read from the card actions on <a href="{% url 'user_home' %}">Home</a> (check icon).</p>
-                {% endif %}
-            </div>
-        </section>
-    </main>
-{% endblock content %}
-
-{% block extra_content %}
-<!-- Settings Modal -->
-    <div id="settingsModal" class="modal">
-      <div class="modal-backdrop" data-settings-close></div>
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title">Settings</h2>
-          <button type="button" class="icon-btn" data-settings-close aria-label="Close settings modal">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div>
-            <label class="field-label" for="mainColor">Main Color</label>
-            <input type="color" id="mainColor" class="field-input" value="#0f49bd">
-          </div>
-          <div>
-            <label class="field-label" for="fontFamily">Font Family</label>
-            <select id="fontFamily" class="field-input">
-              <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>Segoe UI</option>
-              <option value="Arial, sans-serif">Arial</option>
-              <option value="Helvetica, sans-serif">Helvetica</option>
-              <option value="Times New Roman, serif">Times New Roman</option>
-              <option value="Georgia, serif">Georgia</option>
-              <option value="Courier New, monospace">Courier New</option>
-            </select>
-          </div>
-          <div>
-            <label class="field-label" for="fontSize">Font Size</label>
-            <input type="range" id="fontSize" class="field-input" min="12" max="24" value="16">
-            <span id="fontSizeValue">16px</span>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn-secondary" data-settings-close>Cancel</button>
-          <button type="button" class="btn-primary" id="saveSettings">Save</button>
-        </div>
+  <section class="featured-books" aria-labelledby="already-read-heading">
+    <div class="search-home">
+      <h2 id="already-read-heading">From your catalog</h2>
+      <div class="controls">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search by title or author..."
+        />
       </div>
     </div>
+    <div class="content-book" id="alreadyReadBooks">
+      {% if book_list %} {% for book in book_list %}
+      <div
+        class="book-card"
+        data-book-id="{{ book.id }}"
+        data-book-details-link="{{ book.id }}"
+        style="cursor: pointer"
+      >
+        <div class="book-card-media">
+          <a href="{% url 'book_details' book.book.id %}">
+            <img
+              src="{% if book.book.cover %}{{ book.book.cover.url }}{% else %}{% static 'images/book-1.jpeg' %}{% endif %}"
+              alt="{{ book.book.title }}"
+            />
+          </a>
+          <div class="main-card-hedden">
+            <form method="POST" action="{% url 'add_status' book.book.id %}">
+              {% csrf_token %}
 
-    <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
+              <ul class="card-hedden">
+                <li>
+                  <button
+                    type="submit"
+                    name="action"
+                    value="wishlist"
+                    title="Remove from Wishlist"
+                  >
+                    <i class="fa-solid fa-bookmark"></i>
+                  </button>
+                </li>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-      // Theme toggle
-      (function() {
-        const themeToggle = document.getElementById('theme-toggle');
-        function applyTheme(isDark) {
-          if (isDark) {
-            document.body.classList.add('dark-mode');
-            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
-          } else {
-            document.body.classList.remove('dark-mode');
-            if (themeToggle) themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
-          }
-        }
-        applyTheme(false);
-        if (themeToggle) themeToggle.addEventListener('click', () => applyTheme(!document.body.classList.contains('dark-mode')));
-      })();
+                <li>
+                  <button
+                    type="submit"
+                    name="action"
+                    value="favourites"
+                    title="Add to Favourites"
+                  >
+                    <i class="fa-regular fa-heart"></i>
+                  </button>
+                </li>
 
-      // Settings Modal
-      (function() {
-        const settingsBtn = document.getElementById('settings-btn');
-        const settingsModal = document.getElementById('settingsModal');
-        const mainColorInput = document.getElementById('mainColor');
-        const fontFamilySelect = document.getElementById('fontFamily');
-        const fontSizeInput = document.getElementById('fontSize');
-        const fontSizeValue = document.getElementById('fontSizeValue');
-        const saveSettingsBtn = document.getElementById('saveSettings');
+                <li>
+                  <button
+                    type="submit"
+                    name="action"
+                    value="already-read"
+                    title="Mark as Already Read"
+                  >
+                    <i class="fa-solid fa-check"></i>
+                  </button>
+                </li>
 
-        function applySettings(settings) {
-          if (settings.mainColor) document.documentElement.style.setProperty('--main-color', settings.mainColor);
-          if (settings.fontFamily) document.documentElement.style.setProperty('--font-family', settings.fontFamily);
-          if (settings.fontSize) document.documentElement.style.setProperty('--font-size', settings.fontSize + 'px');
-        }
+                <li>
+                  <button
+                    type="submit"
+                    name="action"
+                    value="currently-reading"
+                    title="Add to Currently Reading"
+                  >
+                    <i class="fa-solid fa-book-open"></i>
+                  </button>
+                </li>
 
-        function openSettingsModal() { if (settingsModal) settingsModal.classList.add('is-open'); }
-        function closeSettingsModal() { if (settingsModal) settingsModal.classList.remove('is-open'); }
+                <li>
+                  <button
+                    type="submit"
+                    name="action"
+                    value="remove_from_already_read"
+                    title="Remove from Already Read"
+                  >
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </li>
+              </ul>
+            </form>
+          </div>
+        </div>
+        <h3>{{ book.book.title }}</h3>
+        <p>{{ book.book.author }}</p>
+        <div class="buttom-card">
+          <span>{{ book.book.category|default:"General" }}</span>
+          <span class="star">
+            <i class="fa-solid fa-star"></i>{{ book.book.rating|default:"0.0" }}
+          </span>
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <p class="user-list-empty" role="status">
+        No finished books yet. Mark titles as read from the card actions on
+        <a href="{% url 'user_home' %}">Home</a> (check icon).
+      </p>
+      {% endif %}
+    </div>
+  </section>
+</main>
+{% endblock content %} {% block extra_content %}
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal">
+  <div class="modal-backdrop" data-settings-close></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Settings</h2>
+      <button
+        type="button"
+        class="icon-btn"
+        data-settings-close
+        aria-label="Close settings modal"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <label class="field-label" for="mainColor">Main Color</label>
+        <input
+          type="color"
+          id="mainColor"
+          class="field-input"
+          value="#0f49bd"
+        />
+      </div>
+      <div>
+        <label class="field-label" for="fontFamily">Font Family</label>
+        <select id="fontFamily" class="field-input">
+          <option value='"Segoe UI", Tahoma, Geneva, Verdana, sans-serif'>
+            Segoe UI
+          </option>
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="Helvetica, sans-serif">Helvetica</option>
+          <option value="Times New Roman, serif">Times New Roman</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="Courier New, monospace">Courier New</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label" for="fontSize">Font Size</label>
+        <input
+          type="range"
+          id="fontSize"
+          class="field-input"
+          min="12"
+          max="24"
+          value="16"
+        />
+        <span id="fontSizeValue">16px</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" data-settings-close>
+        Cancel
+      </button>
+      <button type="button" class="btn-primary" id="saveSettings">Save</button>
+    </div>
+  </div>
+</div>
 
-        function saveSettings() {
-          applySettings({
-            mainColor: mainColorInput ? mainColorInput.value : '#0f49bd',
-            fontFamily: fontFamilySelect ? fontFamilySelect.value : '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-            fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : 16
-          });
-          closeSettingsModal();
-        }
+<button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
 
-        if (settingsBtn) settingsBtn.addEventListener('click', openSettingsModal);
-        if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
-        if (settingsModal) {
-          settingsModal.addEventListener('click', function(e) {
-            if (e.target.closest('[data-settings-close]')) closeSettingsModal();
-          });
-        }
-        if (fontSizeInput) {
-          fontSizeInput.addEventListener('input', function() {
-            if (fontSizeValue) fontSizeValue.textContent = fontSizeInput.value + 'px';
-          });
-        }
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/index.js' %}"></script>
+<script>
+  (function () {
+    const themeToggle = document.getElementById("theme-toggle");
+    const isDark = localStorage.getItem("theme") === "dark";
+    if (isDark) {
+      document.body.classList.add("dark-mode");
+    }
+    if (themeToggle) {
+      themeToggle.innerHTML = isDark
+        ? '<i class="fa-solid fa-sun"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
+    }
+  })();
+</script>
 
-        applySettings({ mainColor: '#0f49bd', fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif', fontSize: 16 });
-      })();
-
-      // Search functionality
-      (function() {
-        const container = document.getElementById("alreadyReadBooks");
-        const searchInput = document.getElementById("searchInput");
-        
-        if (container && searchInput) {
-          const bookCards = Array.from(container.querySelectorAll('.book-card'));
-
-          function filterBooks(searchTerm) {
-            const term = searchTerm.toLowerCase().trim();
-            
-            bookCards.forEach(card => {
-              const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
-              const author = card.querySelector('p')?.textContent.toLowerCase() || '';
-              
-              if (term === '' || title.includes(term) || author.includes(term)) {
-                card.style.display = '';
-              } else {
-                card.style.display = 'none';
-              }
-            });
-          }
-
-          searchInput.addEventListener('input', function(e) {
-            filterBooks(e.target.value);
-          });
-        }
-      })();
-
-      // Book card click navigation
-      (function() {
-        const container = document.getElementById("alreadyReadBooks");
-        
-        if (container) {
-          container.addEventListener('click', function(e) {
-            // Don't navigate if clicking on buttons
-            if (e.target.closest('button')) return;
-            
-            const card = e.target.closest('.book-card');
-            if (card && card.dataset.bookDetailsLink) {
-              const bookId = card.dataset.bookDetailsLink;
-              window.location.href = `books_details.html?id=${encodeURIComponent(bookId)}`;
-            }
-          });
-        }
-      })();
-    </script>
 {% endblock extra_content %}

@@ -1,6 +1,9 @@
-{% extends 'base.html' %} {% load static %} {% block extra_head %}
+{% extends 'base.html' %}
+ {% load static %} 
+ {% block extra_head %}
 <title>Manage Books | Admin</title>
-{% endblock extra_head %} {% block navbar %}
+{% endblock extra_head %}
+ {% block navbar %}
 <nav class="landing-nav conteiner">
   <div class="nav-logo">
     <a href="{% url 'intro' %}">Fully Stuck</a>
@@ -17,7 +20,8 @@
     </button>
   </div>
 </nav>
-{% endblock navbar %} {% block content %}
+{% endblock navbar %}
+ {% block content %}
 
 <script>
   (function () {

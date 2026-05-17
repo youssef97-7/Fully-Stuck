@@ -4,6 +4,7 @@
 <title>User Dashboard - Library</title>
 {% endblock extra_head %} 
 {% block navbar %}
+
 <nav class="">
   <ul>
     <li><a href="{% url 'user_home' %}" class="active">Home</a></li>
@@ -282,255 +283,20 @@
 <button id="settings-btn"><i class="fa-solid fa-gear"></i></button>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/index.js' %}"></script>
 <script>
-  // Theme toggle functionality
   (function () {
     const themeToggle = document.getElementById("theme-toggle");
-
-    function applyTheme(isDark) {
-      if (isDark) {
-        document.body.classList.add("dark-mode");
-        if (themeToggle)
-          themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
-        localStorage.setItem("theme", "dark");
-      } else {
-        document.body.classList.remove("dark-mode");
-        if (themeToggle)
-          themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
-        localStorage.setItem("theme", "light");
-      }
+    const isDark = localStorage.getItem("theme") === "dark";
+    if (isDark) {
+      document.body.classList.add("dark-mode");
     }
-
-    const storedTheme = localStorage.getItem("theme") === "dark";
-    applyTheme(storedTheme);
-
     if (themeToggle) {
-      themeToggle.addEventListener("click", function () {
-        const isDark = !document.body.classList.contains("dark-mode");
-        applyTheme(isDark);
-      });
+      themeToggle.innerHTML = isDark
+        ? '<i class="fa-solid fa-sun"></i>'
+        : '<i class="fa-solid fa-moon"></i>';
     }
   })();
-
-  // Scroll to top
-  (function () {
-    const scrollBtn = document.querySelector(".scroll-to-top");
-    if (scrollBtn) {
-      window.addEventListener("scroll", function () {
-        if (window.scrollY >= 200) {
-          scrollBtn.classList.remove("hidden");
-        } else {
-          scrollBtn.classList.add("hidden");
-        }
-      });
-    }
-  })();
-
-  // Categories display
-  (function () {
-    const categories = [
-      { title: "Fiction", count: "850k+", icon: "📚" },
-      { title: "Science", count: "420k+", icon: "🧪" },
-      { title: "History", count: "310k+", icon: "📜" },
-      { title: "Tech", count: "250k+", icon: "💻" },
-      { title: "Philosophy", count: "180k+", icon: "🧠" },
-      { title: "Arts", count: "150k+", icon: "🎨" },
-    ];
-
-    const container = document.getElementById("category-container");
-    if (container) {
-      categories.forEach((item) => {
-        const card = document.createElement("div");
-        card.className = "category-card";
-        card.innerHTML = `
-              <div class="icon">${item.icon}</div>
-              <h3>${item.title}</h3>
-              <p>${item.count} titles</p>
-            `;
-        container.appendChild(card);
-      });
-    }
-  })();
-
-  // Settings Modal
-  (function () {
-    const settingsBtn = document.getElementById("settings-btn");
-    const settingsModal = document.getElementById("settingsModal");
-    const mainColorInput = document.getElementById("mainColor");
-    const fontFamilySelect = document.getElementById("fontFamily");
-    const fontSizeInput = document.getElementById("fontSize");
-    const fontSizeValue = document.getElementById("fontSizeValue");
-    const saveSettingsBtn = document.getElementById("saveSettings");
-
-    const defaultSettings = {
-      mainColor: "#0f49bd",
-      fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-      fontSize: 16,
-    };
-
-    function getStoredSettings() {
-      try {
-        return JSON.parse(localStorage.getItem("userSettings") || "null") || {};
-      } catch {
-        return {};
-      }
-    }
-
-    function saveUserSettings(settings) {
-      localStorage.setItem("userSettings", JSON.stringify(settings));
-    }
-
-    function applySettings(settings) {
-      if (settings.mainColor)
-        document.documentElement.style.setProperty(
-          "--main-color",
-          settings.mainColor,
-        );
-      if (settings.fontFamily)
-        document.documentElement.style.setProperty(
-          "--font-family",
-          settings.fontFamily,
-        );
-      if (settings.fontSize)
-        document.documentElement.style.setProperty(
-          "--font-size",
-          settings.fontSize + "px",
-        );
-    }
-
-    function loadSavedSettings() {
-      const settings = {
-        ...defaultSettings,
-        ...getStoredSettings(),
-      };
-      applySettings(settings);
-      if (mainColorInput) mainColorInput.value = settings.mainColor;
-      if (fontFamilySelect) fontFamilySelect.value = settings.fontFamily;
-      if (fontSizeInput) fontSizeInput.value = settings.fontSize;
-      if (fontSizeValue) fontSizeValue.textContent = settings.fontSize + "px";
-    }
-
-    function openSettingsModal() {
-      if (settingsModal) settingsModal.classList.add("is-open");
-    }
-    function closeSettingsModal() {
-      if (settingsModal) settingsModal.classList.remove("is-open");
-    }
-
-    function saveSettings() {
-      const settings = {
-        mainColor: mainColorInput ? mainColorInput.value : defaultSettings.mainColor,
-        fontFamily: fontFamilySelect
-          ? fontFamilySelect.value
-          : defaultSettings.fontFamily,
-        fontSize: fontSizeInput ? parseInt(fontSizeInput.value) : defaultSettings.fontSize,
-      };
-      saveUserSettings(settings);
-      applySettings(settings);
-      closeSettingsModal();
-    }
-
-    if (settingsBtn) settingsBtn.addEventListener("click", openSettingsModal);
-    if (saveSettingsBtn)
-      saveSettingsBtn.addEventListener("click", saveSettings);
-    if (settingsModal) {
-      settingsModal.addEventListener("click", function (e) {
-        if (e.target.closest("[data-settings-close]")) closeSettingsModal();
-      });
-    }
-    if (fontSizeInput) {
-      fontSizeInput.addEventListener("input", function () {
-        if (fontSizeValue)
-          fontSizeValue.textContent = fontSizeInput.value + "px";
-      });
-    }
-
-    loadSavedSettings();
-
-    document.addEventListener("keydown", function (e) {
-      if (
-        settingsModal &&
-        settingsModal.classList.contains("is-open") &&
-        e.key === "Escape"
-      )
-        closeSettingsModal();
-    });
-  })();
-
-  // Book search and display (Django template integration)
-  (function () {
-    const booksContainer = document.getElementById("featuredBooksContainer");
-    const searchInput = document.getElementById("searchInput");
-
-    // This function will be called with books data from Django context
-    function renderBooks(books, term = "") {
-      if (!booksContainer || !books) return;
-
-      const normalizedTerm = term.trim().toLowerCase();
-      const filteredBooks = normalizedTerm
-        ? books.filter((book) =>
-            (book.title || "").toLowerCase().includes(normalizedTerm),
-          )
-        : books;
-
-      if (filteredBooks.length === 0) {
-        booksContainer.innerHTML = "<p>No books found.</p>";
-        return;
-      }
-
-      booksContainer.innerHTML = filteredBooks
-        .map(
-          (book) => `
-            
-          `,
-        )
-        .join("");
-    }
-
-    // Books data should be passed from Django view as a JSON object
-    // For now, display a message
-    if (booksContainer) {
-      booksContainer.innerHTML = "<p>Loading books from library...</p>";
-    }
-
-    if (searchInput) {
-      searchInput.addEventListener("input", function (e) {
-        // Search functionality will be implemented when books data is available
-        const term = e.target.value;
-        // This will work once books data is passed from Django
-      });
-    }
-  })();
-
-  document.addEventListener("DOMContentLoaded", () => {
-    // 1. Get the search input and all the book cards
-    const searchInput = document.getElementById("searchInput");
-    const bookCards = document.querySelectorAll(".book-card");
-
-    // 2. Make sure the search input actually exists on the page
-    if (searchInput) {
-      // 3. Listen for every time the user types a letter
-      searchInput.addEventListener("input", (e) => {
-        // Get the typed word and make it lowercase for easy comparison
-        const searchTerm = e.target.value.toLowerCase().trim();
-
-        // 4. Loop through every single book card
-        bookCards.forEach((card) => {
-          // Find the title and author text inside the card
-          const title =
-            card.querySelector("h3")?.textContent.toLowerCase() || "";
-          const author =
-            card.querySelector("p")?.textContent.toLowerCase() || "";
-
-          // 5. If the title or author includes the search term, show it. Otherwise, hide it.
-          if (title.includes(searchTerm) || author.includes(searchTerm)) {
-            card.style.display = ""; // Resets to default CSS display (shows the card)
-          } else {
-            card.style.display = "none"; // Hides the card
-          }
-        });
-      });
-    }
-  });
 </script>
+
 {% endblock extra_content %}

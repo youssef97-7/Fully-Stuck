@@ -13,14 +13,12 @@
 </head>
 
 <body {% block body_attributes %} {% endblock%}>
-
+<script src="{% static 'js/theme.js' %}"></script>
     {% block navbar %}
     {% endblock navbar %}
 
     {% block content %}
     {% endblock content %}
-
-    
 
     {% include 'parts/footer.html' %}
     {% include 'parts/settings.html' %}

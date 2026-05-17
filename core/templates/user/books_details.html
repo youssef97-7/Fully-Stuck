@@ -100,9 +100,9 @@
             </div>
             <div class="sub">Availability</div>
           </div>
-          <form id="borrowForm" action="{% url 'add_to_borrow' book.id %}" method="post">
+          <form id="borrowForm" action="{% url 'add_to_borrow' book.id %}" method="POST">
             {% csrf_token %}
-            <button type="submit" class="borrow-btn" {% if book.available_copies <= 0 or already_borrowed %}disabled{% endif %}>
+            <button type="submit" style="margin-left: 350px;" class="borrow-btn" {% if book.available_copies <= 0 or already_borrowed %}disabled{% endif %}>
               <i class="fa-solid {% if already_borrowed %}fa-check{% elif book.available_copies > 0 %}fa-book-open{% else %}fa-ban{% endif %}"></i>
               {% if already_borrowed %}Already Borrowed{% elif book.available_copies > 0 %}Borrow This Book{% else %}Not Available{% endif %}
             </button>

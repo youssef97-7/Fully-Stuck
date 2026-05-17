@@ -275,6 +275,16 @@ def add_status(request,id):
         if relation.exists():
             relation.delete()
         return redirect(request.META.get('HTTP_REFERER', '/'))
+    
+    if action == 'remove_from_borrowed':
+        relation = models.UserBookRelation.objects.filter(
+            user=user,
+            book=book,
+            status='borrowed'
+        )
+        if relation.exists():
+            relation.delete()
+        return redirect(request.META.get('HTTP_REFERER', '/'))
         
 
     if relation.exists():
